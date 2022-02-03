@@ -1,7 +1,7 @@
 import logo from './logo.svg'
 // import './App.css';
 
-import Head from './header.js'
+import TicTac from './Tictactoe.js'
 
 function App() {
 
@@ -11,9 +11,7 @@ function App() {
     // html goes here
 
     <div className="App">
-      
-        <Head/>
-
+        <TicTac/>
     </div>
   );
 }
