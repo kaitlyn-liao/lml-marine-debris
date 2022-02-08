@@ -17,7 +17,7 @@ function App() {
 
   if(merchants){
     // merch_rows = merchants.split(",")
-    for(var i=0; i < merchants.length-1; i++){
+    for(var i=0; i < merchants.length; i++){
       merch_rows[i] = merchants[i]
       merch_id[i] = merchants[i].id
       merch_name[i] = merchants[i].name
