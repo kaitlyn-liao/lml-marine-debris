@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/kaitlyn-liao/lml-marine-debris/issues"
   },
-  "homepage": "https://github.com/kaitlyn-liao/lml-marine-debris#readme"
+  "homepage": "https://github.com/kaitlyn-liao/lml-marine-debris#readme",
+  "dependencies": {
+    "fast-csv": "^4.3.6",
+    "pg": "^8.7.3"
+  }
 }
