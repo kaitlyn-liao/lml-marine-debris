@@ -2,7 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import Team from './Team.js'
 import reportWebVitals from './reportWebVitals';
+import {BrowserRouter} from 'react-router-dom';
 
 class Square extends React.Component {
   render() {
@@ -94,10 +96,12 @@ class Game extends React.Component {
 // ========================================
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />,
-    <Game />,
-  </React.StrictMode>,
+  
+    <BrowserRouter>
+    {/*<App />
+    <Game />,*/}
+    <Team/>
+    </BrowserRouter>,
   document.getElementById('root')
 );
 
