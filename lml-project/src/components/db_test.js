@@ -1,10 +1,10 @@
 
 import React, {useState, useEffect} from 'react';
-function merchant_test() {
+
+function Merch() {
   
   const [merchants, setMerchants] = useState(false);
-  useEffect(() => { getMerchant(); });
-
+  useEffect(() => { getMerchant(); }, []);
 
   let merch_rows= []
   let merch_id= []
@@ -25,6 +25,7 @@ function merchant_test() {
       .then(response => response.json())
       .then(data => { setMerchants(data);});
   }
+
   function createMerchant() {
     let name = prompt('Enter merchant name');
     let email = prompt('Enter merchant email');
@@ -43,6 +44,7 @@ function merchant_test() {
         getMerchant();
       });
   }
+
   function deleteMerchant() {
     let id = prompt('Enter merchant id');
     fetch(`http://localhost:3001/merchants/${id}`, {
@@ -74,4 +76,4 @@ function merchant_test() {
     </div>
   );
 }
-export default merchant_test;
+export default Merch;

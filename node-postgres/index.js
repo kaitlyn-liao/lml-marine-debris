@@ -5,22 +5,23 @@ const port = 3001
 // ---------------------------- 
 // Test code to manually parse through the csv file 
 // that is given to us via Sponsor Sprint 2
-const fs = require("fs");
-const fastcsv = require("fast-csv");
-let stream = fs.createReadStream("../SSDS_tester.csv");
-let csvData = [];
-let csvStream = fastcsv
-  .parse()
-  .on("data", function(data) {
-    csvData.push(data);
-  })
-  .on("end", function() {
-    // remove the first line: header
-    csvData.shift();
-    // connect to the PostgreSQL database
-    // save csvData
-  });
-stream.pipe(csvStream);
+
+// const fs = require("fs");
+// const fastcsv = require("fast-csv");
+// let stream = fs.createReadStream("../SSDS_tester.csv");
+// let csvData = [];
+// let csvStream = fastcsv
+//   .parse()
+//   .on("data", function(data) {
+//     csvData.push(data);
+//   })
+//   .on("end", function() {
+//     // remove the first line: header
+//     csvData.shift();
+//     // connect to the PostgreSQL database
+//     // save csvData
+//   });
+// stream.pipe(csvStream);
 
 
 const merchant_model = require('./merchant_model')

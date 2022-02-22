@@ -2,19 +2,27 @@
 
 // App.js is rendered by Index.js, and renders the child Navbar.js
 
+import React from 'react';
 import TicTac from './react_tutorial_ref/Tictactoe.js'
 import MerchentTable from './db_test.js'
+import Upload_CSV from './upload_csv'
 
 function App() {
 
   return (
     <div>
-      <div className="db_reqs">
+      {/* <div className="db_reqs">
          <MerchentTable/>
+      </div> */}
+
+      <div className="csv">
+         <Upload_CSV/>
       </div>
-      <div className="App">
+
+      {/* <div className="App">
          <TicTac/>
-      </div>
+      </div> */}
+
     </div>
   );
 }
