@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/kaitlyn-liao/lml-marine-debris#readme",
   "dependencies": {
-    "fast-csv": "^4.3.6",
+    "express": "^4.17.3",
     "pg": "^8.7.3"
   }
 }
