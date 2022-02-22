@@ -1,5 +1,4 @@
-import TicTac from './Tictactoe.js'
-import LandingPage from './LandingPage.js'
+import TicTac from './react_tutorial_ref/Tictactoe.js'
 
 import React, {useState, useEffect} from 'react';
 function App() {
@@ -7,7 +6,6 @@ function App() {
   const [merchants, setMerchants] = useState(false);
   useEffect(() => { getMerchant(); });
 
-  // console.log(merchants);
 
   let merch_rows= []
   let merch_id= []
@@ -15,7 +13,6 @@ function App() {
   let merch_email= []
 
   if(merchants){
-    // merch_rows = merchants.split(",")
     for(var i=0; i < merchants.length; i++){
       merch_rows[i] = merchants[i]
       merch_id[i] = merchants[i].id
@@ -76,7 +73,6 @@ function App() {
         <button type="button" class="btn btn-outline-warning" onClick={deleteMerchant}>Delete merchant</button>
       </div>
       <div className="App">
-         <LandingPage/>
          <TicTac/>
       </div>
     </div>
