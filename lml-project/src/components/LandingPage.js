@@ -1,5 +1,4 @@
 import React from 'react';
-import '../src/App.css'
 
 class map_page extends React.Component {
   

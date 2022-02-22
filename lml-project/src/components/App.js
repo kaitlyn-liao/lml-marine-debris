@@ -1,4 +1,3 @@
-import './App.css';
 import TicTac from './Tictactoe.js'
 import LandingPage from './LandingPage.js'
 

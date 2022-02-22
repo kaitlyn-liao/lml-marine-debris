@@ -1,5 +1,4 @@
 import React from 'react';
-import '../src/App.css'
 
 import Board from './board.js'
 
