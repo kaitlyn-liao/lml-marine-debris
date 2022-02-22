@@ -17,7 +17,7 @@ function App() {
 
   if(merchants){
     // merch_rows = merchants.split(",")
-    for(var i=0; i < merchants.length-1; i++){
+    for(var i=0; i < merchants.length; i++){
       merch_rows[i] = merchants[i]
       merch_id[i] = merchants[i].id
       merch_name[i] = merchants[i].name
@@ -72,9 +72,9 @@ function App() {
         {merchants ? merch_email : 'There is no merchant data available'}  <p/>
 
         <br />
-        <button onClick={createMerchant}>Add merchant</button>
+        <button type="button" class="btn btn-primary" onClick={createMerchant}>Add merchant</button>
         <br />
-        <button onClick={deleteMerchant}>Delete merchant</button>
+        <button type="button" class="btn btn-outline-warning" onClick={deleteMerchant}>Delete merchant</button>
       </div>
       <div className="App">
          <LandingPage/>
