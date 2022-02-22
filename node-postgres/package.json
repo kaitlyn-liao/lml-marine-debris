@@ -1,0 +1,19 @@
+{
+  "name": "lml-marine-debris",
+  "version": "1.0.0",
+  "description": "Learn how node and Expresscan interact with PostgreSQL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaitlyn-liao/lml-marine-debris.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kaitlyn-liao/lml-marine-debris/issues"
+  },
+  "homepage": "https://github.com/kaitlyn-liao/lml-marine-debris#readme"
+}
