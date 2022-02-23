@@ -4,16 +4,17 @@
 
 import TicTac from './react_tutorial_ref/Tictactoe.js'
 import MerchentTable from './db_test.js'
+import Methodology from './method_page/Methodology.js';
 
 function App() {
 
   return (
     <div>
       <div className="db_reqs">
-         <MerchentTable/>
+         {/* <MerchentTable/> */}
       </div>
       <div className="App">
-         <TicTac/>
+         <Methodology/>
       </div>
     </div>
   );
