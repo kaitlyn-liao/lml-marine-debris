@@ -1,13 +1,23 @@
 // A file used to test the implimentation of uploading a csv file into the PostgreSQL Database
 
-import React from 'react';
+import React, {useState} from 'react';
+import csv_toload from '../SSDS_tester.csv'
 
 function Upload_CSV() {
-  const [uploadFile, setUploadFile] = React.useState();
-  
+  const [uploadFile, setUploadFile] = useState();
+  const [ text, setText ] = useState();
+
   const accept_file = (event) => {
     event.preventDefault();
-    console.log("uploadFile", uploadFile);
+    console.log("uploadFile", uploadFile[0]);
+  };
+
+  const loadCSV = function(){
+    fetch( csv_toload )
+        .then( response => response.text() )
+        .then( responseText => {
+            setText( responseText );
+        })
   };
 
   return (
@@ -21,11 +31,21 @@ function Upload_CSV() {
                 onChange={(e) => setUploadFile(e.target.files)} >    
         </input>
         <br/>
-        <input type="submit" />
+        <input type="submit" /> 
       </form>
+
+      <div>
+        <button onClick={ loadCSV }>load</button>
+        <h2>text:</h2>
+        <pre>{ text }</pre>
+      </div>
+
     </div>
   );
 }
+
+
+
 
 // old attempt
 {
@@ -59,7 +79,6 @@ function Upload_CSV() {
 }
 
 export default Upload_CSV
-
 
 // SQL Initialization for associated data tables
 
