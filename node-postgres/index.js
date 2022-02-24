@@ -37,8 +37,8 @@ app.post('/lml_debris_data', (req, res) => {
   })
 })
 
-app.delete('/lml_debris_data/:id', (req, res) => {
-  lml_data_model.deleteDebrisData(req.params.id)
+app.delete('/lml_debris_data/:entry_id', (req, res) => {
+  lml_data_model.deleteDebrisData(req.params.entry_id)
   .then(response => {
     res.status(200).send(response);
   })

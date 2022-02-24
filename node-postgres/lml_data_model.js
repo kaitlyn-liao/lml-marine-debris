@@ -10,7 +10,7 @@ const pool = new Pool({
 // TODO: 
 const getDebrisData = () => {
   return new Promise(function(resolve, reject) {
-    pool.query('SELECT * FROM lml_debris_data', (error, results) => {
+    pool.query('SELECT * FROM lml_debris_data ORDER BY entry_id ASC', (error, results) => {
       if (error) {
         console.log("cannot get debris data");
         reject(error)
@@ -25,8 +25,11 @@ const getDebrisData = () => {
 // TODO: change pool.query to fit correct headers
 const createDebrisData = (body) => {
   return new Promise(function(resolve, reject) {
-    const { name, email } = body
-    pool.query('INSERT INTO lml_debris_data (name, email) VALUES ($1, $2) RETURNING *', [name, email], (error, results) => {
+    const {Beach, Mentor, Type, Season, MMDDYY, MesoFragmentedPlastic } = body
+    pool.query('INSERT INTO lml_debris_data' +
+                '(beach, mentor, type, season, date, meso_fragmented_plastic)' +
+                ' VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', 
+                [Beach, Mentor, Type, Season, MMDDYY, MesoFragmentedPlastic], (error, results) => {
       if (error) {
         reject(error)
       }
@@ -40,12 +43,12 @@ const createDebrisData = (body) => {
 // TODO: 
 const deleteDebrisData = (DebrisDataId) => {
   return new Promise(function(resolve, reject) {
-    const id = parseInt(DebrisDataId)
-    pool.query('DELETE FROM lml_debris_data WHERE id = $1', [id], (error, results) => {
+    const entry_id = parseInt(DebrisDataId)
+    pool.query('DELETE FROM lml_debris_data WHERE entry_id = $1', [entry_id], (error, results) => {
       if (error) {
         reject(error)
       }
-      resolve(`Debris Data deleted with ID: ${id}`)
+      resolve(`Debris Data deleted with ID: ${entry_id}`)
     })
   })
 }

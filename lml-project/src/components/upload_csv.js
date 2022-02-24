@@ -1,5 +1,6 @@
 // A file used to test the implimentation of uploading a csv file into the PostgreSQL Database
-import React, {useState} from 'react';
+
+import React, {useState,useEffect} from 'react';
 import { usePapaParse } from 'react-papaparse';
 import localCSV from '../SSDS_tester.csv'
 
@@ -8,8 +9,10 @@ import localCSV from '../SSDS_tester.csv'
 // the file, and beginning the process of handing off the information to the postgreSQL
 function UploadCSV() {
   const [uploadFile, setUploadFile] = useState([]);
-  // const [fileText, setText ] = useState('');
+  const [fileText, setText ] = useState('');
   const {readString} = usePapaParse();
+
+  const [fileContentJSON, setFileContent] = useState([]);
 
   // takes accepted file and prints to confirm up 
   const acceptFile = (event) => {
@@ -19,21 +22,23 @@ function UploadCSV() {
 
   // loadFile() -> fetches the text content of a csv file
   async function loadFile (){
+    fetch( localCSV ).then( response => response.text().then( responseText => setText(responseText)));
     return await fetch( localCSV ).then( response => response.text());
-    // fetch( localCSV ).then( response => response.text().then( responseText => setText(responseText)));
   };
 
   // handleReadString() -> parses through CSV text content and converts it to JSON format vis Papaparse
+  // reference found at https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/readString.tsx
   async function handleReadString() {
-  //const fileContent = `Column 1,Column 2,Column 3,Column 4' etc
-    const fileContent =  await loadFile();
+    const content =  await loadFile();
+    setFileContent(content);
 
-    readString(fileContent, {
+    readString(content, {
       worker: true,
       complete: (results) => {
         console.log('---------------------------');
         console.log(results);
         console.log('---------------------------');
+        setFileContent(results);
       },
     });
 
@@ -41,42 +46,56 @@ function UploadCSV() {
     // fileContent
   }
   
-  // function getMerchant() {
-  //   fetch('http://localhost:3001')
-  //     .then(response => response.json())
-  //     .then(data => { setMerchants(data);});
-  // }
-  // function createMerchant() {
-  //   let name = prompt('Enter merchant name');
-  //   let email = prompt('Enter merchant email');
-  //   fetch('http://localhost:3001/merchants', {
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({name, email}),
-  //   })
-  //     .then(response => {
-  //       return response.text();
-  //     })
-  //     .then(data => {
-  //       alert(data);
-  //       getMerchant();
-  //     });
-  // }
-  // function deleteMerchant() {
-  //   let id = prompt('Enter merchant id');
-  //   fetch(`http://localhost:3001/merchants/${id}`, {
-  //     method: 'DELETE',
-  //   })
-  //     .then(response => {
-  //       return response.text();
-  //     })
-  //     .then(data => {
-  //       alert(data);
-  //       getMerchant();
-  //     });
-  // }
+  const [debrisData, setDebrisData] = useState(false);
+  useEffect(() => { getDebrisData(); }, []);
+
+  function getDebrisData() {
+    fetch('http://localhost:3001')
+      .then(response => response.text())
+      .then(data => { setDebrisData(data);});
+  }
+
+  function createDebrisData() {
+    // loop for future use of adding in every row into the database, do be filtered by checking for new entries
+    // let i = 0;
+    // while(fileContentJSON.data[i] !== undefined){
+    //   console.log("loop");
+    //   i++;
+    // }
+
+    let Beach = fileContentJSON.data[1][0]; let Mentor = fileContentJSON.data[1][1]; let Type = fileContentJSON.data[1][2];
+    let Season = fileContentJSON.data[1][3]; let MMDDYY = fileContentJSON.data[1][4]; let MesoFragmentedPlastic = fileContentJSON.data[1][5];
+
+    console.log({Beach, Mentor, Type, Season, MMDDYY, MesoFragmentedPlastic });
+    fetch('http://localhost:3001/lml_debris_data', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({Beach, Mentor, Type, Season, MMDDYY, MesoFragmentedPlastic }),
+    })
+      .then(response => {
+        return response.text();
+      })
+      .then(data => {
+        alert(data);
+        getDebrisData();
+      });
+  }
+
+  function deleteDebrisData() {
+    let entry_id = prompt('Enter debris entry_id');
+    fetch(`http://localhost:3001/lml_debris_data/${entry_id}`, {
+      method: 'DELETE',
+    })
+      .then(response => {
+        return response.text();
+      })
+      .then(data => {
+        alert(data);
+        getDebrisData();
+      });
+  }
 
   // const showFile = async (e) => {
   //   e.preventDefault()
@@ -91,11 +110,14 @@ function UploadCSV() {
 
   return (
     <div>
+      <button onClick={handleReadString}>Upload CSV Data</button>
+      <br /><br />
+      {debrisData ? debrisData : 'There is no debrisData available'}  <p/>
+      <button type="button" className="btn btn-primary" onClick={createDebrisData}>Add Debris Data Entry</button>
+      <br />
+      <button type="button" className="btn btn-outline-warning" onClick={deleteDebrisData}>Delete Debris Data Entry</button>
 
-      <button onClick={handleReadString}>readString</button>
-      <br/><br/>
-
-      <form onSubmit={acceptFile}>
+      {/* <form onSubmit={acceptFile}>
         <input  className="csv-input" 
                 type="file" 
                 id="react-csv-reader-input" 
@@ -105,7 +127,8 @@ function UploadCSV() {
         </input>
         <br/>
         <input type="submit" /> 
-      </form>
+      </form> */}
+
 
       {/* <div>
         <button onClick={ loadFile }>loadFile</button>
@@ -115,7 +138,6 @@ function UploadCSV() {
     </div>
   );
 }
-
 
 export default UploadCSV
 
