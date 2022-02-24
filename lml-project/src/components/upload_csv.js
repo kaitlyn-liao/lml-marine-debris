@@ -1,84 +1,96 @@
-// A file used to test the implimentation of uploading a csv file into the PostgreSQL Database
+import React from 'react';
 
-import React, {useState} from 'react';
-import csv_toload from '../SSDS_tester.csv'
+import { usePapaParse } from 'react-papaparse';
 
-function Upload_CSV() {
-  const [uploadFile, setUploadFile] = useState();
-  const [ text, setText ] = useState();
+export default function ReadString() {
+  const { readString } = usePapaParse();
 
-  const accept_file = (event) => {
-    event.preventDefault();
-    console.log("uploadFile", uploadFile[0]);
+  const handleReadString = () => {
+    const csvString = `Column 1,Column 2,Column 3,Column 4
+1-1,1-2,1-3,1-4
+2-1,2-2,2-3,2-4
+3-1,3-2,3-3,3-4
+4,5,6,7`;
+
+    readString(csvString, {
+      worker: true,
+      complete: (results) => {
+        console.log('---------------------------');
+        console.log(results);
+        console.log('---------------------------');
+      },
+    });
   };
 
-  const loadCSV = function(){
-    fetch( csv_toload )
-        .then( response => response.text() )
-        .then( responseText => {
-            setText( responseText );
-        })
-  };
-
-  return (
-    <div>
-      <form onSubmit={accept_file}>
-        <input  className="csv-input" 
-                type="file" 
-                id="react-csv-reader-input" 
-                accept=".csv, text/csv" 
-                name="myFile" 
-                onChange={(e) => setUploadFile(e.target.files)} >    
-        </input>
-        <br/>
-        <input type="submit" /> 
-      </form>
-
-      <div>
-        <button onClick={ loadCSV }>load</button>
-        <h2>text:</h2>
-        <pre>{ text }</pre>
-      </div>
-
-    </div>
-  );
+  return <button onClick={() => handleReadString()}>readString</button>;
 }
 
 
+// // A file used to test the implimentation of uploading a csv file into the PostgreSQL Database
+
+// import React, {useState} from 'react';
+// import Papa from 'papaparse';
+// import localCSV from '../SSDS_tester.csv'
 
 
-// old attempt
-{
-//  class Upload_CSV extends React.Component {
-//   constructor(props) {
-//     super(props)
-//     this.uploadFile = this.uploadFile.bind(this);
+// // Completes the process of accepting a user's CSV file, parsing through
+// // the file, and beginning the process of handing off the information to the postgreSQL
+// function UploadCSV() {
+//   const [uploadFile, setUploadFile] = useState([]);
+//   const [ text, setText ] = useState('');
+
+//   // takes accepted file and prints to confirm up 
+//   const acceptFile = (event) => {
+//     event.preventDefault();
+//     console.log("uploadFile", uploadFile[0]);
+//   };
+
+//   // Sets 'text' to the contents of a localCSV file
+//   const loadFile = function(){
+//     fetch( localCSV )
+//         .then( response => response.text() )
+//         .then( responseText => {
+//             setText( responseText );
+//         })
+//   };
+
+//   const showFile = async (e) => {
+//     e.preventDefault()
+//     const reader = new FileReader()
+//     reader.onload = async (e) => { 
+//       const text = (e.target.result)
+//       console.log(text)
+//       alert(text)
+//     };
+//     reader.readAsText(e.target.files[0])
 //   }
 
-//   uploadFile(event) {
-//     let file = event.target.files[0];
-//     console.log(file);
-    
-//     if (file) {
-//       let data = new FormData();
-//       data.append('file', file);
-//       // axios.post('/files', data)...
-//     }
-//   }
+//   return (
+//     <div>
+//       <form onSubmit={acceptFile}>
+//         <input  className="csv-input" 
+//                 type="file" 
+//                 id="react-csv-reader-input" 
+//                 accept=".csv, text/csv" 
+//                 name="myFile" 
+//                 onChange={(e) => setUploadFile(e.target.files)} >    
+//         </input>
+//         <br/>
+//         <input type="submit" /> 
+//       </form>
 
-//   render(){
-//     return(
-//       <span>
-//         <input className="csv-input" type="file" id="react-csv-reader-input" accept=".csv, text/csv" name="myFile" onChange={this.uploadFile} ></input>
-        
-//       </span>
-//     );
-//   }
+//       <div>
+//         <button onClick={ loadFile }>load</button>
+//         <h2>text:</h2>
+//         <pre>{ text }</pre>
+//       </div>
 
+//     </div>
+//   );
 // }
-}
 
-export default Upload_CSV
+
+// export default UploadCSV
 
 // SQL Initialization for associated data tables
 
