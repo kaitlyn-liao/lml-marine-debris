@@ -6,25 +6,9 @@ const port = 3001
 // Test code to manually parse through the csv file 
 // that is given to us via Sponsor Sprint 2
 
-// const fs = require("fs");
-// const fastcsv = require("fast-csv");
-// let stream = fs.createReadStream("../SSDS_tester.csv");
-// let csvData = [];
-// let csvStream = fastcsv
-//   .parse()
-//   .on("data", function(data) {
-//     csvData.push(data);
-//   })
-//   .on("end", function() {
-//     // remove the first line: header
-//     csvData.shift();
-//     // connect to the PostgreSQL database
-//     // save csvData
-//   });
-// stream.pipe(csvStream);
+// const merchant_model = require('./merchant_model');
+const lml_data_model = require('./lml_data_model.js');
 
-
-const merchant_model = require('./merchant_model')
 app.use(express.json())
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -34,7 +18,7 @@ app.use(function (req, res, next) {
 });
 
 app.get('/', (req, res) => {
-  merchant_model.getMerchants()
+  lml_data_model.getDebrisData()
   .then(response => {
     res.status(200).send(response);
   })
@@ -43,8 +27,8 @@ app.get('/', (req, res) => {
   })
 })
 
-app.post('/merchants', (req, res) => {
-  merchant_model.createMerchant(req.body)
+app.post('/lml_debris_data', (req, res) => {
+  lml_data_model.createDebrisData(req.body)
   .then(response => {
     res.status(200).send(response);
   })
@@ -53,8 +37,8 @@ app.post('/merchants', (req, res) => {
   })
 })
 
-app.delete('/merchants/:id', (req, res) => {
-  merchant_model.deleteMerchant(req.params.id)
+app.delete('/lml_debris_data/:id', (req, res) => {
+  lml_data_model.deleteDebrisData(req.params.id)
   .then(response => {
     res.status(200).send(response);
   })
