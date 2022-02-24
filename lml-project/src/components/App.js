@@ -11,18 +11,9 @@ function App() {
 
   return (
     <div>
-      {/* <div className="db_reqs">
-         <MerchentTable/>
-      </div> */}
-
-      <div className="csv">
+      {/* <div className="csv">
          <UploadCSV/>
-      </div>
-
-      {/* <div className="App">
-         <TicTac/>
       </div> */}
-
     </div>
   );
 }
