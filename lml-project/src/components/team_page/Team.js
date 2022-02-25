@@ -52,11 +52,11 @@ function Member(props) {
 }
 
 /* 
-*  Description: The admin class, for LML admins, no GitHub or LinkedIn links
+*  Description: The sponsor class, for LML sponsors, no GitHub or LinkedIn links
 *  Inputs: name, bio, photo
 *  Outputs: formatted card for LML team member with given info
 */
-function Admin(props) {
+function Sponsor(props) {
     return (
         <div>
             <div class="sponsor-box">
@@ -121,19 +121,19 @@ class Team extends React.Component {
                 <p>From the UCSC Long Marine Lab.</p></div>
                 <p><br></br></p>
                 <div class="row">
-                    <Admin name='Robin Dunkin' bio='Professor at UCSC'
+                    <Sponsor name='Robin Dunkin' bio='Professor at UCSC'
                         photo={avatar} />
                 </div>
                 <div class="row">
-                    <Admin name='Juli Limon' bio=''
+                    <Sponsor name='Juli Limon' bio=''
                         photo={avatar} />
                 </div>
                 <div class="row">
-                    <Admin name='Maia Smith' bio=''
+                    <Sponsor name='Maia Smith' bio=''
                         photo={avatar} />
                 </div>
                 <div class="row">
-                    <Admin name='Sam' bio=''
+                    <Sponsor name='Sam' bio=''
                         photo={avatar} />
                 </div>
             </div>
