@@ -3,7 +3,7 @@
 // App.js is rendered by Index.js, and renders the child Navbar.js
 
 import TicTac from './react_tutorial_ref/Tictactoe.js'
-// import MerchentTable from './db_test.js'
+import MerchentTable from './db_test.js'
 import Methodology from './method_page/Methodology.js';
 import Team from './team_page/Team.js';
 
