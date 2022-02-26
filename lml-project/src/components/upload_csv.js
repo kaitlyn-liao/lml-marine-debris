@@ -10,15 +10,11 @@ import localCSV from '../SSDS_tester.csv'
 function UploadCSV() {
   const [uploadFile, setUploadFile] = useState([]);
   const [fileText, setText ] = useState('');
+  const [fileContentJSON, setFileContent] = useState([]);
   const {readString} = usePapaParse();
 
-  const [fileContentJSON, setFileContent] = useState([]);
-
-  // takes accepted file and prints to confirm up 
-  const acceptFile = (event) => {
-    event.preventDefault();
-    console.log("uploadFile", uploadFile[0]);
-  };
+  // takes accepted file and prints to confirm upload 
+  const acceptFile = (event) => { event.preventDefault(); console.log("uploadFile", uploadFile[0]); };
 
   // loadFile() -> fetches the text content of a csv file
   async function loadFile (){
@@ -41,46 +37,127 @@ function UploadCSV() {
         setFileContent(results);
       },
     });
-
-    // begin to parse through and upload new entries to the lml-data datatable in PostgreSQL
-    // fileContent
   }
   
+  // Communicate with database server
   const [debrisData, setDebrisData] = useState(false);
   useEffect(() => { getDebrisData(); }, []);
 
-  function getDebrisData() {
-    fetch('http://localhost:3001')
+  async function getDebrisData() {
+    await fetch('http://localhost:3001')
       .then(response => response.text())
-      .then(data => { setDebrisData(data);});
+      .then(data => { setDebrisData(data);
+    });
   }
 
-  function createDebrisData() {
+  async function postDebrisData() {
     // loop for future use of adding in every row into the database, do be filtered by checking for new entries
-    // let i = 0;
-    // while(fileContentJSON.data[i] !== undefined){
-    //   console.log("loop");
-    //   i++;
-    // }
+    let i = 0;
+    while(fileContentJSON.data[i] !== undefined){
+      i = i + await createDesbrisData(i);
+    }
+    getDebrisData();
+  }
 
-    let Beach = fileContentJSON.data[1][0]; let Mentor = fileContentJSON.data[1][1]; let Type = fileContentJSON.data[1][2];
-    let Season = fileContentJSON.data[1][3]; let MMDDYY = fileContentJSON.data[1][4]; let MesoFragmentedPlastic = fileContentJSON.data[1][5];
+  async function createDesbrisData(i){
+    let beach = fileContentJSON.data[i][0];  
+    let mentor = fileContentJSON.data[i][1]; 
+    let type = fileContentJSON.data[i][2];
+    let season = fileContentJSON.data[i][3]; 
+    let mmddyy = fileContentJSON.data[i][4]; 
+    
+    let mesoFragPlastic = fileContentJSON.data[i][5];
+    let macroFragPlastic = fileContentJSON.data[i][6];
+    let totalFragPlastic = fileContentJSON.data[i][7];
 
-    console.log({Beach, Mentor, Type, Season, MMDDYY, MesoFragmentedPlastic });
-    fetch('http://localhost:3001/lml_debris_data', {
+    let mesoPlasticProducts = fileContentJSON.data[i][8];
+    let macroPlasticProducts = fileContentJSON.data[i][9];
+    let totalPlasticProducts = fileContentJSON.data[i][10];
+
+    let mesoFoodWrap = fileContentJSON.data[i][11];
+    let macroFoodWrap = fileContentJSON.data[i][12];
+    let totalFoodWrap = fileContentJSON.data[i][13];
+
+    let mesoStyro = fileContentJSON.data[i][14];
+    let macroStyro = fileContentJSON.data[i][15];
+    let totalStyro = fileContentJSON.data[i][16];
+
+    let mesoCigButts = fileContentJSON.data[i][17];
+    let macroCigButts = fileContentJSON.data[i][18];
+    let totalCigButts = fileContentJSON.data[i][19];
+
+    let mesoPaper = fileContentJSON.data[i][20];
+    let macroPaper = fileContentJSON.data[i][21];
+    let totalPaper = fileContentJSON.data[i][22];
+
+    let mesoMetal = fileContentJSON.data[i][23];
+    let macroMetal = fileContentJSON.data[i][24];
+    let totalMetal = fileContentJSON.data[i][25];
+
+    let mesoGlass = fileContentJSON.data[i][26];
+    let macroGlass = fileContentJSON.data[i][27];
+    let totalGlass = fileContentJSON.data[i][28];
+
+    let mesoFabric = fileContentJSON.data[i][29];
+    let macroFabric = fileContentJSON.data[i][30];
+    let toalFabric = fileContentJSON.data[i][31];
+
+    let mesoPellets = fileContentJSON.data[i][32];
+    let macroPellets = fileContentJSON.data[i][33];
+    let totalPellets = fileContentJSON.data[i][34];
+
+    let mesoFishingGear = fileContentJSON.data[i][35];
+    let macroFishingGear = fileContentJSON.data[i][36];
+    let totalFishingGear = fileContentJSON.data[i][37];
+
+    let mesoRubber = fileContentJSON.data[i][38];
+    let macroRubber = fileContentJSON.data[i][39];
+    let totalRubber = fileContentJSON.data[i][40];
+
+    let mesoOther = fileContentJSON.data[i][41];
+    let macroOther = fileContentJSON.data[i][42];
+    let totalOther = fileContentJSON.data[i][43];
+
+    let totalMesoDebris = fileContentJSON.data[i][44];
+    let totalMacroDebris = fileContentJSON.data[i][45];
+    let totalTotalDebris = fileContentJSON.data[i][46];
+
+    let mesoDebrisDivMsq = fileContentJSON.data[i][47];
+    let macroDebrisDivMsq = fileContentJSON.data[i][48];
+    let totalDebrisDivMsq = fileContentJSON.data[i][49];
+
+    let notes = fileContentJSON.data[i][50];
+
+    console.log("loop in func")
+    await fetch('http://localhost:3001/lml_debris_data', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({Beach, Mentor, Type, Season, MMDDYY, MesoFragmentedPlastic }),
+      body: JSON.stringify({ 
+        beach, mentor, type, season, mmddyy, 
+        mesoFragPlastic, macroFragPlastic, totalFragPlastic, 
+        mesoPlasticProducts, macroPlasticProducts, totalPlasticProducts,
+        mesoFoodWrap, macroFoodWrap, totalFoodWrap,
+        mesoStyro, macroStyro, totalStyro,
+        mesoCigButts, macroCigButts, totalCigButts,
+        mesoPaper, macroPaper, totalPaper,
+        mesoMetal, macroMetal, totalMetal,
+        mesoGlass, macroGlass, totalGlass,
+        mesoFabric, macroFabric, toalFabric,
+        mesoPellets, macroPellets, totalPellets, 
+        mesoFishingGear, macroFishingGear, totalFishingGear,
+        mesoRubber, macroRubber, totalRubber, 
+        mesoOther, macroOther, totalOther,
+        totalMesoDebris, totalMacroDebris, totalTotalDebris,
+        mesoDebrisDivMsq, macroDebrisDivMsq, totalDebrisDivMsq,
+        notes
+      }),
     })
       .then(response => {
-        return response.text();
-      })
-      .then(data => {
-        alert(data);
-        getDebrisData();
+        response.text();
       });
+    return 1;
   }
 
   function deleteDebrisData() {
@@ -92,9 +169,23 @@ function UploadCSV() {
         return response.text();
       })
       .then(data => {
-        alert(data);
+        // alert(data);
         getDebrisData();
       });
+  }
+
+  //  call deleteDebrisData() enough times to clear the entire table;
+  function ClearDebrisDataTable() {
+    fetch(`http://localhost:3001/lml_debris_data`, {
+      method: 'DELETE'
+    })
+    .then(response => {
+      return response.text();
+    })
+    .then(data => {
+      alert(data);
+      getDebrisData();
+    });
   }
 
   // const showFile = async (e) => {
@@ -112,10 +203,12 @@ function UploadCSV() {
     <div>
       <button onClick={handleReadString}>Upload CSV Data</button>
       <br /><br />
-      {debrisData ? debrisData : 'There is no debrisData available'}  <p/>
-      <button type="button" className="btn btn-primary" onClick={createDebrisData}>Add Debris Data Entry</button>
+      <button type="button" className="btn btn-primary" onClick={postDebrisData}>Add Debris Data Entry</button>
       <br />
       <button type="button" className="btn btn-outline-warning" onClick={deleteDebrisData}>Delete Debris Data Entry</button>
+      <button type="button" className="btn btn-outline-warning" onClick={ClearDebrisDataTable}>EMPTY Debris Data Entry</button>
+      <br/>
+      {debrisData ? debrisData : 'There is no debrisData available'}  <p/>
 
       {/* <form onSubmit={acceptFile}>
         <input  className="csv-input" 
@@ -128,7 +221,6 @@ function UploadCSV() {
         <br/>
         <input type="submit" /> 
       </form> */}
-
 
       {/* <div>
         <button onClick={ loadFile }>loadFile</button>

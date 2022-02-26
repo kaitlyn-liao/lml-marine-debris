@@ -17,6 +17,7 @@ app.use(function (req, res, next) {
   next();
 });
 
+// get information from lml_debris_data
 app.get('/', (req, res) => {
   lml_data_model.getDebrisData()
   .then(response => {
@@ -27,6 +28,7 @@ app.get('/', (req, res) => {
   })
 })
 
+// Enter a new row into lml_debris_data
 app.post('/lml_debris_data', (req, res) => {
   lml_data_model.createDebrisData(req.body)
   .then(response => {
@@ -37,6 +39,7 @@ app.post('/lml_debris_data', (req, res) => {
   })
 })
 
+// Delete a specified row out the lml_debris_data table
 app.delete('/lml_debris_data/:entry_id', (req, res) => {
   lml_data_model.deleteDebrisData(req.params.entry_id)
   .then(response => {
@@ -46,6 +49,18 @@ app.delete('/lml_debris_data/:entry_id', (req, res) => {
     res.status(500).send(error);
   })
 })
+
+// Empty out the entire lml_debris_data table
+app.delete('/lml_debris_data', (req, res) => {
+  lml_data_model.clearDebrisData(req.params)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)

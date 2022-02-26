@@ -11,9 +11,9 @@ function App() {
 
   return (
     <div>
-      {/* <div className="csv">
+      <div className="csv">
          <UploadCSV/>
-      </div> */}
+      </div>
     </div>
   );
 }
