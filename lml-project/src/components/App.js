@@ -15,8 +15,8 @@ function App() {
          {/* <MerchentTable/> */}
       </div>
       <div className="App">
-         <CallToAction/>
-         <Methodology/>
+         {/* <CallToAction/> */}
+         {/* <Methodology/> */}
       </div>
     </div>
   );
