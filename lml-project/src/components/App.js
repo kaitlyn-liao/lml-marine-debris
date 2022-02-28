@@ -5,6 +5,7 @@
 import TicTac from './react_tutorial_ref/Tictactoe.js'
 import MerchentTable from './db_test.js'
 import Methodology from './method_page/Methodology.js';
+import CallToAction from './landing_page/CallToAction.js';
 
 function App() {
 
@@ -14,7 +15,8 @@ function App() {
          {/* <MerchentTable/> */}
       </div>
       <div className="App">
-         <Methodology/>
+         {/* <CallToAction/> */}
+         {/* <Methodology/> */}
       </div>
     </div>
   );
