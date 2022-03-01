@@ -5,6 +5,8 @@
 // import MerchentTable from './db_test.js'
 import Methodology from './method_page/Methodology.js';
 import Team from './team_page/Team.js';
+import BarChart from './Charts/BarChart.js';
+import PieChart from './Charts/PieChart.js';
 import CallToAction from './landing_page/CallToAction.js';
 // import Login from './login_page/Login.js'
 // import Login_UnApr from './login_page/Login_UnApr.js';
@@ -14,7 +16,13 @@ import CallToAction from './landing_page/CallToAction.js';
 
 
 function App() {
+  // Add this in node_modules/react-dom/index.js
+window.React1 = require('react');
 
+// Add this in your component file
+require('react-dom');
+window.React2 = require('react');
+console.log(window.React1 === window.React2);
   return (
     <div>
       <div className="db_reqs">
@@ -41,6 +49,8 @@ function App() {
          <Team/>
          <CallToAction/>
          <Methodology/>
+         <BarChart/>
+         <PieChart/>
          
       </div>
     </div>
