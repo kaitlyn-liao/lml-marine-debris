@@ -2,7 +2,12 @@ const express = require('express')
 const app = express()
 const port = 3001
 
-const merchant_model = require('./merchant_model')
+// ---------------------------- 
+// Test code to manually parse through the csv file 
+// that is given to us via Sponsor Sprint 2
+
+// const merchant_model = require('./merchant_model');
+const lml_data_model = require('./lml_data_model.js');
 
 app.use(express.json())
 app.use(function (req, res, next) {
@@ -12,8 +17,9 @@ app.use(function (req, res, next) {
   next();
 });
 
+// get information from lml_debris_data
 app.get('/', (req, res) => {
-  merchant_model.getMerchants()
+  lml_data_model.getDebrisData()
   .then(response => {
     res.status(200).send(response);
   })
@@ -22,8 +28,9 @@ app.get('/', (req, res) => {
   })
 })
 
-app.post('/merchants', (req, res) => {
-  merchant_model.createMerchant(req.body)
+// Enter a new row into lml_debris_data
+app.post('/lml_debris_data', (req, res) => {
+  lml_data_model.createDebrisData(req.body)
   .then(response => {
     res.status(200).send(response);
   })
@@ -32,8 +39,9 @@ app.post('/merchants', (req, res) => {
   })
 })
 
-app.delete('/merchants/:id', (req, res) => {
-  merchant_model.deleteMerchant(req.params.id)
+// Delete a specified row out the lml_debris_data table
+app.delete('/lml_debris_data/:entry_id', (req, res) => {
+  lml_data_model.deleteDebrisData(req.params.entry_id)
   .then(response => {
     res.status(200).send(response);
   })
@@ -41,6 +49,18 @@ app.delete('/merchants/:id', (req, res) => {
     res.status(500).send(error);
   })
 })
+
+// Empty out the entire lml_debris_data table
+app.delete('/lml_debris_data', (req, res) => {
+  lml_data_model.clearDebrisData(req.params)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
