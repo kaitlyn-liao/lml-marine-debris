@@ -1,7 +1,6 @@
-
 import React, {useState, useEffect} from 'react';
 
-function Merch() {
+function Merchant_test() {
   
   const [merchants, setMerchants] = useState(false);
   useEffect(() => { getMerchant(); }, []);
@@ -76,4 +75,5 @@ function Merch() {
     </div>
   );
 }
-export default Merch;
+export default Merchant_test;
+
