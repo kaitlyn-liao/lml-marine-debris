@@ -7,6 +7,7 @@ import MerchentTable from './db_test.js'
 import BarChart from './BarChart.js'
 import Methodology from './method_page/Methodology.js';
 import Team from './team_page/Team.js';
+import CallToAction from './landing_page/CallToAction.js';
 
 function App() {
 
@@ -16,10 +17,9 @@ function App() {
          {/* <MerchentTable/> */}
       </div>
       <div className="App">
-        <BarChart/>
-      </div>
-      <div className="App">
-         {/*<Team/>*/}
+         {/* <Team/> */}
+         {/* <CallToAction/> */}
+         {/* <Methodology/> */}
       </div>
     </div>
   );
