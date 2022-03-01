@@ -1,9 +1,9 @@
 import React, {useState, useEffect} from 'react';
+
 function Merchant_test() {
   
   const [merchants, setMerchants] = useState(false);
   useEffect(() => { getMerchant(); }, []);
-
 
   let merch_rows= []
   let merch_id= []
@@ -24,6 +24,7 @@ function Merchant_test() {
       .then(response => response.json())
       .then(data => { setMerchants(data);});
   }
+
   function createMerchant() {
     let name = prompt('Enter merchant name');
     let email = prompt('Enter merchant email');
@@ -42,6 +43,7 @@ function Merchant_test() {
         getMerchant();
       });
   }
+
   function deleteMerchant() {
     let id = prompt('Enter merchant id');
     fetch(`http://localhost:3001/merchants/${id}`, {
@@ -74,3 +76,4 @@ function Merchant_test() {
   );
 }
 export default Merchant_test;
+

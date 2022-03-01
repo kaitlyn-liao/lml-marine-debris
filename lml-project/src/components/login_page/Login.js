@@ -6,17 +6,15 @@
 // children Login_Apr.js and Login_UnApr.js
 
 import React from 'react';
+import { Outlet } from "react-router-dom"
 
-class Login extends React.Component {
-    
-    render() {     
-      return (
-        // html goes here
-        <div>
+function Login () {
+  return(
 
-        </div>
-      );
-    }
+      <div className="Login">
+          <Outlet/>
+      </div>
+  );
 }
 
 export default Login
