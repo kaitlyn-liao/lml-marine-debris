@@ -4,6 +4,7 @@
 
 import TicTac from './react_tutorial_ref/Tictactoe.js'
 import MerchentTable from './db_test.js'
+import BarChart from './BarChart.js'
 import Methodology from './method_page/Methodology.js';
 import Team from './team_page/Team.js';
 
@@ -15,7 +16,10 @@ function App() {
          {/* <MerchentTable/> */}
       </div>
       <div className="App">
-         <Team/>
+        <BarChart/>
+      </div>
+      <div className="App">
+         {/*<Team/>*/}
       </div>
     </div>
   );
