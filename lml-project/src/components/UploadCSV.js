@@ -8,17 +8,18 @@ import localCSV from '../SSDS_tester.csv'
 // Completes the process of accepting a user's CSV file, parsing through
 // the file, and beginning the process of handing off the information to the postgreSQL
 function UploadCSV() {
-  const [uploadFile, setUploadFile] = useState([]);
+  // const [uploadFile, setUploadFile] = useState([]);
   const [fileText, setText ] = useState('');
   const [fileContentJSON, setFileContent] = useState([]);
   const {readString} = usePapaParse();
 
   // takes accepted file and prints to confirm upload 
-  const acceptFile = (event) => { event.preventDefault(); console.log("uploadFile", uploadFile[0]); };
+  // const acceptFile = (event) => { event.preventDefault(); console.log("uploadFile", uploadFile[0]); };
 
   // loadFile() -> fetches the text content of a csv file
   async function loadFile (){
-    fetch( localCSV ).then( response => response.text().then( responseText => setText(responseText)));
+    await fetch( localCSV ).then( response => response.text().then( responseText => setText(responseText)));
+    console.log(fileText)
     return await fetch( localCSV ).then( response => response.text());
   };
 

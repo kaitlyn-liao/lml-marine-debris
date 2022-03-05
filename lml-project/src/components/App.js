@@ -5,7 +5,7 @@
 
 // import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
 import Navbar from "./Navbar";
-import UploadCSV from "./upload_csv";
+import UploadCSV from "./UploadCSV";
 
 function App() {
 
