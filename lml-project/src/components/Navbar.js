@@ -5,6 +5,7 @@
 // Navbar.js is rendered by App.js, and renders the child Controller.js
 
 import React from 'react';
+import Controller from './Controller';
 
 class Navbar extends React.Component {
     
@@ -12,7 +13,7 @@ class Navbar extends React.Component {
       return (
         // html goes here
         <div>
-
+          <Controller/>
         </div>
       );
     }
