@@ -4,14 +4,14 @@
 // import TicTac from './react_tutorial_ref/Tictactoe.js'
 
 // import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
-import Navbar from "./Navbar";
+import NavBar from "./NavBar";
 import UploadCSV from "./UploadCSV";
 
 function App() {
 
   return (
     <div>
-      <Navbar/>
+      <NavBar/>
       <UploadCSV/>
     </div>
   );
