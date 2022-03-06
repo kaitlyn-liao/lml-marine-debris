@@ -34,9 +34,9 @@ class Controller extends React.Component {
           {/* <Login/> */}
           {/* <Login_UnApr/> */}
           {/* <Login_Apr/> */}
-          <Team/>
-          <CallToAction/>
-          <Methodology/>
+          {/* <Team/> */}
+          {/* <CallToAction/> */}
+          {/* <Methodology/> */}
           
         </div>
       );
