@@ -7,6 +7,8 @@ import Methodology from './method_page/Methodology.js';
 import Team from './team_page/Team.js';
 import BarChart from './Charts/BarChart.js';
 import PieChart from './Charts/PieChart.js';
+import StackedChart from './Charts/StackedChart.js';
+import ComparisonChart from './Charts/ComparisonChart.js';
 import CallToAction from './landing_page/CallToAction.js';
 // import Login from './login_page/Login.js'
 // import Login_UnApr from './login_page/Login_UnApr.js';
@@ -50,6 +52,8 @@ console.log(window.React1 === window.React2);
          <CallToAction/>
          <Methodology/>
          <BarChart/>
+         <StackedChart/>
+         <ComparisonChart/>
          <PieChart/>
          
       </div>
