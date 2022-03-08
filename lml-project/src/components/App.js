@@ -15,7 +15,7 @@ import CallToAction from './landing_page/CallToAction.js';
 // import Login_Apr from './login_page/Login_Apr.js';
 
 // import { BrowserRouter as Router, Routes, Route, BrowserRouter } from "react-router-dom";
-
+import NavBar from "./Navbar.js";
 
 function App() {
   // Add this in node_modules/react-dom/index.js
@@ -27,36 +27,7 @@ window.React2 = require('react');
 console.log(window.React1 === window.React2);
   return (
     <div>
-      <div className="db_reqs">
-         {/* <MerchentTable/> */}
-      </div>
-      
-      <div className="App">
-        {/* The below commeted out code is required for login page functionality.
-            Ref. to Bridget when react router US needs to be completed 
-        */}
-        {/* <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<Login/>}>
-              <Route path="" element={<Login_UnApr/>}/>
-              <Route path=":postSlug" element={<Login_Apr />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>  */}
-        
-        {/* <Login/> */}
-        {/* <Login_UnApr/> */}
-        {/* <Login_Apr/> */}
-
-         <Team/>
-         <CallToAction/>
-         <Methodology/>
-         <BarChart/>
-         <StackedChart/>
-         <ComparisonChart/>
-         <PieChart/>
-         
-      </div>
+      <NavBar/>
     </div>
   );
 }
