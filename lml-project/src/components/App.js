@@ -19,12 +19,14 @@ import CallToAction from './landing_page/CallToAction.js';
 
 function App() {
   // Add this in node_modules/react-dom/index.js
-window.React1 = require('react');
+  // Check for more than one React instance, for debugging
+/*window.React1 = require('react');
 
 // Add this in your component file
 require('react-dom');
 window.React2 = require('react');
-console.log(window.React1 === window.React2);
+console.log(window.React1 === window.React2);*/
+
   return (
     <div>
       <div className="db_reqs">
@@ -48,13 +50,13 @@ console.log(window.React1 === window.React2);
         {/* <Login_UnApr/> */}
         {/* <Login_Apr/> */}
 
-         <Team/>
+         {/*<Team/>
          <CallToAction/>
          <Methodology/>
          <BarChart/>
          <StackedChart/>
          <ComparisonChart/>
-         <PieChart/>
+         <PieChart/>*/}
          
       </div>
     </div>
