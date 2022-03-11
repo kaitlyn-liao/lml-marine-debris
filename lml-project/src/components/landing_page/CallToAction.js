@@ -20,48 +20,69 @@ class CallToAction extends React.Component {
                     <center>
                         <h1>UCSC Long Marine Lab: Marine Debris</h1>
                         <br></br>
-                        <Carousel variant="dark" fluid>
+                        <Carousel variant="dark" fluid interval={8000} pause='hover'>
                             <Carousel.Item>
                                 <img
                                     className="d-block w-100"
                                     src={placeholder}
-                                    alt="First slide"
+                                    alt="Beach 1"
+                                    targetURL="/posts/blahblah?id=10100110"
                                 />
                                 <Carousel.Caption>
-                                    <h3>First slide label</h3>
-                                    <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
+                                    <h3>What type of trash is most common on Main Beach?</h3>
+                                    <p>Click to Learn More</p>
                                 </Carousel.Caption>
                             </Carousel.Item>
                             <Carousel.Item>
                                 <img
                                     className="d-block w-100"
                                     src={placeholder}
-                                    alt="Second slide"
-
+                                    alt="Beach 2"
+                                    targetURL="/posts/blahblah?id=10100110"
                                 />
 
                                 <Carousel.Caption>
-                                    <h3>Second slide label</h3>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                    <h3>Question 2</h3>
+                                    <p>Click to Learn More</p>
                                 </Carousel.Caption>
                             </Carousel.Item>
                             <Carousel.Item>
                                 <img
                                     className="d-block w-100"
                                     src={placeholder}
-                                    alt="Third slide"
+                                    alt="Beach 3"
+                                    targetURL="/posts/blahblah?id=10100110"
                                 />
 
                                 <Carousel.Caption>
-                                    <h3>Third slide label</h3>
-                                    <p>Praesent commodo cursus magna, vel scelerisque nisl consectetur.</p>
+                                    <h3>Question 3</h3>
+                                    <p>Click to Learn More</p>
                                 </Carousel.Caption>
                             </Carousel.Item>
                         </Carousel>
                     </center> 
                     <br></br>
                     <Container>
-                        <h3>How can you help?</h3>
+                        <center>
+                          <h1>Take action to improve your community</h1>
+                        </center>
+                            <Col sm={8} className="pgs">
+                                <p className="indent1">
+                                The Long Marine Lab Survey Slug program connects passionate volunteers with the resources and knowledge 
+                                to collect crucial information about one of the most pressing environmental issues we face today. 
+                                </p>
+                                <p className="indent2">
+                                Our Long Marine Lab Stranding volunteers each mentor a team of undergraduate students and teach them our 
+                                unique data collection process. We survey 8 beaches in Santa Cruz and Monterey County every month and use 
+                                this information to find out what are the types, amounts, and temporal and geographic patterns of marine 
+                                debris on Monterey Bay beaches. These surveys provide opportunities for undergraduate students to experience 
+                                real data collection in the field, learn more about the local community in which they are living, make an 
+                                impactful contribution to cleaning up marine debris, meet and work with other students that are similarly 
+                                interested in marine science, and develop a relationship with a mentor working in a science field. Marine 
+                                debris can entangle and harm marine life, litter our waterways, and pollute our water when it degrades; 
+                                help us to combat this problem by taking action now!
+                                </p>
+                            </Col>
 
                     </Container>
                 </Container>
