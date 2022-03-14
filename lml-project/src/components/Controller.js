@@ -12,8 +12,9 @@ import Team from './team_page/Team.js';
 import CallToAction from './landing_page/CallToAction.js';
 import Login from './login_page/Login.js'
 import UploadCSV from './UploadCSV.js';
-// import Login_UnApr from './login_page/Login_UnApr.js';
-// import Login_Apr from './login_page/Login_Apr.js';
+import Login_UnApr from './login_page/Login_UnApr.js';
+import Login_Apr from './login_page/Login_Apr.js';
+import DataVis from './data_page/DataVis.js';
 
 class Controller extends React.Component {
     
@@ -23,29 +24,15 @@ class Controller extends React.Component {
         // first one that matches the current URL.
         <div>
           <Routes>
-            <Route path="/debris-data" element={<UploadCSV/>}> </Route>
+            <Route path="/debris-data" element={<DataVis/>}> </Route>
             <Route path="/methodology" element={<Methodology/>}> </Route>
             <Route path="/team" element={<Team/>}> </Route>
-            <Route path="/login" element={<Login/>}> </Route>
+            <Route path="/login" element={<Login/>}> 
+                <Route path="" element={<Login_UnApr/>}/>
+                <Route path=":postSlug" element={<Login_Apr/>} />
+            </Route>
             <Route path="/" element={<CallToAction/>}> </Route>
           </Routes>
-
-          {/* The below commeted out code is required for login page functionality.
-              Ref. to Bridget when react router US needs to be completed 
-          */}
-          {/* <BrowserRouter>
-            <Routes>
-              <Route path="/login" element={<Login/>}>
-                <Route path="" element={<Login_UnApr/>}/>
-                <Route path=":postSlug" element={<Login_Apr />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>  */}
-          
-          {/* <Login/> */}
-          {/* <Login_UnApr/> */}
-          {/* <Login_Apr/> */}
-
         </div>
       );
     }
