@@ -7,6 +7,7 @@
 
 import React from 'react';
 import placeholder from '../../images/placeholder.png';
+import photogenicPlaceholder from '../../MainBeachPlaceholder.png';
 import Container from 'react-bootstrap/Container';
 import Carousel from 'react-bootstrap/Carousel';
 import '../../css/CallToAction.css';
@@ -24,7 +25,7 @@ class CallToAction extends React.Component {
                             <Carousel.Item>
                                 <img
                                     className="d-block w-100"
-                                    src={placeholder}
+                                    src={photogenicPlaceholder}
                                     alt="Beach 1"
                                     targetURL="/posts/blahblah?id=10100110"
                                 />
