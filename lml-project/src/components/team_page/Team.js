@@ -121,19 +121,37 @@ class Team extends React.Component {
                 <p>From the UCSC Long Marine Lab.</p></div>
                 <p><br></br></p>
                 <div class="row">
-                    <Sponsor name='Robin Dunkin' bio='Professor at UCSC'
+                    <Sponsor name='Robin Dunkin' bio='Dr. Robin Dunkin is the Marine Mammal Stranding Operations 
+                    manager for The Long Marine Lab Stranding Network and has worked in this role since 2005. 
+                    Robin completed her Ph.D. in the lab of Dr. Terrie Williams in 2012 but first began learning 
+                    about marine mammal stranding response while completing her master’s degree in the lab of 
+                    Dr. Ann Pabst and Bill McLellan at the University of North Carolina Wilmington in 2001. 
+                    As an undergraduate at U.C. Santa Cruz, Robin volunteered as a docent at Long Marine Lab and 
+                    worked for the Marine Mammal Physiology Project as an animal trainer from 1998 to 2001. Robin 
+                    is responsible for the day to day operations of the stranding network and works with the stranding 
+                    coordinator and the director to coordinate stranding response for Santa Cruz County.'
                         photo={avatar} />
                 </div>
                 <div class="row">
-                    <Sponsor name='Juli Limon' bio=''
+                    <Sponsor name='Juliana Limon' bio='Juliana Limon is a Stranding Technician for the Long Marine Lab Stranding 
+                    Network. She is a recent graduate with a major in Marine Biology at UCSC. She began volunteering 
+                    for the Long Marine Lab stranding network shortly after she transferred to UCSC in 2019 and got 
+                    hired as a Stranding Technician in 2021. During her time as an undergrad she participated in 
+                    research at UCSC, California Academy of Sciences, and the Monterey Bay Aquarium Research Institute. 
+                    She has plans to pursue graduate school in the near future with the hopes to enter the field of 
+                    conservation genomics. '
                         photo={avatar} />
                 </div>
                 <div class="row">
-                    <Sponsor name='Maia Smith' bio=''
+                    <Sponsor name='Maia Smith' bio='Maia Smith is a Stranding Technician for the Long Marine Lab Stranding Network. 
+                    She is a recent graduate with a major in Marine Biology at UCSC. She began volunteering for the Long Marine Lab 
+                    stranding network in 2017 as a first year and got hired as a Stranding Technician in 2021. During her time as an 
+                    undergrad she participated in research at UCSC, Moss Landing, and The Marine Mammal Center. She has plans to continue 
+                    research on marine mammals in graduate school. '
                         photo={avatar} />
                 </div>
                 <div class="row">
-                    <Sponsor name='Sam' bio=''
+                    <Sponsor name='Samantha Rozal' bio=''
                         photo={avatar} />
                 </div>
             </div>

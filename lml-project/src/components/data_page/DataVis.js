@@ -6,6 +6,10 @@
 // the children Map.js, Filters.js, and Display.js
 
 import React from 'react';
+// import BarChart from '../charts/BarChart.js';
+import PieChart from '../charts/PieChart.js';
+import StackedChart from '../charts/StackedChart.js';
+import ComparisonChart from '../charts/ComparisonChart.js';
 
 class DataVis extends React.Component {
     
@@ -13,9 +17,13 @@ class DataVis extends React.Component {
       return (
         // html goes here
         <div>
-
+          {/* <BarChart/> */}
+          <StackedChart/>
+          <ComparisonChart/>
+          <PieChart/>
         </div>
       );
+      
     }
 }
 export default DataVis
