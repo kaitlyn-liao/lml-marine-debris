@@ -106,8 +106,8 @@ class Team extends React.Component {
                         photo={noahImg} linkedIn="https://www.linkedin.com/"/>
                 </div>
                 <div class="row">
-                    <Member name='Spencer Fulgham' bio='Developer and Software Engineer, Computer Science student at UCSC' github="https://github.com/kaitlyn-liao/lml-marine-debris"
-                        photo={spencerImg} linkedIn="https://www.linkedin.com/"/>
+                    <Member name='Spencer Fulgham' bio='Developer and Software Engineer, Computer Science student at UCSC' github="https://github.com/srfslvr14"
+                        photo={spencerImg} linkedIn="https://www.linkedin.com/in/spencer-fulgham-831971165/"/>
                 </div>
                 <div class="row">
                     <Member name='Zachary Miller' bio='Developer and Software Engineer, Computer Science student at UCSC' github="https://github.com/kaitlyn-liao/lml-marine-debris"
