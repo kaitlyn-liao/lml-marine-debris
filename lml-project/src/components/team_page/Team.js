@@ -52,14 +52,14 @@ function Member(props) {
 }
 
 /* 
-*  Description: The sponsor class, for LML sponsors, no GitHub or LinkedIn links
+*  Description: The Researcher class, for LML Researchers, no GitHub or LinkedIn links
 *  Inputs: name, bio, photo
 *  Outputs: formatted card for LML team member with given info
 */
-function Sponsor(props) {
+function Researcher(props) {
     return (
         <div>
-            <div class="sponsor-box">
+            <div class="researcher-box">
                 <div class="row">
                     <div class="col-sm">
                         <div class="row">
@@ -111,7 +111,7 @@ class Team extends React.Component {
                 </div>
                 
                 <h1>Ackowledgements</h1>
-                <p>We would like to thank our sponsors from the UCSC Long Marine Lab and Professor Jullig.<br/>
+                <p>We would like to thank our Researchers from the UCSC Long Marine Lab and Professor Jullig.<br/>
                     In adddition, we would like team behind the Marine Mammal Stranding Map, which served<br/>
                     as inspiration and a starting point for our project.</p>
             </div>
@@ -121,7 +121,7 @@ class Team extends React.Component {
                 <p>From the UCSC Long Marine Lab.</p></div>
                 <p><br></br></p>
                 <div class="row">
-                    <Sponsor name='Robin Dunkin' bio='Dr. Robin Dunkin is the Marine Mammal Stranding Operations 
+                    <Researcher name='Robin Dunkin' bio='Dr. Robin Dunkin is the Marine Mammal Stranding Operations 
                     manager for The Long Marine Lab Stranding Network and has worked in this role since 2005. 
                     Robin completed her Ph.D. in the lab of Dr. Terrie Williams in 2012 but first began learning 
                     about marine mammal stranding response while completing her master’s degree in the lab of 
@@ -133,7 +133,7 @@ class Team extends React.Component {
                         photo={avatar} />
                 </div>
                 <div class="row">
-                    <Sponsor name='Juliana Limon' bio='Juliana Limon is a Stranding Technician for the Long Marine Lab Stranding 
+                    <Researcher name='Juliana Limon' bio='Juliana Limon is a Stranding Technician for the Long Marine Lab Stranding 
                     Network. She is a recent graduate with a major in Marine Biology at UCSC. She began volunteering 
                     for the Long Marine Lab stranding network shortly after she transferred to UCSC in 2019 and got 
                     hired as a Stranding Technician in 2021. During her time as an undergrad she participated in 
@@ -143,7 +143,7 @@ class Team extends React.Component {
                         photo={avatar} />
                 </div>
                 <div class="row">
-                    <Sponsor name='Maia Smith' bio='Maia Smith is a Stranding Technician for the Long Marine Lab Stranding Network. 
+                    <Researcher name='Maia Smith' bio='Maia Smith is a Stranding Technician for the Long Marine Lab Stranding Network. 
                     She is a recent graduate with a major in Marine Biology at UCSC. She began volunteering for the Long Marine Lab 
                     stranding network in 2017 as a first year and got hired as a Stranding Technician in 2021. During her time as an 
                     undergrad she participated in research at UCSC, Moss Landing, and The Marine Mammal Center. She has plans to continue 
@@ -151,7 +151,7 @@ class Team extends React.Component {
                         photo={avatar} />
                 </div>
                 <div class="row">
-                    <Sponsor name='Samantha Rozal' bio=''
+                    <Researcher name='Samantha Rozal' bio=''
                         photo={avatar} />
                 </div>
             </div>
