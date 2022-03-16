@@ -8,6 +8,14 @@ import React from 'react';
 import avatar from '../team_page/images/default-avatar.png'
 import githubButton from '../team_page/images/GitHub-Mark.png'
 import linkedInButton from '../team_page/images/linkedin.png'
+import juliImg from '../team_page/images/juli-limon.jpg'
+import maiaImg from '../team_page/images/maia-smith.jpeg'
+import robinImg from '../team_page/images/robin-dunkin.jpg'
+import kaitlynImg from '../team_page/images/kaitlyn-liao.JPG'
+// import bridgetImg from '../team_page/images/bridget-chew.jpg'
+import noahImg from '../team_page/images/noah-cantwell.JPG'
+import zackImg from '../team_page/images/zack-miller.jpeg'
+import spencerImg from '../team_page/images/spencer-fulgham.png'
 
 /* When adding this file to the topology, make sure to transfer all images
     and the CSS properties from Team.css */
@@ -90,23 +98,23 @@ class Team extends React.Component {
                 
                 <div class="row">
                     <Member name='Kaitlyn Liao' bio='Product Owner and Software Engineer, Computer Science student at UCSC' github="https://github.com/kaitlyn-liao/lml-marine-debris"
-                            photo={avatar} linkedIn="https://www.linkedin.com/"/>
+                            photo={kaitlynImg} linkedIn="https://www.linkedin.com/"/>
                 </div>
                     
                 <div class="row">
                     <Member name='Noah Cantwell' bio='Developer and Software Engineer, Computer Science student at UCSC' github="https://github.com/kaitlyn-liao/lml-marine-debris"
-                        photo={avatar} linkedIn="https://www.linkedin.com/"/>
-                </div>
-                <div class="row">
-                    <Member name='Bridget Chew' bio='Developer and Software Engineer, Computer Science student at UCSC' github="https://github.com/kaitlyn-liao/lml-marine-debris"
-                        photo={avatar} linkedIn="https://www.linkedin.com/"/>
+                        photo={noahImg} linkedIn="https://www.linkedin.com/"/>
                 </div>
                 <div class="row">
                     <Member name='Spencer Fulgham' bio='Developer and Software Engineer, Computer Science student at UCSC' github="https://github.com/kaitlyn-liao/lml-marine-debris"
-                        photo={avatar} linkedIn="https://www.linkedin.com/"/>
+                        photo={spencerImg} linkedIn="https://www.linkedin.com/"/>
                 </div>
                 <div class="row">
                     <Member name='Zachary Miller' bio='Developer and Software Engineer, Computer Science student at UCSC' github="https://github.com/kaitlyn-liao/lml-marine-debris"
+                        photo={zackImg} linkedIn="https://www.linkedin.com/"/>
+                </div>
+                <div class="row">
+                    <Member name='Bridget Chew' bio='Developer and Software Engineer, Computer Science student at UCSC' github="https://github.com/kaitlyn-liao/lml-marine-debris"
                         photo={avatar} linkedIn="https://www.linkedin.com/"/>
                 </div>
                 
@@ -130,7 +138,7 @@ class Team extends React.Component {
                     worked for the Marine Mammal Physiology Project as an animal trainer from 1998 to 2001. Robin 
                     is responsible for the day to day operations of the stranding network and works with the stranding 
                     coordinator and the director to coordinate stranding response for Santa Cruz County.'
-                        photo={avatar} />
+                        photo={robinImg} />
                 </div>
                 <div class="row">
                     <Researcher name='Juliana Limon' bio='Juliana Limon is a Stranding Technician for the Long Marine Lab Stranding 
@@ -140,7 +148,7 @@ class Team extends React.Component {
                     research at UCSC, California Academy of Sciences, and the Monterey Bay Aquarium Research Institute. 
                     She has plans to pursue graduate school in the near future with the hopes to enter the field of 
                     conservation genomics. '
-                        photo={avatar} />
+                        photo={juliImg} />
                 </div>
                 <div class="row">
                     <Researcher name='Maia Smith' bio='Maia Smith is a Stranding Technician for the Long Marine Lab Stranding Network. 
@@ -148,7 +156,7 @@ class Team extends React.Component {
                     stranding network in 2017 as a first year and got hired as a Stranding Technician in 2021. During her time as an 
                     undergrad she participated in research at UCSC, Moss Landing, and The Marine Mammal Center. She has plans to continue 
                     research on marine mammals in graduate school. '
-                        photo={avatar} />
+                        photo={maiaImg} />
                 </div>
                 <div class="row">
                     <Researcher name='Samantha Rozal' bio=''
