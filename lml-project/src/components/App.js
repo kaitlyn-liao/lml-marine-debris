@@ -12,7 +12,6 @@ function App() {
   return (
     <div>
       <NavBar/>
-      <Team/>
     </div>
   );
 }
