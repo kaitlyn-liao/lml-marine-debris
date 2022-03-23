@@ -30,22 +30,21 @@ const chartConfig = {
         labels: ['Waddell', 'Natural Bridges', 'Main', 'Zmudowski', 'Marina', 'Del Monte'],
         datasets: [{
             label: "Plastic",
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(255, 99, 132, 1)',
+            /* Sample of how to add border in case we want to add it again:
+            borderColor: 'rgba(255, 99, 132, 1)',*/
             borderWidth: 1,
             data: [3,7,4, 5, 12, 1]
         },
         {
             label: "Cigarettes",
-            backgroundColor: 'rgba(255, 206, 86, 0.2)',
-            borderColor: 'rgba(255, 206, 86, 1)',
+            backgroundColor: 'rgba(255, 206, 86, 1)',
             borderWidth: 1,
             data: [4,3,5, 8, 4, 3]
         },
         {
             label: "Cardboard",
-            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-            borderColor: 'rgba(54, 162, 235, 1)',
+            backgroundColor: 'rgba(54, 162, 235, 1)',
             borderWidth: 1,
             data: [7,2,6, 5, 5, 5]
         },

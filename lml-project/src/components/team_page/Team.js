@@ -69,16 +69,11 @@ function Researcher(props) {
         <div>
             <div class="researcher-box">
                 <div class="row">
-                    <div class="col-sm">
-                        <div class="row">
                             <h3 class="name">{props.name}</h3>
                             <p class="bio">{props.bio}</p>
-                        </div>
-                    </div>
                         
-                    <div class="col-sm">
                         <img src={props.photo} class="img-thumbnail profile-photo"></img>
-                    </div>
+                    
                 </div>
             </div>
         </div>  
@@ -158,10 +153,10 @@ class Team extends React.Component {
                     research on marine mammals in graduate school. '
                         photo={maiaImg} />
                 </div>
-                <div class="row">
+                {/*<div class="row">
                     <Researcher name='Samantha Rozal' bio=''
                         photo={avatar} />
-                </div>
+                </div>*/}
             </div>
         </div>
     );
