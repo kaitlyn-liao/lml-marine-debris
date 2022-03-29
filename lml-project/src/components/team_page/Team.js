@@ -69,10 +69,11 @@ function Researcher(props) {
         <div>
             <div class="researcher-box">
                 <div class="row">
+                            <div>
+                            <img src={props.photo} class="img-thumbnail r-profile-photo"></img>
                             <h3 class="name">{props.name}</h3>
-                            <p class="bio">{props.bio}</p>
-                        
-                        <img src={props.photo} class="img-thumbnail profile-photo"></img>
+                            <p class="r-bio">{props.bio}</p></div>
+                            
                     
                 </div>
             </div>
@@ -113,10 +114,12 @@ class Team extends React.Component {
                         photo={avatar} linkedIn="https://www.linkedin.com/"/>
                 </div>
                 
-                <h1>Ackowledgements</h1>
-                <p>We would like to thank our Researchers from the UCSC Long Marine Lab and Professor Jullig.<br/>
-                    In adddition, we would like team behind the Marine Mammal Stranding Map, which served<br/>
+                <div class="thanks-box">
+                    <h1>Acknowledgements</h1>
+                    <p>We would like to thank our Researchers from the UCSC Long Marine Lab and Professor Jullig.<br/>
+                    In adddition, we would like to thank the team behind the Marine Mammal Stranding Map, which served<br/>
                     as inspiration and a starting point for our project.</p>
+                </div>
             </div>
         
             <div class="col-lg float-end">
