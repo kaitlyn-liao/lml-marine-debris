@@ -4,8 +4,13 @@ img {
     object-fit: cover;
 }
 
-p h1 h2 h3 {
+p h1 h2 {
+  color: black;
+}
+
+h3 {
     color: black;
+    background-color: #aaa8a8;
 }
 
 @media (max-width: 900px) {
