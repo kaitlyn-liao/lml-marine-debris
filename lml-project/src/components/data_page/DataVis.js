@@ -19,10 +19,8 @@ class DataVis extends React.Component {
       return (
         // html goes here
         <div>
-          
           <Graph />
           <img src={ mapImg } style={ placeholderMapStyle } alt=""></img>
-          
         </div>
       );
       
