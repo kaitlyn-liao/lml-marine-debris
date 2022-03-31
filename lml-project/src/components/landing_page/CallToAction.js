@@ -11,7 +11,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav'
 import placeholder from '../../images/placeholder.png';
-import photogenicPlaceholder from '../../MainBeachPlaceholder.png';
+import photogenicPlaceholder from '../../images/MainBeachPlaceholder.png';
 import '../../css/CallToAction.css';
 
 const slides = [
@@ -39,11 +39,12 @@ class CallToAction extends React.Component {
                     <center>
                         <h1>UCSC Long Marine Lab: Marine Debris</h1>
                         <br></br>
-                        <Carousel variant="dark" fluid interval={8000} pause='hover' showArrows={true}>
+                        <Carousel variant="dark" fluid-interval={8000} pause='hover'>
                             
                             {/* new solution to slides: modular and easy to extend with list above */}
                             {slides.map((item) => (
-                                    <Nav.Link href={item.targetURL}>
+                                    // uncomment nav link when targetURL is determined
+                                    // <Nav.Link href={item.targetURL}>
                                         <Carousel.Item>
                                             <img    src={item.src} 
                                                     alt={item.alt}/>
@@ -51,7 +52,7 @@ class CallToAction extends React.Component {
                                                 <h3>{item.caption}</h3>
                                             </Carousel.Caption>
                                         </Carousel.Item>
-                                    </Nav.Link>
+                                    // </Nav.Link>
                             ))}
                         </Carousel>
                     </center> 
