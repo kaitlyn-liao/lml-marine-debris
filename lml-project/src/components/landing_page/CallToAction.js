@@ -6,12 +6,29 @@
 // CallToAction.js is rendered by Controller.js, and currently renders no children.
 
 import React from 'react';
-import placeholder from '../../images/placeholder.png';
-import photogenicPlaceholder from '../../images/MainBeachPlaceholder.png';
 import Container from 'react-bootstrap/Container';
 import Carousel from 'react-bootstrap/Carousel';
-// import Col from 'react-bootstrap/Col';
+import Col from 'react-bootstrap/Col';
+import Nav from 'react-bootstrap/Nav'
+import placeholder from '../../images/placeholder.png';
+import photogenicPlaceholder from '../../images/MainBeachPlaceholder.png';
 import '../../css/CallToAction.css';
+
+const slides = [
+    {
+        src: photogenicPlaceholder,
+        alt: "Beach 1 Name",
+        targetURL: "/sample1",
+        caption: "What type of trash is most common on Main Beach?"
+    },
+    {
+        src: placeholder,
+        alt: "Beach 2 Name",
+        targetURL: "/sample2",
+        caption: "Sample Question"
+    }
+    // etc
+]
 
 class CallToAction extends React.Component {
     render() {
@@ -22,55 +39,31 @@ class CallToAction extends React.Component {
                     <center>
                         <h1>UCSC Long Marine Lab: Marine Debris</h1>
                         <br></br>
-                        <Carousel variant="dark" fluid interval={8000} pause='hover'>
-                            <Carousel.Item>
-                                <img
-                                    className="d-block w-100"
-                                    src={photogenicPlaceholder}
-                                    alt="Beach 1"
-                                    targetURL="/posts/blahblah?id=10100110"
-                                />
-                                <Carousel.Caption>
-                                    <h3>What type of trash is most common on Main Beach?</h3>
-                                    <p>Click to Learn More</p>
-                                </Carousel.Caption>
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img
-                                    className="d-block w-100"
-                                    src={placeholder}
-                                    alt="Beach 2"
-                                    targetURL="/posts/blahblah?id=10100110"
-                                />
-
-                                <Carousel.Caption>
-                                    <h3>Question 2</h3>
-                                    <p>Click to Learn More</p>
-                                </Carousel.Caption>
-                            </Carousel.Item>
-                            <Carousel.Item>
-                                <img
-                                    className="d-block w-100"
-                                    src={placeholder}
-                                    alt="Beach 3"
-                                    targetURL="/posts/blahblah?id=10100110"
-                                />
-
-                                <Carousel.Caption>
-                                    <h3>Question 3</h3>
-                                    <p>Click to Learn More</p>
-                                </Carousel.Caption>
-                            </Carousel.Item>
+                        <Carousel variant="dark" fluid-interval={8000} pause='hover'>
+                            
+                            {/* new solution to slides: modular and easy to extend with list above */}
+                            {slides.map((item) => (
+                                    // uncomment nav link when targetURL is determined
+                                    // <Nav.Link href={item.targetURL}>
+                                        <Carousel.Item>
+                                            <img    src={item.src} 
+                                                    alt={item.alt}/>
+                                            <Carousel.Caption>
+                                                <h3 className='caption-background'>{item.caption}</h3>
+                                            </Carousel.Caption>
+                                        </Carousel.Item>
+                                    // </Nav.Link>
+                            ))}
                         </Carousel>
                     </center> 
                     <br></br>
                     <Container>
                         <center>
-                          <h1>Take action to improve your community</h1>
+                          <h1>Marine Debris: Understand The Data</h1>
                         </center>
-                            {/* <Col sm={8} className="pgs"> */}
+                            <Col sm={8} className="pgs">
                                 <p className="indent1">
-                                The Long Marine Lab Survey Slug program connects passionate volunteers with the resources and knowledge 
+                                The Long Marine Lab Survey Slug program connects passionate student volunteers with the resources and knowledge 
                                 to collect crucial information about one of the most pressing environmental issues we face today. 
                                 </p>
                                 <p className="indent2">
@@ -84,7 +77,7 @@ class CallToAction extends React.Component {
                                 debris can entangle and harm marine life, litter our waterways, and pollute our water when it degrades; 
                                 help us to combat this problem by taking action now!
                                 </p>
-                            {/* </Col> */}
+                            </Col>
 
                     </Container>
                 </Container>

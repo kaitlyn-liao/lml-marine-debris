@@ -17,7 +17,10 @@
   },
   "homepage": "https://github.com/kaitlyn-liao/lml-marine-debris#readme",
   "dependencies": {
+    "chart.js": "^3.7.1",
     "express": "^4.17.3",
-    "pg": "^8.7.3"
+    "pg": "^8.7.3",
+    "react-chartjs-2": "^4.0.1",
+    "react-select": "^5.2.2"
   }
 }

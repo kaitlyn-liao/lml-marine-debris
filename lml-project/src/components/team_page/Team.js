@@ -93,24 +93,29 @@ class Team extends React.Component {
                 <p><br></br></p>
                 
                 <div class="row">
-                    <Member name='Kaitlyn Liao' bio='Product Owner and Software Engineer, Computer Science student at UCSC' github="https://github.com/kaitlyn-liao/lml-marine-debris"
-                            photo={kaitlynImg} linkedIn="https://www.linkedin.com/"/>
+                    <Member name='Kaitlyn Liao' bio='Product Owner and Software Engineer, Computer Science student at UCSC' 
+                        github="https://github.com/kaitlyn-liao/lml-marine-debris"
+                        photo={kaitlynImg} linkedIn="https://www.linkedin.com/"/>
                 </div>
                     
                 <div class="row">
-                    <Member name='Noah Cantwell' bio='Developer and Software Engineer, Computer Science student at UCSC' github="https://github.com/kaitlyn-liao/lml-marine-debris"
+                    <Member name='Noah Cantwell' bio='Developer and Software Engineer, Computer Science student at UCSC' 
+                        github="https://github.com/kaitlyn-liao/lml-marine-debris"
                         photo={noahImg} linkedIn="https://www.linkedin.com/"/>
                 </div>
                 <div class="row">
-                    <Member name='Spencer Fulgham' bio='Developer and Software Engineer, Computer Science student at UCSC' github="https://github.com/kaitlyn-liao/lml-marine-debris"
-                        photo={spencerImg} linkedIn="https://www.linkedin.com/"/>
+                    <Member name='Spencer Fulgham' bio='Developer and Software Engineer, Computer Science student at UCSC' 
+                        github="https://github.com/srfslvr14"
+                        photo={spencerImg} linkedIn="https://www.linkedin.com/in/spencer-fulgham-831971165/"/>
                 </div>
                 <div class="row">
-                    <Member name='Zachary Miller' bio='Developer and Software Engineer, Computer Science student at UCSC' github="https://github.com/kaitlyn-liao/lml-marine-debris"
+                    <Member name='Zachary Miller' bio='Developer and Software Engineer, Computer Science student at UCSC' 
+                        github="https://github.com/kaitlyn-liao/lml-marine-debris"
                         photo={zackImg} linkedIn="https://www.linkedin.com/"/>
                 </div>
                 <div class="row">
-                    <Member name='Bridget Chew' bio='Developer and Software Engineer, Computer Science student at UCSC' github="https://github.com/kaitlyn-liao/lml-marine-debris"
+                    <Member name='Bridget Chew' bio='Developer and Software Engineer, Computer Science student at UCSC' 
+                        github="https://github.com/kaitlyn-liao/lml-marine-debris"
                         photo={avatar} linkedIn="https://www.linkedin.com/"/>
                 </div>
                 
