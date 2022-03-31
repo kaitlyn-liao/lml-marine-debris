@@ -8,7 +8,7 @@ p h1 h2 {
   color: black;
 }
 
-h3 {
+h3.caption-background {
     color: black;
     background-color: #aaa8a8;
 }
