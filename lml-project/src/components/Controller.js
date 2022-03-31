@@ -11,7 +11,6 @@ import Methodology from './method_page/Methodology.js';
 import Team from './team_page/Team.js';
 import CallToAction from './landing_page/CallToAction.js';
 import Login from './login_page/Login.js'
-import UploadCSV from './UploadCSV.js';
 import Login_UnApr from './login_page/Login_UnApr.js';
 import Login_Apr from './login_page/Login_Apr.js';
 import DataVis from './data_page/DataVis.js';
