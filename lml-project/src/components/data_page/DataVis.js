@@ -6,21 +6,23 @@
 // the children Map.js, Filters.js, and Display.js
 
 import React from 'react';
-// import BarChart from '../charts/BarChart.js';
-import PieChart from '../charts/PieChart.js';
-import StackedChart from '../charts/StackedChart.js';
-import ComparisonChart from '../charts/ComparisonChart.js';
+import Graph from './Graph.js';
+import mapImg from '../../images/placeholderMap.png'
 
 class DataVis extends React.Component {
     
     render() {     
+      const placeholderMapStyle = {
+        // width: "100%",
+
+      };
       return (
         // html goes here
         <div>
-          {/* <BarChart/> */}
-          <StackedChart/>
-          <ComparisonChart/>
-          <PieChart/>
+          
+          <Graph />
+          <img src={ mapImg } style={ placeholderMapStyle } alt=""></img>
+          
         </div>
       );
       
