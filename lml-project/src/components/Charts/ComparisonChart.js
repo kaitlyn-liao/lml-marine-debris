@@ -35,7 +35,7 @@ Chart.register(
 
 // The indices of selected urban and rural data
 let urban = 0;
-let rural = 8;
+let rural = 9;
 
 // This will store the chart to be updated
 let newChartInstance;
@@ -43,11 +43,11 @@ let debrisDataArray = []
 
 // Dummy data
 let beaches = ['All Urban', 'Seabright', 'Del Monte', 'Marina',
-    'Natural Bridges', 'Seaside', 'Capitola', 'Live Oak',
+    'Natural Bridges', 'Seaside', 'Capitola', 'Live Oak', 'Main',
     'All Rural', 'Waddell', 'Sunset', 'N. Zmudowski', 'S. Zmudowski'];
-let dataP = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-let dataC = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-let dataSf = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+let dataP = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+let dataC = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+let dataSf = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 // Set the displayed urban beach
 function updateUrban(val){
@@ -76,15 +76,16 @@ const urbanBeaches = [
     { label: "Seaside", value: 5 },
     { label: "Capitola", value: 6 },
     { label: "Live Oak", value: 7 },
+    { label: "Main", value: 8 },
   ];
 
 // Rural options
 const ruralBeaches = [
-    { label: "All Rural", value: 8 },
-    { label: "Waddell", value: 9 },
-    { label: "Sunset", value: 10 },
-    { label: "N. Zmudowski", value: 11 },
-    { label: "S. Zmudowski", value: 12 },
+    { label: "All Rural", value: 9 },
+    { label: "Waddell", value: 10 },
+    { label: "Sunset", value: 11 },
+    { label: "N. Zmudowski", value: 12 },
+    { label: "S. Zmudowski", value: 13 },
   ];
 
 // Chart settings
@@ -204,10 +205,11 @@ const CompareContainer = () => {
     useEffect(() => { getDebrisData(); }, []);
     function dataToArray(){
         if(debrisData){
+            let j = 0;
             let newDataP = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             let newDataC = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             let newDataSf = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-          for(var i=0; i < 15 /*debrisData.length*/; i++){
+          for(var i=0; i < /*15*/ debrisData.length; i++){
             debrisDataArray[i] = [
               debrisData[i].entry_id, 
               debrisData[i].beach, 
@@ -231,75 +233,117 @@ const CompareContainer = () => {
             ]
             if (debrisData[i].type === 'U'){
                 console.log("Urban found");
-                newDataP[0] += debrisData[i].total_plastic_products;
-                newDataC[0] += debrisData[i].total_cigarette_butts;
-                newDataSf[0] += debrisData[i].total_styrofoam;
+                j = 0;
+                newDataP[j] += debrisData[i].total_plastic_products;
+                newDataC[j] += debrisData[i].total_cigarette_butts;
+                newDataSf[j] += debrisData[i].total_styrofoam;
                 console.log(newDataP[0]);
                 switch (debrisData[i].beach) {
                     case 'Seabright':
-                        newDataP[1] += debrisData[i].total_plastic_products;
-                        newDataC[1] += debrisData[i].total_cigarette_butts;
-                        newDataSf[1] += debrisData[i].total_styrofoam;
+                    case 'Seabright Beach':
+                        j = 1;
+                        newDataP[j] += debrisData[i].total_plastic_products;
+                        newDataC[j] += debrisData[i].total_cigarette_butts;
+                        newDataSf[j] += debrisData[i].total_styrofoam;
                         break;
                     case 'Del Monte':
-                        newDataP[2] += debrisData[i].total_plastic_products;
-                        newDataC[2] += debrisData[i].total_cigarette_butts;
-                        newDataSf[2] += debrisData[i].total_styrofoam;
+                    case 'Del Monte Beach':
+                        j = 2;
+                        newDataP[j] += debrisData[i].total_plastic_products;
+                        newDataC[j] += debrisData[i].total_cigarette_butts;
+                        newDataSf[j] += debrisData[i].total_styrofoam;
                         break;
                     case 'Marina':
-                        newDataP[3] += debrisData[i].total_plastic_products;
-                        newDataC[3] += debrisData[i].total_cigarette_butts;
-                        newDataSf[3] += debrisData[i].total_styrofoam;
+                    case 'Marina Beach':
+                        j = 3;
+                        newDataP[j] += debrisData[i].total_plastic_products;
+                        newDataC[j] += debrisData[i].total_cigarette_butts;
+                        newDataSf[j] += debrisData[i].total_styrofoam;
                         break;
                     case 'Natural Bridges':
-                        newDataP[4] += debrisData[i].total_plastic_products;
-                        newDataC[4] += debrisData[i].total_cigarette_butts;
-                        newDataSf[4] += debrisData[i].total_styrofoam;
+                    case 'Natural Bridges Beach':
+                    case 'Natural Bridges State Beach':
+                        j = 4;
+                        newDataP[j] += debrisData[i].total_plastic_products;
+                        newDataC[j] += debrisData[i].total_cigarette_butts;
+                        newDataSf[j] += debrisData[i].total_styrofoam;
                         break;
                     case 'Seaside':
-                        newDataP[5] += debrisData[i].total_plastic_products;
-                        newDataC[5] += debrisData[i].total_cigarette_butts;
-                        newDataSf[5] += debrisData[i].total_styrofoam;
+                    case 'Seaside Beach':
+                        j = 5;
+                        newDataP[j] += debrisData[i].total_plastic_products;
+                        newDataC[j] += debrisData[i].total_cigarette_butts;
+                        newDataSf[j] += debrisData[i].total_styrofoam;
                         break;
                     case 'Capitola':
-                        newDataP[6] += debrisData[i].total_plastic_products;
-                        newDataC[6] += debrisData[i].total_cigarette_butts;
-                        newDataSf[6] += debrisData[i].total_styrofoam;
+                    case 'Capitola Beach':
+                        j = 6;
+                        newDataP[j] += debrisData[i].total_plastic_products;
+                        newDataC[j] += debrisData[i].total_cigarette_butts;
+                        newDataSf[j] += debrisData[i].total_styrofoam;
                         break;
                     case 'Live Oak':
-                        newDataP[7] += debrisData[i].total_plastic_products;
-                        newDataC[7] += debrisData[i].total_cigarette_butts;
-                        newDataSf[7] += debrisData[i].total_styrofoam;
+                    case 'Live Oak Beach':
+                        j = 7;
+                        newDataP[j] += debrisData[i].total_plastic_products;
+                        newDataC[j] += debrisData[i].total_cigarette_butts;
+                        newDataSf[j] += debrisData[i].total_styrofoam;
+                        break;
+                    case 'Main Beach':
+                    case 'Main':
+                        j = 8;
+                        newDataP[j] += debrisData[i].total_plastic_products;
+                        newDataC[j] += debrisData[i].total_cigarette_butts;
+                        newDataSf[j] += debrisData[i].total_styrofoam;
                         break;
                     default:
                 }
             }
             else if (debrisData[i].type === 'R'){
                 console.log("Rural found");
-                newDataP[8] += debrisData[i].total_plastic_products;
-                newDataC[8] += debrisData[i].total_cigarette_butts;
-                newDataSf[8] += debrisData[i].total_styrofoam;
+                j = 9;
+                newDataP[j] += debrisData[i].total_plastic_products;
+                newDataC[j] += debrisData[i].total_cigarette_butts;
+                newDataSf[j] += debrisData[i].total_styrofoam;
                 console.log(newDataP[8]);
                 switch (debrisData[i].beach) {
                     case 'Waddell':
-                        newDataP[9] += debrisData[i].total_plastic_products;
-                        newDataC[9] += debrisData[i].total_cigarette_butts;
-                        newDataSf[9] += debrisData[i].total_styrofoam;
+                    case 'Waddell Beach':
+                    case 'Waddell Creek':
+                    case 'Waddell Creek Beach':
+                        j = 10;
+                        newDataP[j] += debrisData[i].total_plastic_products;
+                        newDataC[j] += debrisData[i].total_cigarette_butts;
+                        newDataSf[j] += debrisData[i].total_styrofoam;
                         break;
                     case 'Sunset':
-                        newDataP[10] += debrisData[i].total_plastic_products;
-                        newDataC[10] += debrisData[i].total_cigarette_butts;
-                        newDataSf[10] += debrisData[i].total_styrofoam;
+                    case 'Sunset Beach':
+                        j = 11;
+                        newDataP[j] += debrisData[i].total_plastic_products;
+                        newDataC[j] += debrisData[i].total_cigarette_butts;
+                        newDataSf[j] += debrisData[i].total_styrofoam;
                         break;
                     case 'N. Zmudowski':
-                        newDataP[11] += debrisData[i].total_plastic_products;
-                        newDataC[11] += debrisData[i].total_cigarette_butts;
-                        newDataSf[11] += debrisData[i].total_styrofoam;
+                    case 'North Zmudowski':
+                    case 'N Zmudowski':
+                    case 'Zmudowski N':
+                    case 'Zmudowski N.':
+                    case 'Zmudowski North':
+                        j = 12;
+                        newDataP[j] += debrisData[i].total_plastic_products;
+                        newDataC[j] += debrisData[i].total_cigarette_butts;
+                        newDataSf[j] += debrisData[i].total_styrofoam;
                        break;
                     case 'S. Zmudowski':
-                        newDataP[12] += debrisData[i].total_plastic_products;
-                        newDataC[12] += debrisData[i].total_cigarette_butts;
-                        newDataSf[12] += debrisData[i].total_styrofoam;
+                    case 'South Zmudowski':
+                    case 'S Zmudowski':
+                    case 'Zmudowski S':
+                    case 'Zmudowski S.':
+                    case 'Zmudowski South':
+                        j = 13;
+                        newDataP[j] += debrisData[i].total_plastic_products;
+                        newDataC[j] += debrisData[i].total_cigarette_butts;
+                        newDataSf[j] += debrisData[i].total_styrofoam;
                         break;
                     default:
                 }
