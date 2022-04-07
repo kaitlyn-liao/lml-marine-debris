@@ -22,6 +22,22 @@ const getDebrisData = () => {
   }) 
 }
 
+const getBeachDebrisData = () => {
+  return new Promise(function(resolve, reject) {
+    const text = "SELECT * FROM lml_debris_data WHERE beach = $1 ORDER BY entry_id ASC";
+    const values = ['Waddell'];
+    pool.query(text, values, (error, results) => {
+      if (error) {
+        console.log("cannot get debris data");
+        reject(error)
+      }
+      if(results){
+        resolve(results.rows);
+      }
+    })
+  }) 
+}
+
 // TODO: change pool.query to fit correct headers
 const createDebrisData = (body) => {
   return new Promise(function(resolve, reject) {
@@ -95,7 +111,7 @@ const createDebrisData = (body) => {
         reject(error)
       }
       if(results){
-        resolve(`A new lml entry has been added added: ${results.rows[0]}`)
+        resolve(`A new lml entry has been added added: ${JSON.stringify(results.rows[0])}`)
       }
     })
   })
@@ -127,6 +143,7 @@ const clearDebrisData = () => {
 
 module.exports = {
      getDebrisData,
+     getBeachDebrisData,
   createDebrisData,
   deleteDebrisData,
   clearDebrisData,
