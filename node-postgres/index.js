@@ -19,8 +19,8 @@ app.use(function (req, res, next) {
 });
 
 // get information from lml_debris_data
-app.get('/', (req, res) => {
-  lml_data_model.getDebrisData()
+app.get('/:beach', (req, res) => {
+  lml_data_model.getBeachDebrisData(req.params.beach)
   .then(response => {
     res.status(200).send(response);
   })

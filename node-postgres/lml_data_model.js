@@ -22,10 +22,11 @@ const getDebrisData = () => {
   }) 
 }
 
-const getBeachDebrisData = () => {
+const getBeachDebrisData = (beach) => {
+  console.log(beach)
   return new Promise(function(resolve, reject) {
     const text = "SELECT * FROM lml_debris_data WHERE beach = $1 ORDER BY entry_id ASC";
-    const values = ['Waddell'];
+    const values = [beach];
     pool.query(text, values, (error, results) => {
       if (error) {
         console.log("cannot get debris data");
