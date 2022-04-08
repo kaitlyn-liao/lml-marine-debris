@@ -18,6 +18,7 @@ import { useState } from 'react';
 import PieChart from '../charts/PieChart.js';
 import StackedChart from '../charts/StackedChart.js';
 import ComparisonChart from '../charts/ComparisonChart.js';
+import BarChart from '../charts/BarChart.js';
 
 class Graph extends React.Component {
 
@@ -42,6 +43,9 @@ function ControlledTabs() {
       onSelect={(k) => setKey(k)}
       className="mb-3"
     >
+      <Tab eventKey="Bar" title="Types of Debris">
+        <BarChart />
+      </Tab>
       <Tab eventKey="Stacked" title="Stacked">
         <StackedChart />
       </Tab>

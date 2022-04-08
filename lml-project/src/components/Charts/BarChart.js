@@ -28,7 +28,8 @@ const chartConfig = {
     type: 'bar',
     data: {
         labels: ['Waddell', 'Natural Bridges', 'Main', 'Zmudowski', 'Marina', 'Del Monte'],
-        datasets: [{
+        datasets: [
+        {
             label: "Plastic",
             backgroundColor: 'rgba(255, 99, 132, 1)',
             /* Sample of how to add border in case we want to add it again:
