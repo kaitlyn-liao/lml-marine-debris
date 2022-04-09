@@ -12,7 +12,6 @@ import {
     registerables
 } from 'chart.js';
 
-
 Chart.register(
     CategoryScale,
     LinearScale,
@@ -24,41 +23,27 @@ Chart.register(
     ...registerables
 );
 
+var Xlabels = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
+var Xcolors = ['rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 
+               'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)']
+var data = [[3],[1],[4],[9],[11],[2],[3],[7],[1],[2],[3],[6],[10] ]
+var Xaxis = []
+for(var x = 0; x < Xlabels.length; x++){
+  Xaxis[x] = { label: Xlabels[x], backgroundColor: Xcolors[x], data: data[x] }
+}
+
 const chartConfig = {
     type: 'bar',
     data: {
-        labels: ['Waddell', 'Natural Bridges', 'Main', 'Zmudowski', 'Marina', 'Del Monte'],
-        datasets: [
-        {
-            label: "Plastic",
-            backgroundColor: 'rgba(255, 99, 132, 1)',
-            /* Sample of how to add border in case we want to add it again:
-            borderColor: 'rgba(255, 99, 132, 1)',*/
-            borderWidth: 1,
-            data: [3,7,4, 5, 12, 1]
-        },
-        {
-            label: "Cigarettes",
-            backgroundColor: 'rgba(255, 206, 86, 1)',
-            borderWidth: 1,
-            data: [4,3,5, 8, 4, 3]
-        },
-        {
-            label: "Cardboard",
-            backgroundColor: 'rgba(54, 162, 235, 1)',
-            borderWidth: 1,
-            data: [7,2,6, 5, 5, 5]
-        },
-    ]
-
+        labels: ["Beach Name"],
+        datasets: Xaxis
     },
     height: 400,
     width: 600
   };
 
 const BarChart = () => {
-
-    const chartContainer = useRef(null);
+  const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
 
   useEffect(() => {

@@ -34,7 +34,7 @@ class Graph extends React.Component {
 }
 
 function ControlledTabs() {
-  const [key, setKey] = useState('Stacked');
+  const [key, setKey] = useState('Bar');
 
   return (
     <Tabs
