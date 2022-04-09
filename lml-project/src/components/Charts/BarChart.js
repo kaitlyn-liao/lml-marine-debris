@@ -23,13 +23,16 @@ Chart.register(
     ...registerables
 );
 
+// get method up here, put into Xdata[]
+
 var Xlabels = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
 var Xcolors = ['rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 
                'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)']
-var data = [[3],[1],[4],[9],[11],[2],[3],[7],[1],[2],[3],[6],[10] ]
+var Xdata = [[3],[1],[4],[9],[11],[2],[3],[7],[1],[2],[3],[6],[10] ]
 var Xaxis = []
+
 for(var x = 0; x < Xlabels.length; x++){
-  Xaxis[x] = { label: Xlabels[x], backgroundColor: Xcolors[x], data: data[x] }
+  Xaxis[x] = { label: Xlabels[x], backgroundColor: Xcolors[x], data: Xdata[x] }
 }
 
 const chartConfig = {
