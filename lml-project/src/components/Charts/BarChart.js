@@ -9,7 +9,8 @@ import {
     Tooltip,
     Legend,
     ArcElement,
-    registerables
+    registerables,
+    UpdateModeEnum
 } from 'chart.js';
 
 Chart.register(
@@ -23,31 +24,93 @@ Chart.register(
     ...registerables
 );
 
-// get method up here, put into Xdata[]
+function BarChart() {
+  const chartContainer = useRef(null);
+  const [chartInstance, setChartInstance] = useState(null);
 
-var Xlabels = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
-var Xcolors = ['rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 
-               'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)', 'rgba(255, 99, 132, 1)']
-var Xdata = [[3],[1],[4],[9],[11],[2],[3],[7],[1],[2],[3],[6],[10] ]
-var Xaxis = []
+  var Xvalues = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
+  var Xdata = []
 
-for(var x = 0; x < Xlabels.length; x++){
-  Xaxis[x] = { label: Xlabels[x], backgroundColor: Xcolors[x], data: Xdata[x] }
-}
+  // debrisData stores the result of a GET call from the data table, setDebrisData sets the value of debrisData
+  const [debrisData, setDebrisData] = useState(false);
+  useEffect(() => { getDebrisDataByBeach(); }, []);
 
-const chartConfig = {
+  // GET call to display updated version of data table
+  function getDebrisDataByBeach() {
+    fetch(`http://localhost:3001/${"Sunset"}`)
+      .then(response => response.json())
+      .then(data => { setDebrisData(data);});
+  }
+  
+  if(debrisData){
+    for(var i=0; i < Xvalues.length; i++){
+      Xdata[i] = [
+        debrisData[i].total_fragmented_plastic, 
+        debrisData[i].total_plastic_products, 
+        debrisData[i].total_food_wrappers,
+        debrisData[i].total_styrofoam, 
+        debrisData[i].total_cigarette_butts, 
+        debrisData[i].total_paper_and_treated_wood, 
+        debrisData[i].total_metal,
+        debrisData[i].total_glass, 
+        debrisData[i].total_fabric, 
+        debrisData[i].total_rubber, 
+        debrisData[i].total_other,
+      ] 
+    }
+  }
+
+  const chartConfig = {
     type: 'bar',
     data: {
-        labels: ["Beach Name"],
-        datasets: Xaxis
+        labels: Xvalues,
+        datasets: [{ 
+          label: "Name of Beach", 
+          backgroundColor: 'rgba(255, 99, 132, 1)', 
+          data: Xdata 
+        },
+    ]
     },
     height: 400,
     width: 600
   };
 
-const BarChart = () => {
-  const chartContainer = useRef(null);
-  const [chartInstance, setChartInstance] = useState(null);
+  function dataToArray(){
+    let debrisDataArray = []
+    if(debrisData){
+      for(var i=0; i < debrisData.length; i++){
+        debrisDataArray[i] = [
+          debrisData[i].entry_id, 
+          debrisData[i].beach, 
+          debrisData[i].type, 
+          debrisData[i].season,
+          debrisData[i].date, 
+          debrisData[i].total_fragmented_plastic, 
+          debrisData[i].total_plastic_products, 
+          debrisData[i].total_food_wrappers,
+          debrisData[i].total_styrofoam, 
+          debrisData[i].total_cigarette_butts, 
+          debrisData[i].total_paper_and_treated_wood, 
+          debrisData[i].total_metal,
+          debrisData[i].total_glass, 
+          debrisData[i].total_fabric, 
+          debrisData[i].total_rubber, 
+          debrisData[i].total_other,
+          debrisData[i].total_debris,
+          debrisData[i].total_debris_divby_m_sq, 
+          debrisData[i].notes
+        ]
+        debrisDataArray[i] = debrisDataArray[i].map((row) => 
+          row = row + " "
+        );
+      }
+      debrisDataArray = debrisDataArray.map((row) => 
+        <li>{row}</li>
+      );
+      return debrisDataArray;
+    }
+  }
+
 
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
@@ -57,9 +120,17 @@ const BarChart = () => {
   }, [chartContainer]);
 
   return (
-    <div class="bar-chart">
-      <canvas ref={chartContainer} />
+    <div>
+        <div class="bar-chart">
+          <canvas ref={chartContainer} />
+          {!debrisData ? 'There is no debrisData available' : 
+            <ol>
+              {dataToArray()}
+            </ol>
+          }
+        </div>
     </div>
+
   );
 }
 
