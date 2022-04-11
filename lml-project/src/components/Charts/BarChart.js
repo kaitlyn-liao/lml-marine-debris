@@ -24,15 +24,21 @@ Chart.register(
     ...registerables
 );
 
+let newChartInstance;
+
 function BarChart() {
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
-      const newChartInstance = new Chart(chartContainer.current, chartConfig);
+      newChartInstance = new Chart(chartContainer.current, chartConfig);
       setChartInstance(newChartInstance);
     }
   }, [chartContainer]);
+
+  function updateChart(){
+    newChartInstance.data.datasets[0].data = Xdata;
+  }
 
   var Xvalues = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
   var Xdata = [0,0,0,0,0,0,0,0,0,0,0]
@@ -100,6 +106,8 @@ function BarChart() {
       Xdata[10] += debrisData[i].total_other;
     }
     console.log(Xdata)
+    updateChart();
+    newChartInstance.update();
   }
   
   
@@ -123,11 +131,11 @@ function BarChart() {
     <div>
         <div class="bar-chart">
           <canvas ref={chartContainer} />
-          {/* {!debrisData ? 'There is no debrisData available' : 
+           {!debrisData ? 'There is no debrisData available' : 
             <ol>
               {dataToArray()}
             </ol>
-          } */}
+          } 
         </div>
     </div>
 
