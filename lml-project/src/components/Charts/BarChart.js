@@ -43,7 +43,8 @@ function BarChart() {
 
   // GET call to display updated version of data table
   function getDebrisDataByBeach() {
-    fetch(`http://localhost:3001/beach/${"Waddell"}`)
+    let beach = "Waddell";
+    fetch(`http://localhost:3001/beach/${beach}`)
       .then(response => response.json())
       .then(data => { setDebrisData(data);});
   }
@@ -101,6 +102,7 @@ function BarChart() {
     console.log(Xdata)
   }
   
+  
   const chartConfig = {
       type: 'bar',
       data: {
@@ -108,12 +110,13 @@ function BarChart() {
           datasets: [{ 
             label: "Name of Beach", 
             backgroundColor: 'rgba(255, 99, 132, 1)', 
-            data: Xdata[0] 
+            data: Xdata 
           }]
       },
       height: 400,
       width: 600
   };
+  console.log("after config " + Xdata)
 
 
   return (

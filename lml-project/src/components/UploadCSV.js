@@ -59,7 +59,8 @@ function UploadCSV() {
   
   // GET call to display updated version of data table
   function getDebrisData() {
-    fetch(`http://localhost:3001/beach/${"Waddell"}`)
+    let beach = "Waddell";
+    fetch(`http://localhost:3001/beach/${beach}`)
       .then(response => response.json())
       .then(data => { setDebrisData(data);});
   }
