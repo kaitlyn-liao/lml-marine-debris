@@ -110,7 +110,6 @@ function BarChart() {
     newChartInstance.update();
   }
   
-  
   const chartConfig = {
       type: 'bar',
       data: {
