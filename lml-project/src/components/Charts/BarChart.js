@@ -27,9 +27,15 @@ Chart.register(
 function BarChart() {
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
+  useEffect(() => {
+    if (chartContainer && chartContainer.current) {
+      const newChartInstance = new Chart(chartContainer.current, chartConfig);
+      setChartInstance(newChartInstance);
+    }
+  }, [chartContainer]);
 
   var Xvalues = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
-  var Xdata = []
+  var Xdata = [0,0,0,0,0,0,0,0,0,0,0]
 
   // debrisData stores the result of a GET call from the data table, setDebrisData sets the value of debrisData
   const [debrisData, setDebrisData] = useState(false);
@@ -37,43 +43,10 @@ function BarChart() {
 
   // GET call to display updated version of data table
   function getDebrisDataByBeach() {
-    fetch(`http://localhost:3001/${"Sunset"}`)
+    fetch(`http://localhost:3001/beach/${"Waddell"}`)
       .then(response => response.json())
       .then(data => { setDebrisData(data);});
   }
-  
-  if(debrisData){
-    for(var i=0; i < Xvalues.length; i++){
-      Xdata[i] = [
-        debrisData[i].total_fragmented_plastic, 
-        debrisData[i].total_plastic_products, 
-        debrisData[i].total_food_wrappers,
-        debrisData[i].total_styrofoam, 
-        debrisData[i].total_cigarette_butts, 
-        debrisData[i].total_paper_and_treated_wood, 
-        debrisData[i].total_metal,
-        debrisData[i].total_glass, 
-        debrisData[i].total_fabric, 
-        debrisData[i].total_rubber, 
-        debrisData[i].total_other,
-      ] 
-    }
-  }
-
-  const chartConfig = {
-    type: 'bar',
-    data: {
-        labels: Xvalues,
-        datasets: [{ 
-          label: "Name of Beach", 
-          backgroundColor: 'rgba(255, 99, 132, 1)', 
-          data: Xdata 
-        },
-    ]
-    },
-    height: 400,
-    width: 600
-  };
 
   function dataToArray(){
     let debrisDataArray = []
@@ -110,24 +83,48 @@ function BarChart() {
       return debrisDataArray;
     }
   }
-
-
-  useEffect(() => {
-    if (chartContainer && chartContainer.current) {
-      const newChartInstance = new Chart(chartContainer.current, chartConfig);
-      setChartInstance(newChartInstance);
+  
+  if(debrisData){
+    for(var i=0; i < Xvalues.length; i++){
+      Xdata[0] += debrisData[i].total_fragmented_plastic;
+      Xdata[1] += debrisData[i].total_plastic_products;
+      Xdata[2] += debrisData[i].total_food_wrappers;
+      Xdata[3] += debrisData[i].total_styrofoam;
+      Xdata[4] += debrisData[i].total_cigarette_butts;
+      Xdata[5] += debrisData[i].total_paper_and_treated_wood;
+      Xdata[6] += debrisData[i].total_metal;
+      Xdata[7] += debrisData[i].total_glass;
+      Xdata[8] += debrisData[i].total_fabric;
+      Xdata[9] += debrisData[i].total_rubber;
+      Xdata[10] += debrisData[i].total_other;
     }
-  }, [chartContainer]);
+    console.log(Xdata)
+  }
+  
+  const chartConfig = {
+      type: 'bar',
+      data: {
+          labels: Xvalues,
+          datasets: [{ 
+            label: "Name of Beach", 
+            backgroundColor: 'rgba(255, 99, 132, 1)', 
+            data: Xdata[0] 
+          }]
+      },
+      height: 400,
+      width: 600
+  };
+
 
   return (
     <div>
         <div class="bar-chart">
           <canvas ref={chartContainer} />
-          {!debrisData ? 'There is no debrisData available' : 
+          {/* {!debrisData ? 'There is no debrisData available' : 
             <ol>
               {dataToArray()}
             </ol>
-          }
+          } */}
         </div>
     </div>
 
