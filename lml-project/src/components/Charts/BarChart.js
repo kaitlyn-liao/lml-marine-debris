@@ -120,11 +120,11 @@ function BarChart() {
     <div>
         <div class="bar-chart">
           <canvas ref={chartContainer} />
-          {!debrisData ? 'There is no debrisData available' : 
+          {/* {!debrisData ? 'There is no debrisData available' : 
             <ol>
               {dataToArray()}
             </ol>
-          }
+          } */}
         </div>
     </div>
 
