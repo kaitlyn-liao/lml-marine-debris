@@ -18,6 +18,18 @@ app.use(function (req, res, next) {
   next();
 });
 
+
+// get all debris data from lml_debris_data
+app.get('/', (req, res) => {
+  lml_data_model.getDebrisData(req.params.beach)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
 // get a single beach debris data from lml_debris_data
 app.get('/beach/:beach', (req, res) => {
   lml_data_model.getBeachDebrisData(req.params.beach)
