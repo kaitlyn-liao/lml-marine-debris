@@ -71,9 +71,9 @@ const chartConfig = {
 
 const StackedChart = () => {
 
-    const chartContainer = useRef(null);
+  const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
-
+  
   useEffect(() => {
     if (chartContainer && chartContainer.current) {
       const newChartInstance = new Chart(chartContainer.current, chartConfig);
