@@ -18,9 +18,9 @@ app.use(function (req, res, next) {
   next();
 });
 
-// get information from lml_debris_data
-app.get('/', (req, res) => {
-  lml_data_model.getDebrisData()
+// get a single beach debris data from lml_debris_data
+app.get('/beach/:beach', (req, res) => {
+  lml_data_model.getBeachDebrisData(req.params.beach)
   .then(response => {
     res.status(200).send(response);
   })
@@ -28,6 +28,74 @@ app.get('/', (req, res) => {
     res.status(500).send(error);
   })
 })
+
+// get a single beach debris data by season from lml_debris_data
+app.get('/beach/:beach/season/:season', (req, res) => {
+  //console.log(req.params.beach + req.params.season);
+  lml_data_model.getBeachDebrisDataBySeason(req.params.beach, req.params.season)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+// get all beach debris data by season from lml_debris_data
+app.get('/season/:season', (req, res) => {
+  lml_data_model.getAllBeachDebrisDataBySeason(req.params.season)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+// get all urban beach debris data from lml_debris_data
+app.get('/urban', (req, res) => {
+  lml_data_model.getUrbanBeachDebrisData()
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+// get all urban beach debris data from lml_debris_data
+app.get('/rural', (req, res) => {
+  lml_data_model.getRuralBeachDebrisData()
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+// get list of all urban beaches (to display on drop-down)
+app.get('/urban_list', (req, res) => {
+  lml_data_model.getUrbanBeach()
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+// get list of all rural beaches (to display on drop-down)
+app.get('/rural_list', (req, res) => {
+  lml_data_model.getRuralBeach()
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
 
 // Enter a new row into lml_debris_data
 app.post('/lml_debris_data', (req, res) => {

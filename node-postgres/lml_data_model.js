@@ -22,6 +22,123 @@ const getDebrisData = () => {
   }) 
 }
 
+const getBeachDebrisData = (beach) => {
+  console.log(beach)
+  return new Promise(function(resolve, reject) {
+    const text = "SELECT * FROM lml_debris_data WHERE beach = $1 ORDER BY entry_id ASC";
+    const values = [beach];
+    pool.query(text, values, (error, results) => {
+      if (error) {
+        console.log("cannot get debris data");
+        reject(error)
+      }
+      if(results){
+        resolve(results.rows);
+      }
+    })
+  }) 
+}
+
+// Query a specific beach's debris data by season
+const getBeachDebrisDataBySeason = (beach, season) => {
+  console.log(beach + season)
+  return new Promise(function(resolve, reject) {
+    const text = "SELECT * FROM lml_debris_data WHERE beach = $1 AND season = $2 ORDER BY entry_id ASC";
+    const values = [beach, season];
+    pool.query(text, values, (error, results) => {
+      if (error) {
+        console.log("cannot get debris data");
+        reject(error)
+      }
+      if(results){
+        resolve(results.rows);
+      }
+    })
+  }) 
+}
+
+// Query all beach's debris data by season
+const getAllBeachDebrisDataBySeason = (season) => {
+  console.log(season)
+  return new Promise(function(resolve, reject) {
+    const text = "SELECT * FROM lml_debris_data WHERE season = $1 ORDER BY entry_id ASC";
+    const values = [season];
+    pool.query(text, values, (error, results) => {
+      if (error) {
+        console.log("cannot get debris data");
+        reject(error)
+      }
+      if(results){
+        resolve(results.rows);
+      }
+    })
+  }) 
+}
+
+// Query all urban beach's debris data
+const getUrbanBeachDebrisData = () => {
+  return new Promise(function(resolve, reject) {
+    const text = "SELECT * FROM lml_debris_data WHERE type = 'U' ORDER BY entry_id ASC";
+    pool.query(text, (error, results) => {
+      if (error) {
+        console.log("cannot get debris data");
+        reject(error)
+      }
+      if(results){
+        resolve(results.rows);
+      }
+    })
+  }) 
+}
+
+// Query all rural beach's debris data
+const getRuralBeachDebrisData = () => {
+  return new Promise(function(resolve, reject) {
+    const text = "SELECT * FROM lml_debris_data WHERE type = 'R' ORDER BY entry_id ASC";
+    pool.query(text, (error, results) => {
+      if (error) {
+        console.log("cannot get debris data");
+        reject(error)
+      }
+      if(results){
+        resolve(results.rows);
+      }
+    })
+  }) 
+}
+
+// Query all urban beach names
+const getUrbanBeach = () => {
+  return new Promise(function(resolve, reject) {
+    const text = "SELECT DISTINCT beach FROM lml_debris_data WHERE type = 'U' ORDER BY beach ASC";
+    pool.query(text, (error, results) => {
+      if (error) {
+        console.log("cannot get debris data");
+        reject(error)
+      }
+      if(results){
+        resolve(results.rows);
+      }
+    })
+  }) 
+}
+
+// Query all rural beach names
+const getRuralBeach = () => {
+  return new Promise(function(resolve, reject) {
+    const text = "SELECT DISTINCT beach FROM lml_debris_data WHERE type = 'R' ORDER BY beach ASC";
+    pool.query(text, (error, results) => {
+      if (error) {
+        console.log("cannot get debris data");
+        reject(error)
+      }
+      if(results){
+        resolve(results.rows);
+      }
+    })
+  }) 
+}
+
 // TODO: change pool.query to fit correct headers
 const createDebrisData = (body) => {
   return new Promise(function(resolve, reject) {
@@ -95,7 +212,7 @@ const createDebrisData = (body) => {
         reject(error)
       }
       if(results){
-        resolve(`A new lml entry has been added added: ${results.rows[0]}`)
+        resolve(`A new lml entry has been added added: ${JSON.stringify(results.rows[0])}`)
       }
     })
   })
@@ -127,6 +244,13 @@ const clearDebrisData = () => {
 
 module.exports = {
      getDebrisData,
+     getBeachDebrisData,
+     getBeachDebrisDataBySeason,
+     getAllBeachDebrisDataBySeason,
+     getUrbanBeachDebrisData,
+     getRuralBeachDebrisData,
+     getUrbanBeach,
+     getRuralBeach,
   createDebrisData,
   deleteDebrisData,
   clearDebrisData,
