@@ -197,7 +197,7 @@ function setRural(beach){
 // Container for the chart
 const CompareContainer = () => {
     function getDebrisData() {
-        fetch('http://localhost:3001/rural')
+        fetch('http://localhost:3001/')
         .then(response => response.json())
         .then(data => { setDebrisData(data);});
     }
