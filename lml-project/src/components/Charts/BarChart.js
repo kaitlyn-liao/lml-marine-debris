@@ -102,7 +102,6 @@ function BarChart() {
     console.log(Xdata)
   }
   
-  
   const chartConfig = {
       type: 'bar',
       data: {
