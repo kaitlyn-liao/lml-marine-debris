@@ -60,7 +60,7 @@ function BarChart() {
   }
 
   var Xvalues = ["Winter", "Spring", "Summer", "Autum"]
-  var Xdata = [1,2,3,4]
+  var Xdata  = [0,0,0,0]
 
   // debrisData stores the result of a GET call from the data table, setDebrisData sets the value of debrisData
   const [debrisData, setDebrisData] = useState(false);
@@ -79,20 +79,23 @@ function BarChart() {
     updateChart();
     newChartInstance.update();
   }
-  
+
   if(debrisData){
-    for(var i=0; i < Xvalues.length; i++){
-      Xdata[0] += debrisData[i].total_fragmented_plastic;
-      Xdata[1] += debrisData[i].total_plastic_products;
-      Xdata[2] += debrisData[i].total_food_wrappers;
-      Xdata[3] += debrisData[i].total_styrofoam;
-      Xdata[4] += debrisData[i].total_cigarette_butts;
-      Xdata[5] += debrisData[i].total_paper_and_treated_wood;
-      Xdata[6] += debrisData[i].total_metal;
-      Xdata[7] += debrisData[i].total_glass;
-      Xdata[8] += debrisData[i].total_fabric;
-      Xdata[9] += debrisData[i].total_rubber;
-      Xdata[10] += debrisData[i].total_other;
+    for(var i=0; i < debrisData.length; i++){
+      switch(debrisData[i].season){
+        case "Winter":
+          Xdata[0] += debrisData[i].total_debris;
+          break;
+        case "Spring":
+          Xdata[1] += debrisData[i].total_debris;
+          break;
+        case "Summer":
+          Xdata[2] += debrisData[i].total_debris;
+          break;
+        case "Fall":
+          Xdata[3] += debrisData[i].total_debris;
+          break;
+      }
     }
     console.log(Xdata)
     updateChart();
