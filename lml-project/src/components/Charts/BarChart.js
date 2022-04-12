@@ -45,6 +45,7 @@ const beachList = [
 
 function BarChart() {
   let newBeach;
+  console.log(newBeach);
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
   useEffect(() => {
@@ -139,7 +140,6 @@ function BarChart() {
       data: {
           labels: Xvalues,
           datasets: [{ 
-            label: "Name of Beach", 
             backgroundColor: 'rgba(255, 99, 132, 1)', 
             data: Xdata 
           }]
