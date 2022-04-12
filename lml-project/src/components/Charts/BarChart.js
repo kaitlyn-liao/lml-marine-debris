@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
+import Select from 'react-select';
 import { Bar, Pie } from "react-chartjs-2"
 import {
     Chart,
@@ -25,8 +26,25 @@ Chart.register(
 );
 
 let newChartInstance;
+let beach = "Waddell";
+
+const beachList = [
+  { label: "Waddell", value: 0 },
+  { label: "Natural Bridges", value: 1 },
+  { label: "Main Beach", value: 2 },
+  { label: "Seabright", value: 3 },
+  { label: "Live Oak", value: 4 },
+  { label: "Capitola", value: 5 },
+  { label: "Sunset", value: 6 },
+  { label: "N. Zmudowski", value: 7 },
+  { label: "S. Zmudowski", value: 8 },
+  { label: "Marina", value: 9 },
+  { label: "Seaside", value: 10 },
+  { label: "Del Monte", value: 11 },
+];
 
 function BarChart() {
+  let newBeach;
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
   useEffect(() => {
@@ -49,10 +67,17 @@ function BarChart() {
 
   // GET call to display updated version of data table
   function getDebrisDataByBeach() {
-    let beach = "Waddell";
     fetch(`http://localhost:3001/beach/${beach}`)
       .then(response => response.json())
       .then(data => { setDebrisData(data);});
+  }
+
+  function setBeach(newBeach) {
+    beach = newBeach.label;
+    console.log(beach);
+    getDebrisDataByBeach();
+    updateChart();
+    newChartInstance.update();
   }
 
   function dataToArray(){
@@ -120,6 +145,16 @@ function BarChart() {
             data: Xdata 
           }]
       },
+      options: {
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltips: {
+            enabled: false
+          }
+        }
+      },
       height: 400,
       width: 600
   };
@@ -128,6 +163,14 @@ function BarChart() {
 
   return (
     <div>
+        <div className="row">
+            <div className="col-md-2">
+                <h4>Beach: </h4>
+            </div>
+            <div className="col-md-4">
+              <Select placeholder={ "Waddell" } value={ newBeach } options={ beachList } onChange={setBeach}/>
+            </div>
+          </div>
         <div class="bar-chart">
           <canvas ref={chartContainer} />
            {/* {!debrisData ? 'There is no debrisData available' : 
