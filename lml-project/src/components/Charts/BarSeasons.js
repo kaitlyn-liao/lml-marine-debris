@@ -59,9 +59,8 @@ function BarChart() {
     newChartInstance.data.datasets[0].data = Xdata;
   }
 
-  var Xvalues = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
-  var Xdata = [0,0,0,0,0,0,0,0,0,0,0]
-
+  var Xvalues = ["Winter", "Spring", "Summer", "Autum"]
+  var Xdata = [1,2,3,4]
 
   // debrisData stores the result of a GET call from the data table, setDebrisData sets the value of debrisData
   const [debrisData, setDebrisData] = useState(false);
@@ -79,42 +78,6 @@ function BarChart() {
     getDebrisDataByBeach(newBeach.label);
     updateChart();
     newChartInstance.update();
-  }
-
-  function dataToArray(){
-    let debrisDataArray = []
-    if(debrisData){
-      for(var i=0; i < debrisData.length; i++){
-        debrisDataArray[i] = [
-          debrisData[i].entry_id, 
-          debrisData[i].beach, 
-          debrisData[i].type, 
-          debrisData[i].season,
-          debrisData[i].date, 
-          debrisData[i].total_fragmented_plastic, 
-          debrisData[i].total_plastic_products, 
-          debrisData[i].total_food_wrappers,
-          debrisData[i].total_styrofoam, 
-          debrisData[i].total_cigarette_butts, 
-          debrisData[i].total_paper_and_treated_wood, 
-          debrisData[i].total_metal,
-          debrisData[i].total_glass, 
-          debrisData[i].total_fabric, 
-          debrisData[i].total_rubber, 
-          debrisData[i].total_other,
-          debrisData[i].total_debris,
-          debrisData[i].total_debris_divby_m_sq, 
-          debrisData[i].notes
-        ]
-        debrisDataArray[i] = debrisDataArray[i].map((row) => 
-          row = row + " "
-        );
-      }
-      debrisDataArray = debrisDataArray.map((row) => 
-        <li>{row}</li>
-      );
-      return debrisDataArray;
-    }
   }
   
   if(debrisData){
@@ -137,7 +100,7 @@ function BarChart() {
   }
   
   const chartConfig = {
-      type: 'pie',
+      type: 'bar',
       data: {
           labels: Xvalues,
           datasets: [{ 
