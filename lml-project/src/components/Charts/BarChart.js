@@ -26,7 +26,7 @@ Chart.register(
 );
 
 let newChartInstance;
-let beach = "Waddell";
+const placeholderBeach = "Waddell";
 
 const beachList = [
   { label: "Waddell", value: 0 },
@@ -63,19 +63,18 @@ function BarChart() {
 
   // debrisData stores the result of a GET call from the data table, setDebrisData sets the value of debrisData
   const [debrisData, setDebrisData] = useState(false);
-  useEffect(() => { getDebrisDataByBeach(); }, []);
+  useEffect(() => { getDebrisDataByBeach(placeholderBeach); }, []);
 
   // GET call to display updated version of data table
-  function getDebrisDataByBeach() {
+  function getDebrisDataByBeach(beach) {
     fetch(`http://localhost:3001/beach/${beach}`)
       .then(response => response.json())
       .then(data => { setDebrisData(data);});
   }
 
   function setBeach(newBeach) {
-    beach = newBeach.label;
-    console.log(beach);
-    getDebrisDataByBeach();
+    console.log(newBeach.label);
+    getDebrisDataByBeach(newBeach.label);
     updateChart();
     newChartInstance.update();
   }
