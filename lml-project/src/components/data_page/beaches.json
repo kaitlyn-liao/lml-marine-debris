@@ -1,71 +1,83 @@
 
 [{
+    "beach_id": 1,
     "name": "Del Monte",
     "lat": 36.601531,
     "long": -121.889650,
     "type": "urban"
 },
 {
+    "beach_id": 2,
     "name": "Seaside",
     "lat": 36.611741,
     "long": -121.857722,
     "type": "urban"
 },
 {
+    "beach_id": 3,
     "name": "Marina",
     "lat": 36.698603,
     "long": -121.809490,
     "type": "urban"
 },
 {
+    "beach_id": 4,
     "name": "Sunset State Beach",
     "lat": 36.895603,
     "long": -121.838320,
     "type": "rural"
 },
 {
+    "beach_id": 5,
     "name": "Live Oak",
     "lat": 36.960213,
     "long": -121.986517,
     "type": "urban"
 },
 {
+    "beach_id": 6,
     "name": "Seabright",
     "lat": 36.961518,
     "long": -122.002881,
     "type": "urban"
 },
 {
+    "beach_id": 7,
     "name": "Capitola",
     "lat": 36.971864,
     "long": -121.950024,
     "type": "urban"
 },
 {
+    "beach_id": 8,
     "name": "Main Beach",
     "lat": 36.962532,
     "long": -122.023154,
     "type": "urban"
 },
 {
+    "beach_id": 9,
     "name": "North Zmudowski",
     "lat": 36.835505,
     "long": -121.802252,
     "type": "rural"
 },
 {
+    "beach_id": 10,
     "name": "South Zmudowski",
     "lat": 36.835505,
     "long": -121.802252,
     "type": "rural"
 },
 {
+    "beach_id": 11,
     "name": "Waddell",
     "lat": 37.096470,
     "long": -122.279871,
     "type": "rural"
 },
 {
+    "beach_id": 12,
     "name": "Natural Bridges",
     "lat": 36.949752,
     "long": -122.056780,

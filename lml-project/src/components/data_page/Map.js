@@ -7,6 +7,7 @@
 
 import React, { useRef, useEffect, useState } from 'react';
 import MapGL, { Marker  } from "@urbica/react-map-gl";
+import Button from 'react-bootstrap/Button'
 import { withSize } from "react-sizeme";
 import BEACHES from "./beaches.json";
 
@@ -119,11 +120,21 @@ function Map(props) {
           viewport.zoom=10
           viewport.maxZoom=18
           viewport.minZoom=9
-          console.log(viewport);
           setViewport(viewport);
         }}
         >
-          hi there 
+          {BEACHES.map(beach =>(
+            <Marker 
+            key={beach.beach_id}
+            longitude={beach.long}
+            latitude={beach.lat}
+            >
+              <Button>
+                <i className="bi biGeoAltFill"></i>
+                {/* <GeoAltFill/> */}
+              </Button>
+            </Marker>
+          ))}
         </MapGL>
       </SizeAware>
     </div>
