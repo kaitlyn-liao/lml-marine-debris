@@ -10,10 +10,74 @@ import MapGL, { Marker  } from "@urbica/react-map-gl";
 import Button from 'react-bootstrap/Button'
 import { withSize } from "react-sizeme";
 import BEACHES from "./beaches.json";
+import { GeoAltFill } from "react-bootstrap-icons";
 
 const beachJSON = BEACHES;
 const latLongList = getLatLongList(beachJSON);
 const mapViewCenter = getMapCenter(latLongList);
+
+const INITIAL_MAP_VIEW = {
+  latitude: mapViewCenter[0],
+  longitude:mapViewCenter[1],
+  zoom: 9.5,
+  maxZoom: 18,
+  minZoom: 8
+}
+
+const SizeAware = withSize({ noPlaceholder: true, monitorHeight: true })(
+  (props) => props.children
+);
+
+function Map(props) {
+  // Default map orientation
+  const [viewport, setViewport] = useState( INITIAL_MAP_VIEW );
+
+  // map.scrollZoom.disable();
+
+  const mapContainer = {
+    width: "100%", height: "83vh",
+  }
+  const mapRef = useRef();
+  // Resize the map to the current webpage size
+  const resizeMap = () => {
+    mapRef.current && mapRef.current.getMap().resize();
+  };
+
+
+  return (
+    <div>
+      <SizeAware onSize={resizeMap}>
+        <MapGL
+        {...viewport}
+        ref={mapRef}
+        style={ mapContainer } 
+        accessToken={ process.env.REACT_APP_MAPBOX_TOKEN }
+        mapStyle="mapbox://styles/hfox999/ck6crjgkn0bfs1imqs16f84wz"
+        onViewportChange={(viewport) => {
+          viewport.zoom=9.5
+          viewport.maxZoom=18
+          viewport.minZoom=8
+          setViewport(viewport);
+        }}
+        >
+          {BEACHES.map(beach =>(
+            <Marker 
+            key={beach.beach_id}
+            longitude={beach.long}
+            latitude={beach.lat}
+            >
+              {/* <Button> */}
+                {/* <i className="bi biGeoAltFill"></i> */}
+                <GeoAltFill color="royalblue" size={50} />
+              {/* </Button> */}
+            </Marker>
+          ))}
+        </MapGL>
+      </SizeAware>
+    </div>
+  );
+}
+
 
 /**
  * @param beachJSON a json file of all marine debris beaches in form of
@@ -27,7 +91,7 @@ const mapViewCenter = getMapCenter(latLongList);
  * @return array of all the beach lat long coordinates. 
  * e.g. [[latitude1, longtitude1], [latitude2, longtitude2] ...]
  */
-function getLatLongList (beachJSON) { 
+ function getLatLongList (beachJSON) { 
   let lat = 36.961518;
   let long = -122.002881;
   let latLongList = [];
@@ -79,66 +143,5 @@ function getMapCenter( latLongList ) {
     return ([rad2degr(lat), rad2degr(lng)]);
 }
 
-const INITIAL_MAP_VIEW = {
-  latitude: mapViewCenter[0],
-  longitude:mapViewCenter[1],
-  zoom: 10,
-  maxZoom: 18,
-  minZoom: 9
-}
-
-const SizeAware = withSize({ noPlaceholder: true, monitorHeight: true })(
-  (props) => props.children
-);
-
-function Map(props) {
-  // Default map orientation
-  const [viewport, setViewport] = useState( INITIAL_MAP_VIEW );
-
-  // map.scrollZoom.disable();
-
-  const mapContainer = {
-    width: "100%", height: "83vh",
-  }
-  const mapRef = useRef();
-  // Resize the map to the current webpage size
-  const resizeMap = () => {
-    mapRef.current && mapRef.current.getMap().resize();
-  };
-
-
-  return (
-    <div>
-      <SizeAware onSize={resizeMap}>
-        <MapGL
-        {...viewport}
-        ref={mapRef}
-        style={ mapContainer } 
-        accessToken={ process.env.REACT_APP_MAPBOX_TOKEN }
-        mapStyle="mapbox://styles/hfox999/ck6crjgkn0bfs1imqs16f84wz"
-        onViewportChange={(viewport) => {
-          viewport.zoom=10
-          viewport.maxZoom=18
-          viewport.minZoom=9
-          setViewport(viewport);
-        }}
-        >
-          {BEACHES.map(beach =>(
-            <Marker 
-            key={beach.beach_id}
-            longitude={beach.long}
-            latitude={beach.lat}
-            >
-              <Button>
-                <i className="bi biGeoAltFill"></i>
-                {/* <GeoAltFill/> */}
-              </Button>
-            </Marker>
-          ))}
-        </MapGL>
-      </SizeAware>
-    </div>
-  );
-}
 
 export default Map;
