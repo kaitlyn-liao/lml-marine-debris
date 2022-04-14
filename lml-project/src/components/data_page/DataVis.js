@@ -16,7 +16,7 @@ class DataVis extends React.Component {
       return (
         // html goes here
         <div>
-          {/* <Graph /> */}
+          <Graph />
           <Map />
         </div>
       );
