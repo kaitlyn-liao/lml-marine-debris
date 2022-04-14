@@ -33,367 +33,206 @@ Chart.register(
     ...registerables
 );
 
-// The indices of selected urban and rural data
-let urban = 0;
-let rural = 9;
-
-// This will store the chart to be updated
 let newChartInstance;
-let debrisDataArray = []
 
-// Dummy data
-let beaches = ['All Urban', 'Seabright', 'Del Monte', 'Marina',
-    'Natural Bridges', 'Seaside', 'Capitola', 'Live Oak', 'Main',
-    'All Rural', 'Waddell', 'Sunset', 'N. Zmudowski', 'S. Zmudowski'];
-let dataP = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-let dataC = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-let dataSf = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+const beachList = [
+  { label: "Waddell", value: 0 },
+  { label: "Natural Bridges", value: 1 },
+  { label: "Main Beach", value: 2 },
+  { label: "Seabright", value: 3 },
+  { label: "Live Oak", value: 4 },
+  { label: "Capitola", value: 5 },
+  { label: "Sunset", value: 6 },
+  { label: "N. Zmudowski", value: 7 },
+  { label: "S. Zmudowski", value: 8 },
+  { label: "Marina", value: 9 },
+  { label: "Seaside", value: 10 },
+  { label: "Del Monte", value: 11 },
+];
 
-// Set the displayed urban beach
-function updateUrban(val){
-    if (val["value"] != null){
-        urban = val["value"];
+function ComparisonChart() {
+  const chartContainer = useRef(null);
+  const [chartInstance, setChartInstance] = useState(null);
+  useEffect(() => {
+    if (chartContainer && chartContainer.current) {
+      newChartInstance = new Chart(chartContainer.current, chartConfig);
+      setChartInstance(newChartInstance);
     }
-    console.log(urban);
-    
-}
+  }, [chartContainer]);
 
-// Set the displayed rural beach
-function updateRural(val){
-    if (val["value"] != null){
-        rural = val["value"];
-    }
-    console.log(rural);
-}
+  function updateChart(){
+    newChartInstance.data.datasets[0].data = Udata;
+    newChartInstance.data.datasets[1].data = Rdata;
+  }
 
-// Urban options
-const urbanBeaches = [
-    { label: "All Urban", value: 0 },
-    { label: "Seabright", value: 1 },
-    { label: "Del Monte", value: 2 },
-    { label: "Marina", value: 3 },
-    { label: "Natural Bridges", value: 4 },
-    { label: "Seaside", value: 5 },
-    { label: "Capitola", value: 6 },
-    { label: "Live Oak", value: 7 },
-    { label: "Main", value: 8 },
-  ];
+  var Xvalues = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
+  var Udata = [0,0,0,0,0,0,0,0,0,0,0]
+  var Rdata = [0,0,0,0,0,0,0,0,0,0,0]
 
-// Rural options
-const ruralBeaches = [
-    { label: "All Rural", value: 9 },
-    { label: "Waddell", value: 10 },
-    { label: "Sunset", value: 11 },
-    { label: "N. Zmudowski", value: 12 },
-    { label: "S. Zmudowski", value: 13 },
-  ];
+  // debrisData stores the result of a GET call from the data table, setDebrisData sets the value of debrisData
+  const [urbanData, setUrbanData] = useState(false);
+  const [ruralData, setRuralData] = useState(false);
+  useEffect(() => { getDebrisDataByBeach(); }, []);
 
-// Chart settings
-const chartConfig = {
-    type: 'bar',
-    data: {
-        labels: [beaches[urban], beaches[rural]],
-        datasets: [{
-            label: "Plastic Products",
-            backgroundColor: 'rgba(30, 225, 0, 1)',
-            borderWidth: 1,
-            data: [dataP[urban], dataP[rural]],
-        },
-        {
-            label: "Cigarettes",
-            backgroundColor: 'rgba(255, 182, 0, 1)',
-            borderWidth: 1,
-            data: [dataC[urban], dataC[rural]],
-        },
-        {
-            label: "Styrofoam",
-            backgroundColor: 'rgba(200, 0, 255, 1)',
-            borderWidth: 1,
-            data: [dataSf[urban], dataSf[rural]],
-        },
+  // GET call to display updated version of data table
+  function getDebrisDataByBeach() {
+    fetch(`http://localhost:3001/urban`)
+      .then(response => response.json())
+      .then(data => { setUrbanData(data);});
+    fetch(`http://localhost:3001/rural`)
+      .then(response => response.json())
+      .then(data => { setRuralData(data);});
+  }
+
+  function dataToArray(){
+    let debrisDataArray = []
+    if(urbanData){
+      for(var i=0; i < urbanData.length; i++){
+        debrisDataArray[i] = [
+          urbanData[i].entry_id, 
+          urbanData[i].beach, 
+          urbanData[i].type, 
+          urbanData[i].season,
+          urbanData[i].date, 
+          urbanData[i].total_fragmented_plastic, 
+          urbanData[i].total_plastic_products, 
+          urbanData[i].total_food_wrappers,
+          urbanData[i].total_styrofoam, 
+          urbanData[i].total_cigarette_butts, 
+          urbanData[i].total_paper_and_treated_wood, 
+          urbanData[i].total_metal,
+          urbanData[i].total_glass, 
+          urbanData[i].total_fabric, 
+          urbanData[i].total_rubber, 
+          urbanData[i].total_other,
+          urbanData[i].total_debris,
+          urbanData[i].total_debris_divby_m_sq, 
+          urbanData[i].notes
         ]
+        debrisDataArray[i] = debrisDataArray[i].map((row) => 
+          row = row + " "
+        );
+      }
+      debrisDataArray = debrisDataArray.map((row) => 
+        <li>{row}</li>
+      );
+      return debrisDataArray;
+    }
 
-    },
-    options: {
+    if(ruralData){
+        for(var i=0; i < ruralData.length; i++){
+          debrisDataArray[i] = [
+            ruralData[i].entry_id, 
+            ruralData[i].beach, 
+            ruralData[i].type, 
+            ruralData[i].season,
+            ruralData[i].date, 
+            ruralData[i].total_fragmented_plastic, 
+            ruralData[i].total_plastic_products, 
+            ruralData[i].total_food_wrappers,
+            ruralData[i].total_styrofoam, 
+            ruralData[i].total_cigarette_butts, 
+            ruralData[i].total_paper_and_treated_wood, 
+            ruralData[i].total_metal,
+            ruralData[i].total_glass, 
+            ruralData[i].total_fabric, 
+            ruralData[i].total_rubber, 
+            ruralData[i].total_other,
+            ruralData[i].total_debris,
+            ruralData[i].total_debris_divby_m_sq, 
+            ruralData[i].notes
+          ]
+          debrisDataArray[i] = debrisDataArray[i].map((row) => 
+            row = row + " "
+          );
+        }
+        debrisDataArray = debrisDataArray.map((row) => 
+          <li>{row}</li>
+        );
+        return debrisDataArray;
+      }
+  }
+  
+  if(urbanData){
+    for(var i=0; i < Xvalues.length; i++){
+      Udata[0] += urbanData[i].total_fragmented_plastic;
+      Udata[1] += urbanData[i].total_plastic_products;
+      Udata[2] += urbanData[i].total_food_wrappers;
+      Udata[3] += urbanData[i].total_styrofoam;
+      Udata[4] += urbanData[i].total_cigarette_butts;
+      Udata[5] += urbanData[i].total_paper_and_treated_wood;
+      Udata[6] += urbanData[i].total_metal;
+      Udata[7] += urbanData[i].total_glass;
+      Udata[8] += urbanData[i].total_fabric;
+      Udata[9] += urbanData[i].total_rubber;
+      Udata[10] += urbanData[i].total_other;
+    }
+
+
+    if(ruralData){
+        for(var i=0; i < Xvalues.length; i++){
+          Rdata[0] += ruralData[i].total_fragmented_plastic;
+          Rdata[1] += ruralData[i].total_plastic_products;
+          Rdata[2] += ruralData[i].total_food_wrappers;
+          Rdata[3] += ruralData[i].total_styrofoam;
+          Rdata[4] += ruralData[i].total_cigarette_butts;
+          Rdata[5] += ruralData[i].total_paper_and_treated_wood;
+          Rdata[6] += ruralData[i].total_metal;
+          Rdata[7] += ruralData[i].total_glass;
+          Rdata[9] += ruralData[i].total_rubber;
+          Rdata[10] += ruralData[i].total_other;
+        }
+    }
+    updateChart();
+    newChartInstance.update();
+  }
+  
+  const chartConfig = {
+      type: 'bar',
+      data: {
+          labels: Xvalues,
+          datasets: [{ 
+            backgroundColor: 'orange', 
+            data: Udata 
+          },
+          { 
+            backgroundColor: 'royalblue', 
+            data: Rdata 
+          }
+        ]
+      },
+      options: {
         plugins: {
-          title: {
-            display: true,
+          legend: {
+            display: false
           },
-        },
-        responsive: true,
-        scales: {
-          x: {
-            stacked: false,
-          },
-          y: {
-            stacked: false
+          tooltips: {
+            enabled: false
           }
         }
       },
-    height: 400,
-    width: 600
+      height: 400,
+      width: 600
   };
+  console.log("after config " + Udata);
 
-// The comment below is from a different approach, which might be useful.
-// This approach uses the Dropdown library, so instal and import that if needed.
 
-/*function setUrban(beach){
-    urban = beach;
-    console.log(urban);
-    if (document.getElementById("urban-menu") != null){
-        document.getElementById("urban-menu").render();
-    }
-    
-}
-
-function setRural(beach){
-    rural = beach;
-}*/
-
-/*class UrbanMenu extends React.Component{
-    constructor(props){
-        super(props)
-         
-        // Set initial state
-        this.state = {beach: ""}
-        this.handleClick = this.handleClick.bind(this)
-         
-        // Binding this keyword
-        // this.handleClick = this.handleClick.bind(this)
-      }
-    
-    handleClick(newBeach){
-        this.setState({beach : newBeach});
-    }
-
-    renderBeach(b){
-        this.setState({beach: b});
-        console.log(this.state.beach);
-    }
-    render(){
-        return (
-            <Dropdown>
-        <Dropdown.Toggle id="urban-dropdown" variant="secondary">
-        {this.state.beach}
-        </Dropdown.Toggle>
-
-        <Dropdown.Menu variant="dark">
-        
-        
-        <Dropdown.Item onClick={() => this.renderBeach({beach: 'Natural Bridges'})}>Natural Bridges</Dropdown.Item>
-        <Dropdown.Item onSelect={() => this.renderBeach({beach: 'Main'})}>Main</Dropdown.Item>
-        <Dropdown.Item onSelect={() => this.renderBeach({beach: 'Seabright'})}>Seabright</Dropdown.Item>
-        <Dropdown.Divider />
-        <Dropdown.Item onSelect={() => this.renderBeach({beach: 'All Urban'})} active>All Urban</Dropdown.Item>
-       
-        </Dropdown.Menu>
-    </Dropdown>
-        );
-    }
-}*/
-
-// Back to the method that I actually used
-
-// Container for the chart
-const CompareContainer = () => {
-    function getDebrisData() {
-        fetch('http://localhost:3001/')
-        .then(response => response.json())
-        .then(data => { setDebrisData(data);});
-    }
-    const [debrisData, setDebrisData] = useState(false);
-    useEffect(() => { getDebrisData(); }, []);
-    function dataToArray(){
-        if(debrisData){
-            let j = 0;
-            let newDataP = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            let newDataC = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-            let newDataSf = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-          for(var i=0; i < /*15*/ debrisData.length; i++){
-            debrisDataArray[i] = [
-              debrisData[i].entry_id, 
-              debrisData[i].beach, 
-              debrisData[i].type, 
-              debrisData[i].season,
-              debrisData[i].date, 
-              debrisData[i].total_fragmented_plastic, 
-              debrisData[i].total_plastic_products, 
-              debrisData[i].total_food_wrappers,
-              debrisData[i].total_styrofoam, 
-              debrisData[i].total_cigarette_butts, 
-              debrisData[i].total_paper_and_treated_wood, 
-              debrisData[i].total_metal,
-              debrisData[i].total_glass, 
-              debrisData[i].total_fabric, 
-              debrisData[i].total_rubber, 
-              debrisData[i].total_other,
-              debrisData[i].total_debris,
-              debrisData[i].total_debris_divby_m_sq, 
-              debrisData[i].notes
-            ]
-            if (debrisData[i].type === 'U'){
-                console.log("Urban found");
-                j = 0;
-                newDataP[j] += debrisData[i].total_plastic_products;
-                newDataC[j] += debrisData[i].total_cigarette_butts;
-                newDataSf[j] += debrisData[i].total_styrofoam;
-                console.log(newDataP[0]);
-                switch (debrisData[i].beach) {
-                    case 'Seabright':
-                    case 'Seabright Beach':
-                        j = 1;
-                        newDataP[j] += debrisData[i].total_plastic_products;
-                        newDataC[j] += debrisData[i].total_cigarette_butts;
-                        newDataSf[j] += debrisData[i].total_styrofoam;
-                        break;
-                    case 'Del Monte':
-                    case 'Del Monte Beach':
-                        j = 2;
-                        newDataP[j] += debrisData[i].total_plastic_products;
-                        newDataC[j] += debrisData[i].total_cigarette_butts;
-                        newDataSf[j] += debrisData[i].total_styrofoam;
-                        break;
-                    case 'Marina':
-                    case 'Marina Beach':
-                        j = 3;
-                        newDataP[j] += debrisData[i].total_plastic_products;
-                        newDataC[j] += debrisData[i].total_cigarette_butts;
-                        newDataSf[j] += debrisData[i].total_styrofoam;
-                        break;
-                    case 'Natural Bridges':
-                    case 'Natural Bridges Beach':
-                    case 'Natural Bridges State Beach':
-                        j = 4;
-                        newDataP[j] += debrisData[i].total_plastic_products;
-                        newDataC[j] += debrisData[i].total_cigarette_butts;
-                        newDataSf[j] += debrisData[i].total_styrofoam;
-                        break;
-                    case 'Seaside':
-                    case 'Seaside Beach':
-                        j = 5;
-                        newDataP[j] += debrisData[i].total_plastic_products;
-                        newDataC[j] += debrisData[i].total_cigarette_butts;
-                        newDataSf[j] += debrisData[i].total_styrofoam;
-                        break;
-                    case 'Capitola':
-                    case 'Capitola Beach':
-                        j = 6;
-                        newDataP[j] += debrisData[i].total_plastic_products;
-                        newDataC[j] += debrisData[i].total_cigarette_butts;
-                        newDataSf[j] += debrisData[i].total_styrofoam;
-                        break;
-                    case 'Live Oak':
-                    case 'Live Oak Beach':
-                        j = 7;
-                        newDataP[j] += debrisData[i].total_plastic_products;
-                        newDataC[j] += debrisData[i].total_cigarette_butts;
-                        newDataSf[j] += debrisData[i].total_styrofoam;
-                        break;
-                    case 'Main Beach':
-                    case 'Main':
-                        j = 8;
-                        newDataP[j] += debrisData[i].total_plastic_products;
-                        newDataC[j] += debrisData[i].total_cigarette_butts;
-                        newDataSf[j] += debrisData[i].total_styrofoam;
-                        break;
-                    default:
-                }
-            }
-            else if (debrisData[i].type === 'R'){
-                console.log("Rural found");
-                j = 9;
-                newDataP[j] += debrisData[i].total_plastic_products;
-                newDataC[j] += debrisData[i].total_cigarette_butts;
-                newDataSf[j] += debrisData[i].total_styrofoam;
-                console.log(newDataP[8]);
-                switch (debrisData[i].beach) {
-                    case 'Waddell':
-                    case 'Waddell Beach':
-                    case 'Waddell Creek':
-                    case 'Waddell Creek Beach':
-                        j = 10;
-                        newDataP[j] += debrisData[i].total_plastic_products;
-                        newDataC[j] += debrisData[i].total_cigarette_butts;
-                        newDataSf[j] += debrisData[i].total_styrofoam;
-                        break;
-                    case 'Sunset':
-                    case 'Sunset Beach':
-                        j = 11;
-                        newDataP[j] += debrisData[i].total_plastic_products;
-                        newDataC[j] += debrisData[i].total_cigarette_butts;
-                        newDataSf[j] += debrisData[i].total_styrofoam;
-                        break;
-                    case 'N. Zmudowski':
-                    case 'North Zmudowski':
-                    case 'N Zmudowski':
-                    case 'Zmudowski N':
-                    case 'Zmudowski N.':
-                    case 'Zmudowski North':
-                        j = 12;
-                        newDataP[j] += debrisData[i].total_plastic_products;
-                        newDataC[j] += debrisData[i].total_cigarette_butts;
-                        newDataSf[j] += debrisData[i].total_styrofoam;
-                       break;
-                    case 'S. Zmudowski':
-                    case 'South Zmudowski':
-                    case 'S Zmudowski':
-                    case 'Zmudowski S':
-                    case 'Zmudowski S.':
-                    case 'Zmudowski South':
-                        j = 13;
-                        newDataP[j] += debrisData[i].total_plastic_products;
-                        newDataC[j] += debrisData[i].total_cigarette_butts;
-                        newDataSf[j] += debrisData[i].total_styrofoam;
-                        break;
-                    default:
-                }
-            }
-            debrisDataArray[i] = debrisDataArray[i].map((row) => 
-              row = row + " "
-            );
-          }
-          dataP = newDataP;
-          dataC = newDataC;
-          dataSf = newDataSf;
-          debrisDataArray = debrisDataArray.map((row) => 
-            <li>{row}</li>
-          );
-          return debrisDataArray;
-        }
-      }  
-    // Set up the chart instance
-    const chartContainer = useRef(null);
-    const [chartInstance, setChartInstance] = useState(null);
-    // Search for the chart container and add event listener for option select
-    const cc = document.getElementById('cc');
-    if(cc != null){
-        cc.addEventListener('change', updateChart);
-    }
-    // Update the chart
-    function updateChart(){
-        newChartInstance.update();
-    }
-
-    useEffect(() => {
-        if (chartContainer && chartContainer.current) {
-            newChartInstance = new Chart(chartContainer.current, chartConfig);
-            setChartInstance(newChartInstance);
-        }
-    }, [chartContainer]);
-
-    // Display chart
-    return (
+  return (
+    <div>
+        <h4>Urban vs Rural Beaches: </h4>
         <div class="bar-chart">
-            <canvas id='cc' ref={chartContainer} />
-            {!debrisData ? 'There is no debrisData available' : 
-        <ol>
-          {dataToArray()}
-        </ol>
-      }
+          <canvas ref={chartContainer} />
+           {/* {!debrisData ? 'There is no debrisData available' : 
+            <ol>
+              {dataToArray()}
+            </ol>
+          }  */}
         </div>
-    );
-}
+    </div>
 
+  );
+        }
+/*
 // Object with functions to update chart
 class ComparisonChart extends React.Component{
     // Initialize state
@@ -436,25 +275,7 @@ class ComparisonChart extends React.Component{
     render(){
         const { urbanOption, ruralOption } = this.state;
   return (
-      /*<div>
-          <h3>Compare </h3>
-        <select name="urban" id="urban">
-            <option value="3">All Urban</option>
-            <option value="0" onChange={updateUrban(0)}>Natural Bridges</option>
-            <option value="1">Main</option>
-            <option value="2">Seabright</option>
-        </select>
-  <h3> and </h3>
-  <select name="rural" id="rural">
-            <option value="7">All Rural</option>
-            <option value="4">Waddell</option>
-            <option value="5">Sunset</option>
-            <option value="6">Zmudowski</option>
-        </select>
-    <div class="bar-chart">
-      <canvas ref={chartContainer} />
-    </div>
-      </div>*/
+      
     <div>
         <div className="row">
             <div className="col-md-2">
@@ -477,5 +298,5 @@ class ComparisonChart extends React.Component{
   );
 }
 }
-
+*/
 export default ComparisonChart;
