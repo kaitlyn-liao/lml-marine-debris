@@ -5,18 +5,143 @@
 
 // Map.js is rendered by DataVis.js, and currently renders no children.
 
-import React from 'react';
+import React, { useRef, useEffect, useState } from 'react';
+import MapGL, { Marker  } from "@urbica/react-map-gl";
+import Button from 'react-bootstrap/Button'
+import { withSize } from "react-sizeme";
+import BEACHES from "./beaches.json";
+import { GeoAltFill } from "react-bootstrap-icons";
 
-class Map extends React.Component {
-    
-    render() {     
-      return (
-        // html goes here
-        <div>
+const beachJSON = BEACHES;
+const latLongList = getLatLongList(beachJSON);
+const mapViewCenter = getMapCenter(latLongList);
 
-        </div>
-      );
-    }
+const INITIAL_MAP_VIEW = {
+  latitude: mapViewCenter[0],
+  longitude:mapViewCenter[1],
+  zoom: 9.5,
+  maxZoom: 18,
+  minZoom: 8
 }
 
-export default Map
+const SizeAware = withSize({ noPlaceholder: true, monitorHeight: true })(
+  (props) => props.children
+);
+
+function Map(props) {
+  // Default map orientation
+  const [viewport, setViewport] = useState( INITIAL_MAP_VIEW );
+
+  // map.scrollZoom.disable();
+
+  const mapContainer = {
+    width: "100%", height: "83vh",
+  }
+  const mapRef = useRef();
+  // Resize the map to the current webpage size
+  const resizeMap = () => {
+    mapRef.current && mapRef.current.getMap().resize();
+  };
+
+
+  return (
+    <div>
+      <SizeAware onSize={resizeMap}>
+        <MapGL
+        {...viewport}
+        ref={mapRef}
+        style={ mapContainer } 
+        accessToken={ process.env.REACT_APP_MAPBOX_TOKEN }
+        mapStyle="mapbox://styles/hfox999/ck6crjgkn0bfs1imqs16f84wz"
+        onViewportChange={(viewport) => {
+          viewport.zoom=9.5
+          viewport.maxZoom=18
+          viewport.minZoom=8
+          setViewport(viewport);
+        }}
+        >
+          {BEACHES.map(beach =>(
+            <Marker 
+            key={beach.beach_id}
+            longitude={beach.long}
+            latitude={beach.lat}
+            >
+              {/* <Button> */}
+                {/* <i className="bi biGeoAltFill"></i> */}
+                <GeoAltFill color="royalblue" size={50} />
+              {/* </Button> */}
+            </Marker>
+          ))}
+        </MapGL>
+      </SizeAware>
+    </div>
+  );
+}
+
+
+/**
+ * @param beachJSON a json file of all marine debris beaches in form of
+ * {
+ *  "name": "Del Monte",
+ *  "lat": 36.601531,
+ *  "long": -121.889650,
+ *  "type": "urban"
+ * }
+ *
+ * @return array of all the beach lat long coordinates. 
+ * e.g. [[latitude1, longtitude1], [latitude2, longtitude2] ...]
+ */
+ function getLatLongList (beachJSON) { 
+  let lat = 36.961518;
+  let long = -122.002881;
+  let latLongList = [];
+  let latLongBeach = [];
+  for(var i = 0; i < beachJSON.length; i++){
+    latLongBeach = [beachJSON[i].lat, beachJSON[i].long];
+    latLongList[i] = latLongBeach
+  }
+  return(latLongList);
+}
+
+
+// Helper functions for mapViewCenter
+function rad2degr(rad) { return rad * 180 / Math.PI; }
+function degr2rad(degr) { return degr * Math.PI / 180; }
+/**
+ * @param latLngInDeg array of arrays with latitude and longtitude
+ *   pairs in degrees. e.g. [[latitude1, longtitude1], [latitude2
+ *   [longtitude2] ...]
+ *
+ * @return array with the center latitude longtitude pairs in 
+ *   degrees.
+ */
+function getMapCenter( latLongList ) {
+    var LATIDX = 0;
+    var LNGIDX = 1;
+    var sumX = 0;
+    var sumY = 0;
+    var sumZ = 0;
+
+    for (var i=0; i< latLongList.length; i++) {
+        var lat = degr2rad( latLongList[i][LATIDX]);
+        var lng = degr2rad( latLongList[i][LNGIDX]);
+        // sum of cartesian coordinates
+        sumX += Math.cos(lat) * Math.cos(lng);
+        sumY += Math.cos(lat) * Math.sin(lng);
+        sumZ += Math.sin(lat);
+    }
+
+    var avgX = sumX /  latLongList.length;
+    var avgY = sumY /  latLongList.length;
+    var avgZ = sumZ /  latLongList.length;
+
+    // convert average x, y, z coordinate to latitude and longtitude
+    var lng = Math.atan2(avgY, avgX);
+    var hyp = Math.sqrt(avgX * avgX + avgY * avgY);
+    var lat = Math.atan2(avgZ, hyp);
+
+    return ([rad2degr(lat), rad2degr(lng)]);
+}
+
+
+export default Map;
