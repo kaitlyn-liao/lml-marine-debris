@@ -84,11 +84,11 @@ function ComparisonChart() {
       .then(data => { setRuralData(data);});
   }
 
-  function dataToArray(){
-    let debrisDataArray = []
+  /*function dataToArray(){
+    let uDataArray = []
     if(urbanData){
       for(var i=0; i < urbanData.length; i++){
-        debrisDataArray[i] = [
+        uDataArray[i] = [
           urbanData[i].entry_id, 
           urbanData[i].beach, 
           urbanData[i].type, 
@@ -109,11 +109,11 @@ function ComparisonChart() {
           urbanData[i].total_debris_divby_m_sq, 
           urbanData[i].notes
         ]
-        debrisDataArray[i] = debrisDataArray[i].map((row) => 
+        uDataArray[i] = uDataArray[i].map((row) => 
           row = row + " "
         );
       }
-      debrisDataArray = debrisDataArray.map((row) => 
+      uDataArray = uDataArray.map((row) => 
         <li>{row}</li>
       );
       return debrisDataArray;
@@ -151,36 +151,36 @@ function ComparisonChart() {
         );
         return debrisDataArray;
       }
-  }
+  }*/
   
-  if(urbanData){
-    for(var i=0; i < Xvalues.length; i++){
-      Udata[0] += urbanData[i].total_fragmented_plastic;
-      Udata[1] += urbanData[i].total_plastic_products;
-      Udata[2] += urbanData[i].total_food_wrappers;
-      Udata[3] += urbanData[i].total_styrofoam;
-      Udata[4] += urbanData[i].total_cigarette_butts;
-      Udata[5] += urbanData[i].total_paper_and_treated_wood;
-      Udata[6] += urbanData[i].total_metal;
-      Udata[7] += urbanData[i].total_glass;
-      Udata[8] += urbanData[i].total_fabric;
-      Udata[9] += urbanData[i].total_rubber;
-      Udata[10] += urbanData[i].total_other;
+    if(urbanData){
+        for(var i=0; i < Xvalues.length; i++){
+            Udata[0] += urbanData[i].total_fragmented_plastic;
+            Udata[1] += urbanData[i].total_plastic_products;
+            Udata[2] += urbanData[i].total_food_wrappers;
+            Udata[3] += urbanData[i].total_styrofoam;
+            Udata[4] += urbanData[i].total_cigarette_butts;
+            Udata[5] += urbanData[i].total_paper_and_treated_wood;
+            Udata[6] += urbanData[i].total_metal;
+            Udata[7] += urbanData[i].total_glass;
+            Udata[8] += urbanData[i].total_fabric;
+            Udata[9] += urbanData[i].total_rubber;
+            Udata[10] += urbanData[i].total_other;
     }
 
 
     if(ruralData){
         for(var i=0; i < Xvalues.length; i++){
-          Rdata[0] += ruralData[i].total_fragmented_plastic;
-          Rdata[1] += ruralData[i].total_plastic_products;
-          Rdata[2] += ruralData[i].total_food_wrappers;
-          Rdata[3] += ruralData[i].total_styrofoam;
-          Rdata[4] += ruralData[i].total_cigarette_butts;
-          Rdata[5] += ruralData[i].total_paper_and_treated_wood;
-          Rdata[6] += ruralData[i].total_metal;
-          Rdata[7] += ruralData[i].total_glass;
-          Rdata[9] += ruralData[i].total_rubber;
-          Rdata[10] += ruralData[i].total_other;
+            Rdata[0] += ruralData[i].total_fragmented_plastic;
+            Rdata[1] += ruralData[i].total_plastic_products;
+            Rdata[2] += ruralData[i].total_food_wrappers;
+            Rdata[3] += ruralData[i].total_styrofoam;
+            Rdata[4] += ruralData[i].total_cigarette_butts;
+            Rdata[5] += ruralData[i].total_paper_and_treated_wood;
+            Rdata[6] += ruralData[i].total_metal;
+            Rdata[7] += ruralData[i].total_glass;
+            Rdata[9] += ruralData[i].total_rubber;
+            Rdata[10] += ruralData[i].total_other;
         }
     }
     updateChart();
