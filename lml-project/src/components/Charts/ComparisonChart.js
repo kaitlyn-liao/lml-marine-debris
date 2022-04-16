@@ -83,108 +83,42 @@ function ComparisonChart() {
       .then(response => response.json())
       .then(data => { setRuralData(data);});
   }
-
-  /*function dataToArray(){
-    let uDataArray = []
-    if(urbanData){
-      for(var i=0; i < urbanData.length; i++){
-        uDataArray[i] = [
-          urbanData[i].entry_id, 
-          urbanData[i].beach, 
-          urbanData[i].type, 
-          urbanData[i].season,
-          urbanData[i].date, 
-          urbanData[i].total_fragmented_plastic, 
-          urbanData[i].total_plastic_products, 
-          urbanData[i].total_food_wrappers,
-          urbanData[i].total_styrofoam, 
-          urbanData[i].total_cigarette_butts, 
-          urbanData[i].total_paper_and_treated_wood, 
-          urbanData[i].total_metal,
-          urbanData[i].total_glass, 
-          urbanData[i].total_fabric, 
-          urbanData[i].total_rubber, 
-          urbanData[i].total_other,
-          urbanData[i].total_debris,
-          urbanData[i].total_debris_divby_m_sq, 
-          urbanData[i].notes
-        ]
-        uDataArray[i] = uDataArray[i].map((row) => 
-          row = row + " "
-        );
-      }
-      uDataArray = uDataArray.map((row) => 
-        <li>{row}</li>
-      );
-      return debrisDataArray;
-    }
-
-    if(ruralData){
-        for(var i=0; i < ruralData.length; i++){
-          debrisDataArray[i] = [
-            ruralData[i].entry_id, 
-            ruralData[i].beach, 
-            ruralData[i].type, 
-            ruralData[i].season,
-            ruralData[i].date, 
-            ruralData[i].total_fragmented_plastic, 
-            ruralData[i].total_plastic_products, 
-            ruralData[i].total_food_wrappers,
-            ruralData[i].total_styrofoam, 
-            ruralData[i].total_cigarette_butts, 
-            ruralData[i].total_paper_and_treated_wood, 
-            ruralData[i].total_metal,
-            ruralData[i].total_glass, 
-            ruralData[i].total_fabric, 
-            ruralData[i].total_rubber, 
-            ruralData[i].total_other,
-            ruralData[i].total_debris,
-            ruralData[i].total_debris_divby_m_sq, 
-            ruralData[i].notes
-          ]
-          debrisDataArray[i] = debrisDataArray[i].map((row) => 
-            row = row + " "
-          );
-        }
-        debrisDataArray = debrisDataArray.map((row) => 
-          <li>{row}</li>
-        );
-        return debrisDataArray;
-      }
-  }*/
   
-    if(urbanData){
-        for(var i=0; i < Xvalues.length; i++){
-            Udata[0] += urbanData[i].total_fragmented_plastic;
-            Udata[1] += urbanData[i].total_plastic_products;
-            Udata[2] += urbanData[i].total_food_wrappers;
-            Udata[3] += urbanData[i].total_styrofoam;
-            Udata[4] += urbanData[i].total_cigarette_butts;
-            Udata[5] += urbanData[i].total_paper_and_treated_wood;
-            Udata[6] += urbanData[i].total_metal;
-            Udata[7] += urbanData[i].total_glass;
-            Udata[8] += urbanData[i].total_fabric;
-            Udata[9] += urbanData[i].total_rubber;
-            Udata[10] += urbanData[i].total_other;
-    }
+  if(urbanData){
+    let i = 0;
+    while(urbanData[i]){
+      Udata[0] += urbanData[i].total_fragmented_plastic;
+      Udata[1] += urbanData[i].total_plastic_products;
+      Udata[2] += urbanData[i].total_food_wrappers;
+      Udata[3] += urbanData[i].total_styrofoam;
+      Udata[4] += urbanData[i].total_cigarette_butts;
+      Udata[5] += urbanData[i].total_paper_and_treated_wood;
+      Udata[6] += urbanData[i].total_metal;
+      Udata[7] += urbanData[i].total_glass;
+      Udata[8] += urbanData[i].total_fabric;
+      Udata[9] += urbanData[i].total_rubber;
+      Udata[10] += urbanData[i].total_other;
+      i++;
+  }
 
-
-    if(ruralData){
-        for(var i=0; i < Xvalues.length; i++){
-            Rdata[0] += ruralData[i].total_fragmented_plastic;
-            Rdata[1] += ruralData[i].total_plastic_products;
-            Rdata[2] += ruralData[i].total_food_wrappers;
-            Rdata[3] += ruralData[i].total_styrofoam;
-            Rdata[4] += ruralData[i].total_cigarette_butts;
-            Rdata[5] += ruralData[i].total_paper_and_treated_wood;
-            Rdata[6] += ruralData[i].total_metal;
-            Rdata[7] += ruralData[i].total_glass;
-            Rdata[9] += ruralData[i].total_rubber;
-            Rdata[10] += ruralData[i].total_other;
-        }
+  if(ruralData){
+    let i = 0;
+    while(ruralData[i]){
+      Rdata[0] += ruralData[i].total_fragmented_plastic;
+      Rdata[1] += ruralData[i].total_plastic_products;
+      Rdata[2] += ruralData[i].total_food_wrappers;
+      Rdata[3] += ruralData[i].total_styrofoam;
+      Rdata[4] += ruralData[i].total_cigarette_butts;
+      Rdata[5] += ruralData[i].total_paper_and_treated_wood;
+      Rdata[6] += ruralData[i].total_metal;
+      Rdata[7] += ruralData[i].total_glass;
+      Rdata[9] += ruralData[i].total_rubber;
+      Rdata[10] += ruralData[i].total_other;
+      i++;
     }
-    updateChart();
-    newChartInstance.update();
+  }
+  updateChart();
+  newChartInstance.update();
   }
   
   const chartConfig = {
@@ -193,11 +127,11 @@ function ComparisonChart() {
           labels: Xvalues,
           datasets: [{ 
             backgroundColor: 'orange', 
-            data: Udata 
+            data: Udata
           },
           { 
             backgroundColor: 'royalblue', 
-            data: Rdata 
+            data: Rdata
           }
         ]
       },
@@ -216,87 +150,49 @@ function ComparisonChart() {
   };
   console.log("after config " + Udata);
 
+  function dataToArray(){
+    let debrisDataArray = []
+    if(urbanData){
+      for(var i=0; i < urbanData.length; i++){
+        debrisDataArray[i] = [
+          urbanData[i].type, 
+          urbanData[i].total_fragmented_plastic, 
+          urbanData[i].total_plastic_products, 
+          urbanData[i].total_food_wrappers,
+          urbanData[i].total_styrofoam, 
+          urbanData[i].total_cigarette_butts, 
+          urbanData[i].total_paper_and_treated_wood, 
+          urbanData[i].total_metal,
+          urbanData[i].total_glass, 
+          urbanData[i].total_fabric, 
+          urbanData[i].total_rubber, 
+          urbanData[i].total_other,
+        ]
+        debrisDataArray[i] = debrisDataArray[i].map((row) => 
+          row = row + " "
+        );
+      }
+      debrisDataArray = debrisDataArray.map((row) => 
+        <li>{row}</li>
+      );
+      return debrisDataArray;
+    }
+  }
 
   return (
     <div>
         <h4>Urban vs Rural Beaches: </h4>
         <div class="bar-chart">
           <canvas ref={chartContainer} />
-           {/* {!debrisData ? 'There is no debrisData available' : 
+        </div>
+        {!urbanData ? 'There is no debrisData available' : 
             <ol>
               {dataToArray()}
             </ol>
-          }  */}
-        </div>
+          } 
     </div>
 
   );
         }
-/*
-// Object with functions to update chart
-class ComparisonChart extends React.Component{
-    // Initialize state
-    state = {
-        urbanOption: null,
-        ruralOption: null,
-      };
-      // Update the chart with correct data after urban, rural values are set
-      updateChart = () => {
-        var newDataP = [dataP[urban], dataP[rural]];
-        var newDataC = [dataC[urban], dataC[rural]];
-        var newDataSf = [dataSf[urban], dataSf[rural]];
-        var newLabels = [beaches[urban], beaches[rural]]
-        newChartInstance.data.datasets[0].data = newDataP;
-        newChartInstance.data.datasets[1].data = newDataC;
-        newChartInstance.data.datasets[2].data = newDataSf;
-        newChartInstance.data.labels = newLabels;
-      }
-      // Update urban value
-      setUrban = urbanOption => {
-        // Set state with value
-        this.setState({ urbanOption });
-        console.log(`Option selected:`, urbanOption);
-        updateUrban(urbanOption);
-        this.updateChart();
-        // Update chart after data values are set in updateChart()
-        newChartInstance.update();
-        
-      };
-      // Update rural value
-      setRural = ruralOption => {
-        // Set state with value
-        this.setState({ ruralOption });
-        console.log(`Option selected:`, ruralOption);
-        updateRural(ruralOption);
-        this.updateChart();
-        // Update chart after data values are set in updateChart()
-        newChartInstance.update();
-      };
-    render(){
-        const { urbanOption, ruralOption } = this.state;
-  return (
-      
-    <div>
-        <div className="row">
-            <div className="col-md-2">
-                <h4>Compare </h4>
-            </div>
-            <div className="col-md-3">
-                <Select id='sel' placeholder={ "All Urban" } value={ urbanOption } options={ urbanBeaches } onChange={this.setUrban}/>
-            </div>
-            <div className="col-md-1">
-                <h4> and </h4>
-            </div>
-            <div className="col-md-3">
-                <Select id='sel' placeholder={ "All Rural" } value={ ruralOption } options={ ruralBeaches } onChange={this.setRural}/>
-            </div>
-            <div className="col-md-7"></div>
-        </div>
-        <br></br>
-        <CompareContainer />
-    </div>
-  );
-}
-}
-*/
+
 export default ComparisonChart;

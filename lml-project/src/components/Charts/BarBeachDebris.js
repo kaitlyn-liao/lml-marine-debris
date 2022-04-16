@@ -80,44 +80,9 @@ function BarChart() {
     newChartInstance.update();
   }
 
-  function dataToArray(){
-    let debrisDataArray = []
-    if(debrisData){
-      for(var i=0; i < debrisData.length; i++){
-        debrisDataArray[i] = [
-          debrisData[i].entry_id, 
-          debrisData[i].beach, 
-          debrisData[i].type, 
-          debrisData[i].season,
-          debrisData[i].date, 
-          debrisData[i].total_fragmented_plastic, 
-          debrisData[i].total_plastic_products, 
-          debrisData[i].total_food_wrappers,
-          debrisData[i].total_styrofoam, 
-          debrisData[i].total_cigarette_butts, 
-          debrisData[i].total_paper_and_treated_wood, 
-          debrisData[i].total_metal,
-          debrisData[i].total_glass, 
-          debrisData[i].total_fabric, 
-          debrisData[i].total_rubber, 
-          debrisData[i].total_other,
-          debrisData[i].total_debris,
-          debrisData[i].total_debris_divby_m_sq, 
-          debrisData[i].notes
-        ]
-        debrisDataArray[i] = debrisDataArray[i].map((row) => 
-          row = row + " "
-        );
-      }
-      debrisDataArray = debrisDataArray.map((row) => 
-        <li>{row}</li>
-      );
-      return debrisDataArray;
-    }
-  }
-  
   if(debrisData){
-    for(var i=0; i < Xvalues.length; i++){
+    let i = 0;
+    while(debrisData[i]){
       Xdata[0] += debrisData[i].total_fragmented_plastic;
       Xdata[1] += debrisData[i].total_plastic_products;
       Xdata[2] += debrisData[i].total_food_wrappers;
@@ -129,6 +94,7 @@ function BarChart() {
       Xdata[8] += debrisData[i].total_fabric;
       Xdata[9] += debrisData[i].total_rubber;
       Xdata[10] += debrisData[i].total_other;
+      i++;
     }
     console.log(Xdata)
     updateChart();
@@ -172,11 +138,6 @@ function BarChart() {
           </div>
         <div class="bar-chart">
           <canvas ref={chartContainer} />
-           {/* {!debrisData ? 'There is no debrisData available' : 
-            <ol>
-              {dataToArray()}
-            </ol>
-          }  */}
         </div>
     </div>
 

@@ -118,7 +118,8 @@ function BarChart() {
   }
   
   if(debrisData){
-    for(var i=0; i < Xvalues.length; i++){
+    let i = 0;
+    while(debrisData[i]){
       Xdata[0] += debrisData[i].total_fragmented_plastic;
       Xdata[1] += debrisData[i].total_plastic_products;
       Xdata[2] += debrisData[i].total_food_wrappers;
@@ -130,6 +131,7 @@ function BarChart() {
       Xdata[8] += debrisData[i].total_fabric;
       Xdata[9] += debrisData[i].total_rubber;
       Xdata[10] += debrisData[i].total_other;
+      i++;
     }
     console.log(Xdata)
     updateChart();
@@ -157,8 +159,8 @@ function BarChart() {
           }
         }
       },*/
-      height: 400,
-      width: 600
+      height: 200,
+      width: 300
   };
   console.log("after config " + Xdata)
 

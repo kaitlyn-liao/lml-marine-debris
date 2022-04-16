@@ -81,7 +81,8 @@ function BarChart() {
   }
 
   if(debrisData){
-    for(var i=0; i < debrisData.length; i++){
+    let i = 0;
+    while(debrisData[i]){
       switch(debrisData[i].season){
         case "Winter":
           Xdata[0] += debrisData[i].total_debris;
@@ -96,6 +97,7 @@ function BarChart() {
           Xdata[3] += debrisData[i].total_debris;
           break;
       }
+      i++;
     }
     console.log(Xdata)
     updateChart();
