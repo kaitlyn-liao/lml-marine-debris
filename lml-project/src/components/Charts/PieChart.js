@@ -141,11 +141,13 @@ function BarChart() {
       data: {
           labels: Xvalues,
           datasets: [{ 
-            backgroundColor: 'rgba(255, 99, 132, 1)', 
+            backgroundColor: ['#4D9DE0', '#E15554', '#E1BC29', 
+            '#3BB273', '#7768AE', '#FCD0A1', '#B1B695', '#53917E', '#63535B', 
+            '#6D1A36', '#EE4266'], 
             data: Xdata 
           }]
       },
-      options: {
+      /*options: {
         plugins: {
           legend: {
             display: false
@@ -154,7 +156,7 @@ function BarChart() {
             enabled: false
           }
         }
-      },
+      },*/
       height: 400,
       width: 600
   };
