@@ -187,7 +187,7 @@ function ComparisonChart() {
         </div>
         {!urbanData ? 'There is no debrisData available' : 
             <ol>
-              {dataToArray()}
+              {dataToArray()}``
             </ol>
           } 
     </div>
