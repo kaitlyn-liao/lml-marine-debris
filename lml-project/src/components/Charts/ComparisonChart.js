@@ -185,11 +185,6 @@ function ComparisonChart() {
         <div class="bar-chart">
           <canvas ref={chartContainer} />
         </div>
-        !urbanData ? 'There is no debrisData available' : 
-            <ol>
-              {dataToArray()}``
-            </ol>
-        
     </div>
 
   );
