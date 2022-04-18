@@ -9,10 +9,12 @@
  * 
  */
 import React, { useEffect, useRef, useState } from 'react'
+import Button from 'react-bootstrap/Button'
 import ReactDOM from 'react-dom';
 import { Bar, Pie } from "react-chartjs-2"
 import Select from 'react-select';
 import { usePapaParse } from 'react-papaparse';
+import { ArrowLeft, ArrowRight } from "react-bootstrap-icons";
 import {
     Chart,
     CategoryScale,
@@ -22,6 +24,7 @@ import {
     ArcElement,
     registerables
 } from 'chart.js';
+import { doWhileStatement } from '@babel/types';
 
 
 Chart.register(
@@ -34,6 +37,7 @@ Chart.register(
 );
 
 let newChartInstance;
+let idx = 0;
 
 const beachList = [
   { label: "Waddell", value: 0 },
@@ -50,7 +54,13 @@ const beachList = [
   { label: "Del Monte", value: 11 },
 ];
 
-function ComparisonChart() {
+function OneColumn() {
+  var Xvalues = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
+  var Udata = [0,0,0,0,0,0,0,0,0,0,0]
+  var Rdata = [0,0,0,0,0,0,0,0,0,0,0]
+  var Uselect = [Udata[idx]];
+  var Rselect = [Rdata[idx]];
+  var Xselect = [Xvalues[idx]];
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
   useEffect(() => {
@@ -61,13 +71,58 @@ function ComparisonChart() {
   }, [chartContainer]);
 
   function updateChart(){
-    newChartInstance.data.datasets[0].data = Udata;
-    newChartInstance.data.datasets[1].data = Rdata;
+    Uselect = [Udata[idx]];
+    Rselect = [Rdata[idx]];
+    Xselect = [Xvalues[idx]];
+    newChartInstance.data.datasets[0].data = Uselect;
+    newChartInstance.data.datasets[1].data = Rselect;
+    newChartInstance.data.labels = Xselect;
+    newChartInstance.update();
+    console.log("updating");
   }
 
-  var Xvalues = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
-  var Udata = [0,0,0,0,0,0,0,0,0,0,0]
-  var Rdata = [0,0,0,0,0,0,0,0,0,0,0]
+  function scrollChartR(){
+    console.log("scrollR");
+    
+        if(typeof newChartInstance === 'undefined'){
+            return;
+        }
+      if(idx === 10 && newChartInstance.data != null){
+          idx = 0;
+          Uselect = Udata[idx];
+          Rselect = Rdata[idx];
+          Xselect = [Xvalues[idx]];
+          updateChart();
+          return;
+      }
+      idx += 1;
+      Uselect = [Udata[idx]];
+      Rselect = [Rdata[idx]];
+      Xselect = [Xvalues[idx]];
+      console.log(idx);
+      updateChart();
+  }
+  function scrollChartL(){
+    console.log("scrollL");
+    
+    if(typeof newChartInstance === 'undefined'){
+        return;
+    }
+    if(idx === 0 && newChartInstance.data != null){
+        idx = 10;
+        Uselect = [Udata[idx]];
+        Rselect = [Rdata[idx]];
+        Xselect = [Xvalues[idx]];
+        updateChart();
+        return;
+    }
+    idx -= 1;
+    Uselect = [Udata[idx]];
+    Rselect = [Rdata[idx]];
+    Xselect = [Xvalues[idx]];
+    console.log(idx);
+    updateChart();
+}
 
   // debrisData stores the result of a GET call from the data table, setDebrisData sets the value of debrisData
   const [urbanData, setUrbanData] = useState(false);
@@ -124,16 +179,16 @@ function ComparisonChart() {
   const chartConfig = {
       type: 'bar',
       data: {
-          labels: Xvalues,
+          labels: Xselect,
           datasets: [{ 
             label: 'Urban',
             backgroundColor: 'orange', 
-            data: Udata
+            data: Uselect
           },
           { 
             label: 'Rural',
             backgroundColor: 'royalblue', 
-            data: Rdata
+            data: Rselect
           }
         ]
       },
@@ -185,7 +240,27 @@ function ComparisonChart() {
     <div>
         <h4>Urban vs Rural Beaches: </h4>
         <div class="bar-chart">
-          <canvas ref={chartContainer} />
+        <div class="row">
+            <div class="col-md-1">
+            <Button
+                variant="light"
+                onClick={scrollChartL}
+            >
+                <ArrowLeft size={20}></ArrowLeft>
+            </Button>
+            </div>
+            <div class="col">
+                <canvas ref={chartContainer} />
+            </div>
+          <div class="col-md-1">
+            <Button
+                variant="light"
+                onClick={scrollChartR}
+            >
+                <ArrowRight size={20}></ArrowRight>
+            </Button>
+            </div>
+        </div>
         </div>
         {/*!urbanData ? 'There is no debrisData available' : 
             <ol>
@@ -197,4 +272,4 @@ function ComparisonChart() {
   );
         }
 
-export default ComparisonChart;
+export default OneColumn;

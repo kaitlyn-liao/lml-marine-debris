@@ -7,20 +7,17 @@
 
 import React from 'react';
 import Graph from './Graph.js';
+import Map from './Map.js';
 import mapImg from '../../images/placeholderMap.png'
 
 class DataVis extends React.Component {
     
-    render() {     
-      const placeholderMapStyle = {
-        // width: "100%",
-
-      };
+    render() {
       return (
         // html goes here
         <div>
           <Graph />
-          <img src={ mapImg } style={ placeholderMapStyle } alt=""></img>
+          <Map />
         </div>
       );
       
