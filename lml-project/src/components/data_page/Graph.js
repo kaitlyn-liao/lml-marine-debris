@@ -12,12 +12,14 @@ import Offcanvas from 'react-bootstrap/Offcanvas'
 import Button from 'react-bootstrap/Button'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
+import { DistributeHorizontal, BarChartFill } from "react-bootstrap-icons";
 import { useState } from 'react';
 // import graphOffcanvas from '../../css/GraphCanvas.css';
 
 import PieChart from '../charts/PieChart.js';
 // import StackedChart from '../charts/StackedChart.js';
 import ComparisonChart from '../charts/ComparisonChart.js';
+import OneColumn from '../charts/OneColumn.js';
 import BarChart from '../charts/BarBeachDebris.js';
 import SeasonBarChart from '../charts/BarSeasons.js';
 
@@ -36,7 +38,7 @@ class Graph extends React.Component {
 
 function ControlledTabs() {
   const [key, setKey] = useState('Bar');
-
+  const [key2, setKey2] = useState('All');
   return (
     <Tabs
       id="controlled-tab-example"
@@ -54,7 +56,19 @@ function ControlledTabs() {
         <SeasonBarChart />
       </Tab>
       <Tab eventKey="Comparison" title="Comparison">
-        <ComparisonChart />
+      <Tabs
+      id="controlled-tab-example"
+      activeKey={key2}
+      onSelect={(k) => setKey2(k)}
+      className="mb-3"
+    >
+        <Tab eventKey="All" title={<BarChartFill size={20}></BarChartFill>}>
+          <ComparisonChart />
+        </Tab>
+        <Tab eventKey="One" title={<DistributeHorizontal size={20}></DistributeHorizontal>}>
+          <OneColumn />
+        </Tab>
+        </Tabs>
       </Tab>
     </Tabs>
   );
