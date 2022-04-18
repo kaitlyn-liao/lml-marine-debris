@@ -62,7 +62,6 @@ function BarChart() {
   var Xvalues = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
   var Xdata = [0,0,0,0,0,0,0,0,0,0,0]
 
-
   // debrisData stores the result of a GET call from the data table, setDebrisData sets the value of debrisData
   const [debrisData, setDebrisData] = useState(false);
   useEffect(() => { getDebrisDataByBeach(placeholderBeach); }, []);
@@ -81,42 +80,6 @@ function BarChart() {
     newChartInstance.update();
   }
 
-  function dataToArray(){
-    let debrisDataArray = []
-    if(debrisData){
-      for(var i=0; i < debrisData.length; i++){
-        debrisDataArray[i] = [
-          debrisData[i].entry_id, 
-          debrisData[i].beach, 
-          debrisData[i].type, 
-          debrisData[i].season,
-          debrisData[i].date, 
-          debrisData[i].total_fragmented_plastic, 
-          debrisData[i].total_plastic_products, 
-          debrisData[i].total_food_wrappers,
-          debrisData[i].total_styrofoam, 
-          debrisData[i].total_cigarette_butts, 
-          debrisData[i].total_paper_and_treated_wood, 
-          debrisData[i].total_metal,
-          debrisData[i].total_glass, 
-          debrisData[i].total_fabric, 
-          debrisData[i].total_rubber, 
-          debrisData[i].total_other,
-          debrisData[i].total_debris,
-          debrisData[i].total_debris_divby_m_sq, 
-          debrisData[i].notes
-        ]
-        debrisDataArray[i] = debrisDataArray[i].map((row) => 
-          row = row + " "
-        );
-      }
-      debrisDataArray = debrisDataArray.map((row) => 
-        <li>{row}</li>
-      );
-      return debrisDataArray;
-    }
-  }
-  
   if(debrisData){
     let i = 0;
     while(debrisData[i]){
@@ -139,15 +102,15 @@ function BarChart() {
   }
   
   const chartConfig = {
-      type: 'pie',
+      type: 'bar',
       data: {
           labels: Xvalues,
           datasets: [{ 
-            backgroundColor: ["#91B77B", "#003D03", "#002839", "#005F73", "#0A9396", "#94D2BD" , "#E9d8A6", "#ECBA53", "#EE9B00", "#CA6702", "#9B2226"],
+            backgroundColor: 'rgba(255, 99, 132, 1)', 
             data: Xdata 
           }]
       },
-      /*options: {
+      options: {
         plugins: {
           legend: {
             display: false
@@ -156,9 +119,9 @@ function BarChart() {
             enabled: false
           }
         }
-      },*/
-      height: 200,
-      width: 300
+      },
+      height: 400,
+      width: 600
   };
   console.log("after config " + Xdata)
 
@@ -175,11 +138,6 @@ function BarChart() {
           </div>
         <div class="bar-chart">
           <canvas ref={chartContainer} />
-           {/* {!debrisData ? 'There is no debrisData available' : 
-            <ol>
-              {dataToArray()}
-            </ol>
-          }  */}
         </div>
     </div>
 

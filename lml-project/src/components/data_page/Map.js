@@ -11,6 +11,8 @@ import Button from 'react-bootstrap/Button'
 import { withSize } from "react-sizeme";
 import BEACHES from "./beaches.json";
 import { GeoAltFill } from "react-bootstrap-icons";
+import Graph from './Graph.js';
+import "../../css/Map.css";
 
 const beachJSON = BEACHES;
 const latLongList = getLatLongList(beachJSON);
@@ -37,6 +39,11 @@ function Map(props) {
   const mapContainer = {
     width: "100%", height: "83vh",
   }
+
+  const bounds = [
+    [-124, 36.2], // Southwest coordinates
+    [-120, 37.5] // Northeast coordinates
+    ];
   const mapRef = useRef();
   // Resize the map to the current webpage size
   const resizeMap = () => {
@@ -53,6 +60,7 @@ function Map(props) {
         style={ mapContainer } 
         accessToken={ process.env.REACT_APP_MAPBOX_TOKEN }
         mapStyle="mapbox://styles/hfox999/ck6crjgkn0bfs1imqs16f84wz"
+        maxBounds={bounds}
         onViewportChange={(viewport) => {
           viewport.zoom=9.5
           viewport.maxZoom=18
@@ -68,7 +76,7 @@ function Map(props) {
             >
               {/* <Button> */}
                 {/* <i className="bi biGeoAltFill"></i> */}
-                <GeoAltFill color="royalblue" size={50} />
+                <GeoAltFill class="pin" id={beach.type} size={50} />
               {/* </Button> */}
             </Marker>
           ))}
