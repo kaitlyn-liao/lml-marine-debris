@@ -1,5 +1,6 @@
 {
   "name": "lml-project",
+  "homepage": "https://lmlstrandingnetwork.ucsc.edu/lml_marine_debris",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
