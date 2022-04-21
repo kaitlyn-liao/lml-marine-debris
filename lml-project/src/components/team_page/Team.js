@@ -5,6 +5,7 @@
 // Team.js is rendered by Controller.js, and renders the child Member.js
 
 import React from 'react';
+import "../../css/Team.css";
 import avatar from '../team_page/images/default-avatar.png'
 import githubButton from '../team_page/images/GitHub-Mark.png'
 import linkedInButton from '../team_page/images/linkedin.png'
