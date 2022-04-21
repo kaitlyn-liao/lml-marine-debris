@@ -8,6 +8,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../css/LoginStyle.css';
+import UploadAdmin from '../UploadAdmin';
 
 function Login_UnApr() {
 
@@ -19,19 +20,23 @@ function Login_UnApr() {
   }
       
   return (
-    <div className="Login_UnApr">
-        <h1>Login</h1>
-        <form onSubmit={handleLogin}>
-            <input type="email" className="bg-gray email-input-size" name="email" type="email" placeholder=" Email" />
-            <br></br>
-            <br></br>
+    <div>
+      <div className="Login_UnApr">
+          <h1>Login</h1>
+          <form onSubmit={handleLogin}>
+              <input type="email" className="bg-gray email-input-size" name="email" placeholder=" Email" />
+              <br></br>
+              <br></br>
 
-            <input type="password" className="bg-gray email-input-size" name="password" type="password" placeholder=" Password" />
-            <br></br>
+              <input type="password" className="bg-gray email-input-size" name="password" placeholder=" Password" />
+              <br></br>
 
-            <br></br>
-            <button type="submit" className="btn-blue btn" onClick={handleLogin}>Login</button>
-        </form>
+              <br></br>
+              <button type="submit" className="btn-blue btn" onClick={handleLogin}>Login</button>
+          </form>
+      </div>
+      <br></br>
+      <UploadAdmin/>
     </div>
   );
 

@@ -9,6 +9,7 @@ const port = 3001
 
 // const merchant_model = require('./merchant_model');
 const lml_data_model = require('./lml_data_model.js');
+const lml_admin_model = require('./lml_admin_model.js');
 
 app.use(express.json())
 app.use(function (req, res, next) {
@@ -75,7 +76,7 @@ app.get('/urban', (req, res) => {
   })
 })
 
-// get all urban beach debris data from lml_debris_data
+// get all rural beach debris data from lml_debris_data
 app.get('/rural', (req, res) => {
   lml_data_model.getRuralBeachDebrisData()
   .then(response => {
@@ -141,7 +142,6 @@ app.delete('/lml_debris_data', (req, res) => {
     res.status(500).send(error);
   })
 })
-
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
