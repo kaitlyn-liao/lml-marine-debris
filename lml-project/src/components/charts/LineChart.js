@@ -6,6 +6,7 @@ import {
     CategoryScale,
     LinearScale,
     BarElement,
+    LineElement,
     Title,
     Tooltip,
     Legend,
@@ -43,7 +44,7 @@ const beachList = [
   { label: "Del Monte", value: 11 },
 ];
 
-function BarChart() {
+function LineChart() {
   let newBeach;
   console.log(newBeach);
   const chartContainer = useRef(null);
@@ -57,10 +58,11 @@ function BarChart() {
 
   function updateChart(){
     newChartInstance.data.datasets[0].data = Xdata;
+    newChartInstance.data.labels = Xvalues;
   }
 
-  var Xvalues = ["Winter", "Spring", "Summer", "Autum"]
-  var Xdata  = [0,0,0,0]
+  var Xvalues = [];
+  var Xdata = [];
 
   // debrisData stores the result of a GET call from the data table, setDebrisData sets the value of debrisData
   const [debrisData, setDebrisData] = useState(false);
@@ -83,20 +85,19 @@ function BarChart() {
   if(debrisData){
     let i = 0;
     while(debrisData[i]){
-      switch(debrisData[i].season){
-        case "Winter":
-          Xdata[0] += debrisData[i].total_debris;
-          break;
-        case "Spring":
-          Xdata[1] += debrisData[i].total_debris;
-          break;
-        case "Summer":
-          Xdata[2] += debrisData[i].total_debris;
-          break;
-        case "Fall":
-          Xdata[3] += debrisData[i].total_debris;
-          break;
-      }
+      /*Xdata[0] += debrisData[i].total_fragmented_plastic;
+      Xdata[1] += debrisData[i].total_plastic_products;
+      Xdata[2] += debrisData[i].total_food_wrappers;
+      Xdata[3] += debrisData[i].total_styrofoam;
+      Xdata[4] += debrisData[i].total_cigarette_butts;
+      Xdata[5] += debrisData[i].total_paper_and_treated_wood;
+      Xdata[6] += debrisData[i].total_metal;
+      Xdata[7] += debrisData[i].total_glass;
+      Xdata[8] += debrisData[i].total_fabric;
+      Xdata[9] += debrisData[i].total_rubber;
+      Xdata[10] += debrisData[i].total_other;*/
+      Xdata[i] = debrisData[i].total_debris;
+      Xvalues[i] = debrisData[i].date;
       i++;
     }
     console.log(Xdata)
@@ -105,11 +106,12 @@ function BarChart() {
   }
   
   const chartConfig = {
-      type: 'bar',
+      type: 'line',
       data: {
           labels: Xvalues,
           datasets: [{ 
-            backgroundColor: ['rgba(100, 240, 255, 1)', 'rgba(100, 255, 0, 1)', 'rgba(255, 230, 100, 1)', 'rgba(255, 100, 100, 1)'], 
+            backgroundColor: 'rgba(255, 99, 132, 1)', 
+            borderColor: 'rgba(255, 99, 132, 1)',
             data: Xdata 
           }]
       },
@@ -141,15 +143,10 @@ function BarChart() {
           </div>
         <div class="bar-chart">
           <canvas ref={chartContainer} />
-           {/* {!debrisData ? 'There is no debrisData available' : 
-            <ol>
-              {dataToArray()}
-            </ol>
-          }  */}
         </div>
     </div>
 
   );
 }
 
-export default BarChart;
+export default LineChart;

@@ -106,7 +106,7 @@ function BarChart() {
       data: {
           labels: Xvalues,
           datasets: [{ 
-            backgroundColor: 'rgba(255, 99, 132, 1)', 
+            backgroundColor: ["#91B77B", "#003D03", "#002839", "#005F73", "#0A9396", "#94D2BD" , "#E9d8A6", "#ECBA53", "#EE9B00", "#CA6702", "#9B2226"], 
             data: Xdata 
           }]
       },
