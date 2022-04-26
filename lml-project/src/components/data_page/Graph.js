@@ -73,7 +73,7 @@ function ControlledTabs() {
       onSelect={(k) => setKey4(k)}
       className="mb-3"
     >
-      <Tab eventKey="Seasons" title={<div><SunFill class='padded-icon' size={20}></SunFill><CloudRainFill size={20}></CloudRainFill></div>}>
+      <Tab eventKey="Seasons" title={<div><Snow class='padded-icon' size={20}></Snow><SunFill size={20}></SunFill></div>}>
         <SeasonBarChart />
       </Tab>
       <Tab eventKey="Date" title={<CalendarWeekFill size={20}></CalendarWeekFill>}>
@@ -81,7 +81,7 @@ function ControlledTabs() {
       </Tab>
       </Tabs>
         </Tab>
-      <Tab eventKey="Comparison" title="Comparison">
+      <Tab eventKey="Comparison" title="Urban vs Rural">
       <Tabs
       id="controlled-tab-example"
       activeKey={key2}
