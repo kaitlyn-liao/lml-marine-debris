@@ -6,22 +6,45 @@
 // Map.js is rendered by DataVis.js, and currently renders no children.
 
 import React, { useRef, useEffect, useState } from 'react';
-import MapGL, { Marker  } from "@urbica/react-map-gl";
+import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
 import Button from 'react-bootstrap/Button'
 import { withSize } from "react-sizeme";
 import BEACHES from "./beaches.json";
 import { GeoAltFill } from "react-bootstrap-icons";
 import Graph from './Graph.js';
 import "../../css/Map.css";
+import 'mapbox-gl/dist/mapbox-gl.css';
+import { closeComplete } from 'pg-protocol/dist/messages';
 
 const beachJSON = BEACHES;
 const latLongList = getLatLongList(beachJSON);
 const mapViewCenter = getMapCenter(latLongList);
-
+const defaultBeach = {
+  "beach_id": -1,
+  "name": "None",
+  "lat": 0,
+  "long": 0,
+  "type": "neither",
+  "bottom": [0, 0]
+};
+let selectedBeach;
+let popup;
+let p;
+let popups = [];
+let settingBeach = false;
+let idx = 0;
 const INITIAL_MAP_VIEW = {
   latitude: mapViewCenter[0],
   longitude:mapViewCenter[1],
   zoom: 9.5,
+  maxZoom: 18,
+  minZoom: 8
+}
+
+let NEW_MAP_VIEW = {
+  latitude: mapViewCenter[0],
+  longitude:mapViewCenter[1],
+  zoom: 9.6,
   maxZoom: 18,
   minZoom: 8
 }
@@ -49,12 +72,86 @@ function Map(props) {
   const resizeMap = () => {
     mapRef.current && mapRef.current.getMap().resize();
   };
+  //const selectedBeach = useRef(null);
+  //const [selectedBeach, setSelectedBeach] = React.useState(null);
 
+  
+
+  /*let popup = [<Popup
+  latitude={0}
+  longitude={0}
+  offsetTop={-30}
+  anchor="bottom"
+  bottom = {0}
+>
+  <div>
+    <h2>Hi</h2>
+  </div>
+</Popup>];*/
+function delay(time) {
+  return new Promise(resolve => setTimeout(resolve, time));
+}
+
+function updateDiv()
+{ 
+  if(!document.getElementById("pop")){return};
+  document.getElementById("pop").innerHTML = document.getElementById("pop").innerHTML;
+
+}
+
+function setSelectedBeach(b){
+  selectedBeach = b;
+  NEW_MAP_VIEW = {
+    latitude: b.lat,
+    longitude: b.long,
+    zoom: 10,
+    maxZoom: 18,
+    minZoom: 8
+  }
+  setViewport(NEW_MAP_VIEW);
+  /*if(idx === 0){
+  setViewport(INITIAL_MAP_VIEW); idx = 1;}
+  else{setViewport(NEW_MAP_VIEW); idx = 0;}*/
+  /*for(var i = 0; i < BEACHES.length; i++){
+    popups[i] = <Popup
+    key={BEACHES[i].id}
+    latitude={BEACHES[i].lat}
+    longitude={BEACHES[i].long}
+    offsetTop={-30}
+    anchor="bottom"
+    offset = {50}
+    closeOnClick={true}
+    onClose={() => {
+      setSelectedBeach(selectedBeach);
+    }}
+  >
+    <div>
+      <h2>Hi</h2>
+    </div>
+  </Popup>
+  if(selectedBeach.name === BEACHES[i].name){
+    popup = [popups[i]];
+  }
+  }*/       
+}
+
+  /*useEffect(() => {
+    if (selectedBeach) {
+      setSelectedBeach(selectedBeach);
+    }
+  }, [selectedBeach]);*/
+
+  /*function setSelectedBeach (b){
+    selectedBeach = b;
+  }*/
+
+  
 
   return (
     <div>
       <SizeAware onSize={resizeMap}>
         <MapGL
+        id='mainMap'
         {...viewport}
         ref={mapRef}
         style={ mapContainer } 
@@ -65,21 +162,55 @@ function Map(props) {
           viewport.zoom=9.5
           viewport.maxZoom=18
           viewport.minZoom=8
-          setViewport(viewport);
+          //setSelectedBeach(selectedBeach);
+          //if(document.getElementById('pop')){document.getElementById('pop').reload(true);}
+          //setViewport(viewport);
         }}
         >
-          {BEACHES.map(beach =>(
-            <Marker 
+          {BEACHES.map(beach => (
+            <Marker
             key={beach.beach_id}
             longitude={beach.long}
             latitude={beach.lat}
             >
-              {/* <Button> */}
-                {/* <i className="bi biGeoAltFill"></i> */}
-                <GeoAltFill class="pin" id={beach.type} size={50} />
-              {/* </Button> */}
+              <GeoAltFill id="fly" class="pin" onClick={e => {
+                e.preventDefault();
+                console.log(beach);
+                //updateBeach(beach);
+                console.log('setting');
+                setSelectedBeach(beach);
+                //setViewport(INITIAL_MAP_VIEW);
+                console.log(selectedBeach);
+                updateDiv();
+                if(document.getElementById("pop")){console.log("found");}
+                }} 
+              id={beach.type}
+              size={50} />
             </Marker>
           ))}
+          
+          {/*selectedBeach ? <div id='pop'><ol>{popups}</ol></div> : null*/}
+          {selectedBeach ? (
+            <div id='pop'><Popup
+            latitude={selectedBeach.lat}
+            longitude={selectedBeach.long}
+            offsetTop={-30}
+            anchor="bottom"
+            offset = {50}
+            closeOnClick={false}
+            closeButton={false}
+            onClose={() => {
+              if(!settingBeach){
+                console.log('trying to set');}
+              //setSelectedBeach(defaultBeach);
+              console.log(selectedBeach);
+            }}
+          >
+            <div>
+              <h3>{selectedBeach.name}</h3>
+            </div>
+          </Popup></div>
+          ) : null}
         </MapGL>
       </SizeAware>
     </div>
@@ -113,7 +244,7 @@ function Map(props) {
 
 
 // Helper functions for mapViewCenter
-function rad2degr(rad) { return rad * 180 / Math.PI; }
+function rad2degr(rad) { return rad * 180 / Math.PI; }  
 function degr2rad(degr) { return degr * Math.PI / 180; }
 /**
  * @param latLngInDeg array of arrays with latitude and longtitude
