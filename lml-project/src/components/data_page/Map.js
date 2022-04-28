@@ -10,7 +10,7 @@ import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
 import Button from 'react-bootstrap/Button'
 import { withSize } from "react-sizeme";
 import BEACHES from "./beaches.json";
-import { GeoAltFill } from "react-bootstrap-icons";
+import { GeoAltFill, XCircleFill } from "react-bootstrap-icons";
 import Graph from './Graph.js';
 import "../../css/Map.css";
 import 'mapbox-gl/dist/mapbox-gl.css';
@@ -29,10 +29,14 @@ const defaultBeach = {
 };
 let selectedBeach;
 let popup;
+let onPopup = false;
 let p;
 let popups = [];
 let settingBeach = false;
 let idx = 0;
+let currentZoom = 9.5;
+let currentLat = mapViewCenter[0];
+let currentLong = mapViewCenter[1];
 const INITIAL_MAP_VIEW = {
   latitude: mapViewCenter[0],
   longitude:mapViewCenter[1],
@@ -101,10 +105,13 @@ function updateDiv()
 
 function setSelectedBeach(b){
   selectedBeach = b;
+  currentZoom = viewport.zoom;
+  currentLat = viewport.latitude;
+  currentLong = viewport.longitude;
   NEW_MAP_VIEW = {
-    latitude: b.lat,
-    longitude: b.long,
-    zoom: 10,
+    latitude: currentLat,
+    longitude: currentLong,
+    zoom: currentZoom,
     maxZoom: 18,
     minZoom: 8
   }
@@ -144,6 +151,18 @@ function setSelectedBeach(b){
   /*function setSelectedBeach (b){
     selectedBeach = b;
   }*/
+  useEffect(() => {
+    const listener = e => {
+      if (e.key === "Escape") {
+        setSelectedBeach(null);
+      }
+    };
+    window.addEventListener("keydown", listener);
+
+    return () => {
+      window.removeEventListener("keydown", listener);
+    };
+  }, []);
 
   
 
@@ -168,29 +187,41 @@ function setSelectedBeach(b){
         }}
         >
           {BEACHES.map(beach => (
-            <Marker
+                <Marker
             key={beach.beach_id}
             longitude={beach.long}
             latitude={beach.lat}
             >
-              <GeoAltFill id="fly" class="pin" onClick={e => {
+              <GeoAltFill id="fly" class="pin" onMouseOver={e => {
                 e.preventDefault();
                 console.log(beach);
                 //updateBeach(beach);
                 console.log('setting');
-                setSelectedBeach(beach);
+                if(!onPopup)
+                {setSelectedBeach(beach);}
                 //setViewport(INITIAL_MAP_VIEW);
                 console.log(selectedBeach);
                 updateDiv();
                 if(document.getElementById("pop")){console.log("found");}
-                }} 
+                }}  
+                onMouseLeave={e => {
+                  e.preventDefault();
+                  if(!onPopup)
+                  {setSelectedBeach(defaultBeach);}
+                  }}
+                  onClick={e => {
+                    e.preventDefault();
+                    setSelectedBeach(defaultBeach);
+                    setSelectedBeach(beach);
+                    onPopup = true;
+                    }}
               id={beach.type}
               size={50} />
             </Marker>
           ))}
           
           {/*selectedBeach ? <div id='pop'><ol>{popups}</ol></div> : null*/}
-          {selectedBeach ? (
+          {selectedBeach && selectedBeach != defaultBeach? (
             <div id='pop'><Popup
             latitude={selectedBeach.lat}
             longitude={selectedBeach.long}
@@ -204,10 +235,22 @@ function setSelectedBeach(b){
                 console.log('trying to set');}
               //setSelectedBeach(defaultBeach);
               console.log(selectedBeach);
+              setSelectedBeach(defaultBeach);
+              onPopup = false;
             }}
           >
             <div>
-              <h3>{selectedBeach.name}</h3>
+              {onPopup ? (<div className="text-center"><XCircleFill
+              onClick={e => {
+                e.preventDefault();
+                setSelectedBeach(defaultBeach);
+                onPopup = false;
+                }}
+                size={20}
+              />
+              <h4 className="text-center">{selectedBeach.name}</h4></div>) :
+              <h4 className="text-center text-secondary">{selectedBeach.name}</h4>}
+              
             </div>
           </Popup></div>
           ) : null}
