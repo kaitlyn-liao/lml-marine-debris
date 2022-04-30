@@ -1,7 +1,8 @@
 const { response } = require('express');
+const path = require('path');
 const express = require('express')
 const app = express()
-const port = 3001
+const port = proces.env.PORT || 3001; // Load from .env file
 
 // ---------------------------- 
 // Test code to manually parse through the csv file 
@@ -11,6 +12,7 @@ const port = 3001
 const lml_data_model = require('./lml_data_model.js');
 
 app.use(express.json())
+app.use(express.static(path.resolve(__dirname, '../lml-project/build')));
 app.use(function (req, res, next) {
   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
   res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
