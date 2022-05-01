@@ -17,11 +17,11 @@ class NavBar extends React.Component {
 
   render() {
     return (
-      <Router>
+      <Router basename="/lml_marine_debris">
         <div>
           <Navbar collapseOnSelect expand="lg" sticky="top"
           bg="light" variant="light" style={{ padding: "10px" }} >
-            <Navbar.Brand href="/">
+            <Navbar.Brand href="/lml_marine_debris">
               <img
                 src={brandImg}
                 alt="UCSC LML Logo"
@@ -32,13 +32,13 @@ class NavBar extends React.Component {
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto">
-                <Nav.Link href="/debris-data"> Debris Data      </Nav.Link>
-                <Nav.Link href="/methodology"> Data Collection  </Nav.Link>
-                <Nav.Link href="/team">        Meet the Team    </Nav.Link>
+                <Nav.Link href="/lml_marine_debris/debris-data"> Debris Data      </Nav.Link>
+                <Nav.Link href="/lml_marine_debris/methodology"> Data Collection  </Nav.Link>
+                <Nav.Link href="/lml_marine_debris/team">        Meet the Team    </Nav.Link>
               </Nav>
               <Nav className="justify-content-end">
                 {/* <button type="button" className="btn btn-outline-primary" href="/login">Login</button> */}
-                <Nav.Link href="/login">
+                <Nav.Link href="/lml_marine_debris/login">
                   <button type="button" className="btn btn-outline-primary" href="/login">Login</button>
                 </Nav.Link>
               </Nav>
