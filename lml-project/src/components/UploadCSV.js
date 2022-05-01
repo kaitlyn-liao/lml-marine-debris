@@ -2,6 +2,8 @@
 
 import React, {useState,useEffect} from 'react';
 import { usePapaParse } from 'react-papaparse';
+import loadIcon from './loading.gif';
+import axios from 'axios';
 
 // Completes the process of accepting a user's CSV file, parsing through
 // the file, and beginning the process of handing off the information to the postgreSQL
@@ -9,6 +11,12 @@ function UploadCSV() {
   const [file, setFile] = useState();
   const [dataToDB, setdataToDB] = useState();
   const fileReader = new FileReader();
+
+  const [uploadLoading, setUploadLoading] = useState(false)
+  const [fetchLoading, setFetchLoading] = useState(false)
+  const [uploadErrorRows, updateUploadErrorRows] = useState([])
+
+  // console.log(uploadErrorRows)
 
   // handles the display name next to the "seclect file" button
   const handleOnChange = (e) => {
@@ -18,6 +26,8 @@ function UploadCSV() {
 
   // reads throuh the file submission and changes state setdataToDB to raw csv text
   const handleOnSubmit = (e) => {
+    setUploadLoading(true);
+
     e.preventDefault();
     if (file) {
       fileReader.onload = function (event) {
@@ -26,6 +36,7 @@ function UploadCSV() {
       };
       fileReader.readAsText(file);
       handleReadString();
+    setUploadLoading(false);
     }
   };
 
@@ -43,7 +54,7 @@ function UploadCSV() {
   // reference found at https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/readString.tsx
   async function handleReadString() {
     const content = dataToDB
-    console.log(content)
+    // console.log(content)
     setFileContent(content);
 
     readString(content, {
@@ -59,7 +70,6 @@ function UploadCSV() {
   
   // GET call to display updated version of data table
   function getDebrisData() {
-    let beach = "Waddell";
     fetch(`http://localhost:3001/`)
       .then(response => response.json())
       .then(data => { setDebrisData(data);});
@@ -67,6 +77,8 @@ function UploadCSV() {
 
   // Calls createDesbrisData() until every row of the CSV file is POSTed
   async function postDebrisData() {
+    setFetchLoading(true)
+    ClearDebrisDataTable();
     // loop for future use of adding in every row into the database, do be filtered by checking for new entries
     let i = 1;
     while(fileContentJSON.data[i] !== undefined){
@@ -74,63 +86,49 @@ function UploadCSV() {
       i++;
     }
     getDebrisData();
+    setFetchLoading(false)
   }
 
   // Reads through the array created via CSV file, and POSTS specified row to the data table
   async function createDesbrisData(i){
-    // Beach	type	Date	Season	
-    let beach = fileContentJSON.data[i][0];                   // beach collected  
-    let type = fileContentJSON.data[i][1];                    // urban or rural
-    let mmddyy = fileContentJSON.data[i][2];                  // date collected
-    let season = fileContentJSON.data[i][3];                  // season collected
-    let totalFragPlastic = fileContentJSON.data[i][4];        // Total Fragmented Plastic	
-    let totalPlasticProducts = fileContentJSON.data[i][5];    // Total Plastic Products
-    let totalFoodWrap = fileContentJSON.data[i][6];           // Total Food Wrappers
-    let totalStyro = fileContentJSON.data[i][7];              // Total Styrofoam
-    let totalCigButts = fileContentJSON.data[i][8];           // Total Cigarette Butts
-    let totalPaper = fileContentJSON.data[i][9];              // Total Paper/ Treated Wood
-    let totalMetal = fileContentJSON.data[i][10];             // Total Metal	
-    let totalGlass = fileContentJSON.data[i][11];             // Total Glass
-    let totalFabric = fileContentJSON.data[i][12];            // Total Fabric
-    let totalRubber = fileContentJSON.data[i][13];            // Total Rubber
-    let totalOther = fileContentJSON.data[i][14];             // Total Other	
-    let totalDebris = fileContentJSON.data[i][15];            // TOTAL DEBRIS	
-    let totalDebrisDivMsq = fileContentJSON.data[i][16];      // Total Debris per M2
-    let notes = fileContentJSON.data[i][17];                  // Notes
 
-    let respStatus;
-    //console.log("loop in func "+ i);
-    await fetch('http://localhost:3001/lml_debris_data', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ 
-        beach, type, season, mmddyy, 
-        totalFragPlastic, 
-        totalPlasticProducts,
-        totalFoodWrap,
-        totalStyro,
-        totalCigButts,
-        totalPaper,
-        totalMetal,
-        totalGlass,
-        totalFabric,
-        totalRubber, 
-        totalOther,
-        totalDebris,
-        totalDebrisDivMsq,
-        notes
-      }),
+    let formData = new FormData();
+    formData.append('beach', fileContentJSON.data[i][0])
+    formData.append('type', fileContentJSON.data[i][1])
+    formData.append('mmddyy', fileContentJSON.data[i][2])
+    formData.append('season', fileContentJSON.data[i][3])
+    formData.append('totalFragPlastic', fileContentJSON.data[i][4])
+    formData.append('totalPlasticProducts', fileContentJSON.data[i][5])
+    formData.append('totalFoodWrap', fileContentJSON.data[i][6])
+    formData.append('totalStyro', fileContentJSON.data[i][7])
+    formData.append('totalCigButts', fileContentJSON.data[i][8])
+    formData.append('totalPaper', fileContentJSON.data[i][9])
+    formData.append('totalMetal', fileContentJSON.data[i][10])
+    formData.append('totalGlass', fileContentJSON.data[i][11])
+    formData.append('totalFabric', fileContentJSON.data[i][12])
+    formData.append('totalRubber', fileContentJSON.data[i][13])
+    formData.append('totalOther', fileContentJSON.data[i][14])
+    formData.append('totalDebris', fileContentJSON.data[i][15])
+    formData.append('totalDebrisDivMsq', fileContentJSON.data[i][16])
+    formData.append('notes', fileContentJSON.data[i][17])
+
+    console.log(formData)
+
+    const urlPHP = '/api/lml-data-model.php'
+    axios({
+        method: 'post',
+        url: urlPHP,
+        data: formData,
+        config: { headers: {'Content-Type': 'multipart/form-data' }}
     })
-      .then(response => {
-        if(!response.ok){
-          response.text().then(function (text) {
-            console.log(text);
-          });
-        }
-      })
-
+    .then(function (response) {
+        //handle success
+        console.log(response)
+    })
+    .catch(function (response) {
+        //handle error
+        console.log(response)
+    });
   }
  
   // DELETE call and remove the row specified by id via user input
@@ -157,7 +155,7 @@ function UploadCSV() {
       return response.text();
     })
     .then(data => {
-      alert(data);
+      // alert(data);
       setDebrisData(undefined);
       getDebrisData();
     });
@@ -199,31 +197,34 @@ function UploadCSV() {
     }
   }
   
-
   return (
     <div>
+        <div>
+        <ol> {uploadErrorRows} </ol>
+        {fetchLoading === true ? 
+          <div>
+            Uploading your file! <br/>
+            <img Style="hieght:10%; width:10%;" src={loadIcon} alt="loading..." /> 
+          </div> 
+          :
+          <div>
+            <div class="uploadCSVtoCache">
+              <h1>Upload CSV Data</h1>
+              <form>
+                <input type={"file"} id={"csvFileInput"} accept={".csv"} onChange={handleOnChange} />
+                <button onClick={(e) => {handleOnSubmit(e);}} >SUBMIT</button>
+                {uploadLoading === true ? <p>LOADING</p> : <p> NOT LOADING</p>}
+              </form>
+            </div>
+            <br/>
 
-      <div class="uploadCSVtoCache">
-        <h1>Upload CSV Data</h1>
-        <form>
-          <input type={"file"} id={"csvFileInput"} accept={".csv"} onChange={handleOnChange} />
-          <button onClick={(e) => { handleOnSubmit(e); }} >SUBMIT</button>
-        </form>
+            <button type="button" className="btn btn-outline-primary" onClick={postDebrisData}>Add Debris Data Entry</button>
+            <br/>
+          
+            {!debrisData ? 'There is no debrisData available' : <ol> {dataToArray()} </ol>}
+        </div>
+        }
       </div>
-      <br/>
-
-      {/* <button onClick={handleReadString}>Upload CSV Data</button> */}
-      <button type="button" className="btn btn-outline-primary" onClick={postDebrisData}>Add Debris Data Entry</button>
-      <button type="button" className="btn btn-outline-warning" onClick={deleteDebrisData}>Delete Debris Data Entry</button>
-      <button type="button" className="btn btn-outline-warning" onClick={ClearDebrisDataTable}>EMPTY Debris Data Entry</button>
-      <br/>
-      {!debrisData ? 'There is no debrisData available' : 
-        <ol>
-          {dataToArray()}
-        </ol>
-      }
-      {/* {beachRows == [] ? 'beachRows[0].beach' : 'There is no debrisData available'} */}
-      <p/>    
     </div>
   );
 }

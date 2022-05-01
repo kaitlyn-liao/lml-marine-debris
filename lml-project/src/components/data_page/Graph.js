@@ -17,7 +17,7 @@ import { useState } from 'react';
 // import graphOffcanvas from '../../css/GraphCanvas.css';
 
 import PieChart from '../charts/PieChart.js';
-import StackedChart from '../charts/StackedChart.js';
+// import StackedChart from '../charts/StackedChart.js';
 import ComparisonChart from '../charts/ComparisonChart.js';
 import OneColumn from '../charts/OneColumn.js';
 import BarChart from '../charts/BarBeachDebris.js';
@@ -49,6 +49,9 @@ function ControlledTabs() {
       <Tab eventKey="Bar" title="Types of Debris">
         <BarChart />
       </Tab>
+      <Tab eventKey="Pie" title="Pie">
+        <PieChart />
+      </Tab>
       <Tab eventKey="Seasons" title="Seasons">
         <SeasonBarChart />
       </Tab>
@@ -66,9 +69,6 @@ function ControlledTabs() {
           <OneColumn />
         </Tab>
         </Tabs>
-      </Tab>
-      <Tab eventKey="Pie" title="Pie">
-        <PieChart />
       </Tab>
     </Tabs>
   );
