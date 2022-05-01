@@ -28,13 +28,72 @@ switch ($method) {
       $sql = "SELECT * FROM lml_debris_data ORDER BY entry_id ASC";
       break;
     case 'POST':
-      $name = $_POST["name"];
-      $email = $_POST["email"];
-      $country = $_POST["country"];
-      $city = $_POST["city"];
-      $job = $_POST["job"];
+      $beach = $_POST["beach"];
+      $type = $_POST["type"];
+      $season = $_POST["season"];
+      $mmddyy = $_POST["mmddyy"];
+      $totalFragPlastic = $_POST["totalFragPlastic"];
+      $totalPlasticProducts = $_POST["totalPlasticProducts"];
+      $totalFoodWrap = $_POST["totalFoodWrap"];
+      $totalStyro = $_POST["totalStyro"];
+      $totalCigButts = $_POST["totalCigButts"];
+      $totalPaper = $_POST["totalPaper"];
+      $totalMetal = $_POST["totalMetal"];
+      $totalGlass = $_POST["totalGlass"];
+      $totalFabric = $_POST["totalFabric"];
+      $totalRubber = $_POST["totalRubber"];
+      $totalOther = $_POST["totalOther"];
+      $totalDebris = $_POST["totalDebris"];
+      $totalDebrisDivMsq = $_POST["totalDebrisDivMsq"];
+      $notes = $_POST["notes"];
 
-      $sql = "insert into contacts (name, email, city, country, job) values ('$name', '$email', '$city', '$country', '$job')"; 
+
+      $sql = "insert into lml_debris_data (
+                beach,
+                type,
+                season,
+                date,
+                total_fragmented_plastic,
+                total_plastic_products,
+                total_food_wrappers,
+                total_styrofoam,
+                total_cigarette_butts,
+                total_paper_and_treated_wood,
+                total_metal,
+                total_glass,
+
+                total_fabric,
+                total_rubber,
+                total_other,
+                total_debris,
+
+                total_debris_divby_m_sq,
+                notes
+                )
+
+                values (
+                '$beach',
+                '$type',
+                '$season',
+                '$date',
+                '$total_fragmented_plastic',
+                '$total_plastic_products',
+                '$total_food_wrappers',
+                '$total_styrofoam',
+                '$total_cigarette_butts',
+                '$total_paper_and_treated_wood',
+                '$total_metal',
+                '$total_glass',
+
+               '$total_fabric',
+                '$total_rubber',
+                '$total_other',
+                '$total_debris',
+
+                $total_debris_divby_m_sq,
+                $notes )";
+
+        // beach, email, city, country, job) values ('$name', '$email', '$city', '$country', '$job')"; 
       break;
 }
 
