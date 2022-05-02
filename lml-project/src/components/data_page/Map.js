@@ -21,7 +21,7 @@ const latLongList = getLatLongList(beachJSON);
 const mapViewCenter = getMapCenter(latLongList);
 const defaultBeach = {
   "beach_id": -1,
-  "name": "None",
+  "name": "",
   "lat": 0,
   "long": 0,
   "type": "neither",
@@ -222,7 +222,8 @@ function setSelectedBeach(b){
           
           {/*selectedBeach ? <div id='pop'><ol>{popups}</ol></div> : null*/}
           {selectedBeach && selectedBeach != defaultBeach? (
-            <div id='pop'><Popup
+            <div><Popup id='notpop'
+            value="Capitola"
             latitude={selectedBeach.lat}
             longitude={selectedBeach.long}
             offsetTop={-30}
@@ -234,7 +235,6 @@ function setSelectedBeach(b){
               if(!settingBeach){
                 console.log('trying to set');}
               //setSelectedBeach(defaultBeach);
-              console.log(selectedBeach);
               setSelectedBeach(defaultBeach);
               onPopup = false;
             }}
@@ -256,6 +256,8 @@ function setSelectedBeach(b){
           ) : null}
         </MapGL>
       </SizeAware>
+      <b id='pop'>{selectedBeach ? selectedBeach.name : null}</b>
+        
     </div>
   );
 }

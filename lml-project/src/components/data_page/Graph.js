@@ -25,7 +25,20 @@ import BarChart from '../charts/BarBeachDebris.js';
 import SeasonBarChart from '../charts/BarSeasons.js';
 import '../../css/GraphTabs.css';
 
+let selectBeach = "Waddell"; 
+let inProgress = false;
+
+function checkPopup() {
+  inProgress = true;
+  if(document.getElementById('pop') != null){selectBeach = document.getElementById('pop').innerHTML;
+  console.log("checked");}
+  console.log(selectBeach);
+  console.log(document.getElementById('pop').innerHTML);
+  inProgress = false;
+}
+document.body.addEventListener('click', checkPopup, true);
 class Graph extends React.Component {
+  
 
   render() {
 
@@ -59,7 +72,7 @@ function ControlledTabs() {
       className="mb-3"
     >
       <Tab eventKey="BarChart" title={<BarChartFill size={20}></BarChartFill>}>
-        <BarChart />
+        {!inProgress ? <BarChart selectBeach={selectBeach}/> : null}
       </Tab>
       <Tab eventKey="PieChart" title={<PieChartFill size={20}></PieChartFill>}>
         <PieChart />

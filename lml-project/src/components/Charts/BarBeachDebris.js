@@ -26,7 +26,7 @@ Chart.register(
 );
 
 let newChartInstance;
-const placeholderBeach = "Waddell";
+let placeholderBeach = "Waddell";
 
 const beachList = [
   { label: "Waddell", value: 0 },
@@ -43,9 +43,38 @@ const beachList = [
   { label: "Del Monte", value: 11 },
 ];
 
-function BarChart() {
+function BarChart({selectBeach}) {
   let newBeach;
-  console.log(newBeach);
+  console.log(placeholderBeach);
+  function setBeach(newBeach) {
+    console.log(newBeach.label);
+    getDebrisDataByBeach(newBeach.label);
+    updateChart();
+    newChartInstance.update();
+  }
+  function setPlaceholder(){
+  if({selectBeach}){
+    switch(selectBeach){
+      case '':
+        break;
+      case 'Sunset State Beach':
+        placeholderBeach = 'Sunset';
+        break;
+      case 'North Zmudowski':
+        placeholderBeach = 'N. Zmudowski';
+        break;
+      case 'South Zmudowski':
+        placeholderBeach = 'S. Zmudowski';
+        break;
+      default:
+        placeholderBeach = selectBeach;
+    }
+  }
+  if(newBeach){setBeach();}
+}
+setPlaceholder();
+document.body.addEventListener('click', setPlaceholder, true);
+  console.log(placeholderBeach);
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
   useEffect(() => {
@@ -73,12 +102,7 @@ function BarChart() {
       .then(data => { setDebrisData(data);});
   }
 
-  function setBeach(newBeach) {
-    console.log(newBeach.label);
-    getDebrisDataByBeach(newBeach.label);
-    updateChart();
-    newChartInstance.update();
-  }
+  
 
   if(debrisData){
     let i = 0;
@@ -133,7 +157,7 @@ function BarChart() {
                 <h4>Beach: </h4>
             </div>
             <div className="col-md-4">
-              <Select placeholder={ "Waddell" } value={ newBeach } options={ beachList } onChange={setBeach}/>
+              <Select placeholder={ placeholderBeach } value={ placeholderBeach } options={ beachList } onChange={setBeach}/>
             </div>
           </div>
         <div class="bar-chart">

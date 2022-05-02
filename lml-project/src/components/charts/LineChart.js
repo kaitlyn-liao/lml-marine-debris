@@ -82,6 +82,60 @@ function LineChart() {
     newChartInstance.update();
   }
 
+  function formatDate(date) {
+    console.log("in format date:");
+    console.log(date);
+    const dateNums = date.split("-");
+    let month;
+    const dayNum = dateNums[2].split('T');
+    let day = dayNum[0];
+    //if(day && day.charAt(0) === '0'){
+    //    day = day.substring(1);
+    //}
+    switch (dateNums[1]){
+        case '01':
+            month = "January ";
+            break;
+        case '02':
+            month = "February ";
+            break;
+        case '03':
+            month = "March ";
+            break;
+        case '04':
+            month = "April ";
+            break;
+        case '05':
+            month = "May ";
+            break;
+        case '06':
+            month = "June ";
+            break;
+        case '07':
+            month = "July ";
+            break;
+        case '08':
+            month = "August ";
+            break;
+        case '09':
+            month = "September ";
+            break;
+        case '10':
+            month = "October ";
+            break;
+        case '11':
+            month = "November ";
+            break;
+        case '12':
+            month = "December ";
+            break;
+        default:
+            month = "";
+            console.log("month unspecified");
+    }
+    return month.concat(' ', day, ', ', dateNums[0]);
+  }
+
   if(debrisData){
     let i = 0;
     while(debrisData[i]){
@@ -97,7 +151,7 @@ function LineChart() {
       Xdata[9] += debrisData[i].total_rubber;
       Xdata[10] += debrisData[i].total_other;*/
       Xdata[i] = debrisData[i].total_debris;
-      Xvalues[i] = debrisData[i].date;
+      Xvalues[i] = formatDate(debrisData[i].date);
       i++;
     }
     console.log(Xdata)
