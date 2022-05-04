@@ -1,7 +1,8 @@
 const { response } = require('express');
+const path = require('path');
 const express = require('express')
 const app = express()
-const port = 3001
+const port = process.env.PORT || 3001 
 
 // ---------------------------- 
 // Test code to manually parse through the csv file 
@@ -9,6 +10,9 @@ const port = 3001
 
 // const merchant_model = require('./merchant_model');
 const lml_data_model = require('./lml_data_model.js');
+
+// Have Node serve the files for our build React app
+app.use(express.static(path.resolve(__dirname, '../lml-project/build')));
 
 app.use(express.json())
 app.use(function (req, res, next) {
@@ -141,6 +145,11 @@ app.delete('/lml_debris_data', (req, res) => {
     res.status(500).send(error);
   })
 })
+
+// All other GET requests not handled before will return our React app
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../lml-project/build', 'index.html'));
+});
 
 
 app.listen(port, () => {
