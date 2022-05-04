@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cd client && npm install && npm run build"
+    "start": "node node-postgres/index.js",
+    "build": "cd lml-project && npm install && npm run build"
   },
   "engines": {
     "node": "v16.13.0"
