@@ -43,6 +43,7 @@ const beachList = [
   { label: "Del Monte", value: 11 },
 ];
 
+
 function BarChart() {
   let newBeach;
   console.log(newBeach);
@@ -162,9 +163,7 @@ function BarChart() {
   };
   console.log("after config " + Xdata)
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 
-  
   return (
     <div>
         <div className="row">
