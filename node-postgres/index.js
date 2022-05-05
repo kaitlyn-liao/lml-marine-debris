@@ -2,7 +2,7 @@ const { response } = require('express');
 const path = require('path');
 const express = require('express')
 const app = express()
-const port = proces.env.PORT || 3001; // Load from .env file
+const port = process.env.PORT || 3001; // Load from .env file
 
 // ---------------------------- 
 // Test code to manually parse through the csv file 
