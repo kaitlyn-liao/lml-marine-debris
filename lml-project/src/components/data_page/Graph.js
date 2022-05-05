@@ -28,15 +28,15 @@ import '../../css/GraphTabs.css';
 let selectBeach = "Waddell"; 
 let inProgress = false;
 
-function checkPopup() {
-  inProgress = true;
-  if(document.getElementById('pop') != null){selectBeach = document.getElementById('pop').innerHTML;
-  console.log("checked");}
-  console.log(selectBeach);
-  console.log(document.getElementById('pop').innerHTML);
-  inProgress = false;
-}
-document.body.addEventListener('click', checkPopup, true);
+// function checkPopup() {
+//   inProgress = true;
+//   if(document.getElementById('pop') != null){selectBeach = document.getElementById('pop').innerHTML;
+//   console.log("checked");}
+//   console.log(selectBeach);
+//   console.log(document.getElementById('pop').innerHTML);
+//   inProgress = false;
+// }
+// document.body.addEventListener('click', checkPopup, true);
 class Graph extends React.Component {
   
 

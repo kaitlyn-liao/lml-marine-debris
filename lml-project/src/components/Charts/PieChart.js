@@ -162,7 +162,9 @@ function BarChart() {
   };
   console.log("after config " + Xdata)
 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
 
+  
   return (
     <div>
         <div className="row">
