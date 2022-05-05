@@ -13,7 +13,7 @@ function UploadCSV() {
 
   const [uploadLoading, setUploadLoading] = useState(false)
   const [fetchLoading, setFetchLoading] = useState(false)
-  const [uploadErrorRows, updateUploadErrorRows] = useState(false)
+  const [uploadError, updateUploadError] = useState(false)
 
   // console.log(uploadErrorRows)
 
@@ -77,15 +77,22 @@ function UploadCSV() {
   // Calls createDesbrisData() until every row of the CSV file is POSTed
   async function postDebrisData() {
     setFetchLoading(true)
-    updateUploadErrorRows(false)
-    clearDebrisDataTable();
-    // loop for future use of adding in every row into the database, do be filtered by checking for new entries
-    let i = 1;
-    while(fileContentJSON.data[i] !== undefined && uploadErrorRows === false){
-      await createDesbrisRow(i);
-      i++;
+
+    updateUploadError( await errorChecking(fileContentJSON) )
+    console.log(uploadError)
+
+    // only update and upload if the file is without error
+    if(uploadError === false){
+      clearDebrisDataTable();
+      // loop for future use of adding in every row into the database, do be filtered by checking for new entries
+      let i = 1;
+      while(fileContentJSON.data[i] !== undefined){
+        await createDesbrisRow(i);
+        i++;
+      }
+      getDebrisData();
+
     }
-    getDebrisData();
     setFetchLoading(false)
   }
 
@@ -140,16 +147,32 @@ function UploadCSV() {
       .then(response => {
         if(!response.ok){
           response.text().then(function (text) {
-            errorChecking(text, i);
+            console.log(i);
           });
         }
       })
 
   }
 
-  function errorChecking(text, rowNum) {
-    updateUploadErrorRows(true)
-    console.log(rowNum);
+  async function errorChecking(data) {
+    let i = 1;
+    while(data.data[i] !== undefined){
+      let row = data.data[i]
+      // correct colm amount
+      if(row.length !== 18){ return true; }
+      // beach
+      if(row[0] === undefined){ return true; }
+      // urban vs rural
+      if(row[1] !== 'U' && row[1] !== 'R'){ return true; }
+      // date
+      if(row[2] === undefined){ return true; }
+      // season
+      if(row[3] === undefined){ return true; }
+      // assure types of debris is not negative
+      for(let d=4; d<=16; d++){ if(row[d] < 0){ return true; }  }
+      i++;
+    }
+    return false;
   }
  
   // DELETE call and remove the row specified by id via user input
