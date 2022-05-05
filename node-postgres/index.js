@@ -154,4 +154,9 @@ app.get('*', (req, res) => {
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
+  console.log(process.env.DATABASE_URL)
+  console.log(process.env.REACT_APP_DBUSER)
+  console.log(process.env.REACT_APP_HOST)
+  console.log(process.env.REACT_APP_DBNAME)
+  console.log(process.env.REACT_APP_DBPASSWORD)
 })
