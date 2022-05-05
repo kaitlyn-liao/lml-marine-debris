@@ -10,7 +10,6 @@ const pool = new Pool({
   // password: process.env.REACT_APP_DBPASSWORD, //'wave',
   // port: 5432,
   connectionString: isProduction ? process.env.DATABASE_URL : process.env.LOCAL_DATABASE_URL,
-  ssl: isProduction,
 });
 
 // TODO: 
