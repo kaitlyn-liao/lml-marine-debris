@@ -60,7 +60,7 @@ function UploadCSV() {
   // GET call to display updated version of data table
   function getDebrisData() {
     let beach = "Waddell";
-    fetch(`http://localhost:3001/`)
+    fetch(`/`)
       .then(response => response.json())
       .then(data => { setDebrisData(data);});
   }
@@ -100,7 +100,7 @@ function UploadCSV() {
 
     let respStatus;
     //console.log("loop in func "+ i);
-    await fetch('http://localhost:3001/lml_debris_data', {
+    await fetch('/lml_debris_data', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -136,7 +136,7 @@ function UploadCSV() {
   // DELETE call and remove the row specified by id via user input
   function deleteDebrisData() {
     let entry_id = prompt('Enter debris entry_id');
-    fetch(`http://localhost:3001/lml_debris_data/${entry_id}`, {
+    fetch(`/lml_debris_data/${entry_id}`, {
       method: 'DELETE',
     })
       .then(response => {
@@ -150,7 +150,7 @@ function UploadCSV() {
 
   // DELETE call with no parameters, removing every row from the datatable
   function ClearDebrisDataTable() {
-    fetch(`http://localhost:3001/lml_debris_data`, {
+    fetch(`/lml_debris_data`, {
       method: 'DELETE'
     })
     .then(response => {

@@ -1,9 +1,11 @@
+require('dotenv').config()
+
 const Pool = require('pg').Pool
 const pool = new Pool({
-  user: 'lml_user',
-  host: 'localhost',
-  database: 'lml_database',
-  password: 'wave',
+  user: process.env.REACT_APP_DBUSER, //'lml_user',
+  host: process.env.REACT_APP_HOST, //'localhost',
+  database: process.env.REACT_APP_DBNAME, //'lml_database',
+  password: process.env.REACT_APP_DBPASSWORD, //'wave',
   port: 5432,
 });
 
