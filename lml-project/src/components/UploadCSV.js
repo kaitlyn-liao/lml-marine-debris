@@ -13,7 +13,7 @@ function UploadCSV() {
 
   const [uploadLoading, setUploadLoading] = useState(false)
   const [fetchLoading, setFetchLoading] = useState(false)
-  const [uploadErrorRows, updateUploadErrorRows] = useState([])
+  const [uploadErrorRows, updateUploadErrorRows] = useState(false)
 
   // console.log(uploadErrorRows)
 
@@ -77,11 +77,12 @@ function UploadCSV() {
   // Calls createDesbrisData() until every row of the CSV file is POSTed
   async function postDebrisData() {
     setFetchLoading(true)
-    ClearDebrisDataTable();
+    updateUploadErrorRows(false)
+    clearDebrisDataTable();
     // loop for future use of adding in every row into the database, do be filtered by checking for new entries
     let i = 1;
-    while(fileContentJSON.data[i] !== undefined){
-      await createDesbrisData(i);
+    while(fileContentJSON.data[i] !== undefined && uploadErrorRows === false){
+      await createDesbrisRow(i);
       i++;
     }
     getDebrisData();
@@ -89,7 +90,8 @@ function UploadCSV() {
   }
 
   // Reads through the array created via CSV file, and POSTS specified row to the data table
-  async function createDesbrisData(i){
+  async function createDesbrisRow(i){
+
     // Beach	type	Date	Season	
     let beach = fileContentJSON.data[i][0];                   // beach collected  
     let type = fileContentJSON.data[i][1];                    // urban or rural
@@ -138,11 +140,16 @@ function UploadCSV() {
       .then(response => {
         if(!response.ok){
           response.text().then(function (text) {
-            console.log(text);
+            errorChecking(text, i);
           });
         }
       })
 
+  }
+
+  function errorChecking(text, rowNum) {
+    updateUploadErrorRows(true)
+    console.log(rowNum);
   }
  
   // DELETE call and remove the row specified by id via user input
@@ -161,7 +168,7 @@ function UploadCSV() {
   }
 
   // DELETE call with no parameters, removing every row from the datatable
-  function ClearDebrisDataTable() {
+  function clearDebrisDataTable() {
     fetch(`http://localhost:3001/lml_debris_data`, {
       method: 'DELETE'
     })
@@ -214,7 +221,6 @@ function UploadCSV() {
   return (
     <div>
         <div>
-        <ol> {uploadErrorRows} </ol>
         {fetchLoading === true ? 
           <div>
             Uploading your file! <br/>
