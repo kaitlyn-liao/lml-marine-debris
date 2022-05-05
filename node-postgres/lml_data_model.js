@@ -1,5 +1,7 @@
 require('dotenv').config()
 
+const isProduction = process.env.NODE_ENV === 'production'
+
 const Pool = require('pg').Pool
 const pool = new Pool({
   // user: process.env.REACT_APP_DBUSER, //'lml_user',
@@ -7,10 +9,8 @@ const pool = new Pool({
   // database: process.env.REACT_APP_DBNAME, //'lml_database',
   // password: process.env.REACT_APP_DBPASSWORD, //'wave',
   // port: 5432,
-  connectionString: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  connectionString: isProduction ? process.env.DATABASE_URL : process.env.LOCAL_DATABASE_URL,
+  ssl: isProduction,
 });
 
 // TODO: 
