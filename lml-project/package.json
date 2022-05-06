@@ -24,7 +24,7 @@
     "react-carousel-dots": "^0.1.0",
     "react-chartjs-2": "^4.0.1",
     "react-dom": "^17.0.2",
-    "react-map-gl": "^7.0.10",
+    "react-map-gl": "^5.2.3",
     "react-papaparse": "^4.0.2",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
@@ -33,7 +33,8 @@
     "react-table": "^7.7.0",
     "styled": "^1.0.0",
     "styled-components": "^5.3.3",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "worker-loader": "^3.0.8"
   },
   "scripts": {
     "start": "react-scripts start",

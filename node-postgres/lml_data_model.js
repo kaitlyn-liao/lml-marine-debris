@@ -4,11 +4,6 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 const Pool = require('pg').Pool
 const pool = new Pool({
-  // user: process.env.REACT_APP_DBUSER, //'lml_user',
-  // host: process.env.REACT_APP_HOST, //'localhost',
-  // database: process.env.REACT_APP_DBNAME, //'lml_database',
-  // password: process.env.REACT_APP_DBPASSWORD, //'wave',
-  // port: 5432,
   connectionString: isProduction ? process.env.DATABASE_URL : process.env.LOCAL_DATABASE_URL,
 });
 
