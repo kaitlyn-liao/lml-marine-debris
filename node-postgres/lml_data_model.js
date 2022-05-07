@@ -243,14 +243,14 @@ const clearDebrisData = () => {
 }
 
 module.exports = {
-     getDebrisData,
-     getBeachDebrisData,
-     getBeachDebrisDataBySeason,
-     getAllBeachDebrisDataBySeason,
-     getUrbanBeachDebrisData,
-     getRuralBeachDebrisData,
-     getUrbanBeach,
-     getRuralBeach,
+  getDebrisData,
+  getBeachDebrisData,
+  getBeachDebrisDataBySeason,
+  getAllBeachDebrisDataBySeason,
+  getUrbanBeachDebrisData,
+  getRuralBeachDebrisData,
+  getUrbanBeach,
+  getRuralBeach,
   createDebrisData,
   deleteDebrisData,
   clearDebrisData,

@@ -10,6 +10,7 @@ const port = process.env.PORT || 3001; // Load from .env file
 
 // const merchant_model = require('./merchant_model');
 const lml_data_model = require('./lml_data_model.js');
+const lml_admin_model = require('./lml_admin_model.js');
 
 app.use(express.json())
 app.use(express.static(path.resolve(__dirname, '../lml-project/build')));
@@ -21,8 +22,45 @@ app.use(function (req, res, next) {
 });
 
 
+// -------------------------------------------------------- Admin data table calls
+
+// get all debris data from lml_admin_data
+app.get('/lml_admin_data/getAdmins', (req, res) => {
+  lml_admin_model.getAdmin(req)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+// Delete a specified row out the lml_admin_data table
+// take in a string email and find that user
+app.delete('/lml_admin_data/removeAdmin/:email', (req, res) => {
+  lml_data_model.deleteAdmin(req.params.email)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+// Enter a new row into lml_debris_data
+app.post('/lml_admin_data/newAdmin', (req, res) => {
+  lml_data_model.createAdmin(req.body)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+// -------------------------------------------------------- Debris data table calls 
 // get all debris data from lml_debris_data
-app.get('/', (req, res) => {
+app.get('/data', (req, res) => {
   lml_data_model.getDebrisData(req.params.beach)
   .then(response => {
     res.status(200).send(response);

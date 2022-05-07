@@ -68,9 +68,13 @@ function Login_Apr() {
     const id = nodes.length + 1;
     let person = prompt("Please enter name of user:")
     let newEmail = prompt("Please enter user's email:")
+    let pword = prompt("Please enter the password to be associated with: " + newEmail)
     // Check if person and email are non-empty strings and that the prompt was not cancelled
-    if ((person !== null && person !== "")
-      && (newEmail !== null && newEmail !== "")) {
+    if ((person !== null && person !== "") && (newEmail !== null && newEmail !== "")) {
+
+      // add to data table
+      postAdmin(person, newEmail, pword);
+
       // Change the nodes of data by adding a new element to its nodes
       setData((state) => ({
         ...state,
@@ -89,8 +93,6 @@ function Login_Apr() {
           email: newEmail,
         }),
       }));
-
-
     }
   }
 
@@ -98,6 +100,10 @@ function Login_Apr() {
     // Deletes the user by their id
     // Will also delete the user from the database (NOT IMPLEMENTED)
     // Changes the nodes of data by removing element from its nodes
+
+    // TODO
+    removeAdmin("email", "pword");
+
     setData((state) => ({
       ...state,
       nodes: state.nodes.filter((node) => node.id !== id),
@@ -108,6 +114,41 @@ function Login_Apr() {
       nodes: state.nodes.filter((node) => node.id !== id)
     }));
   };
+
+  async function postAdmin(name, email, pword){
+    await fetch('http://localhost:3001//lml_admin_data/newAdmin', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        name, 
+        email,
+        pword
+      }),
+    })
+    .then(response => {
+      if(!response.ok){
+        response.text().then(function (text) {
+          console.log(text);
+        });
+      }
+    })
+  }
+
+  async function removeAdmin(email, pword){
+    alert("delete " + email + " " + pword);
+
+    await fetch(`http://localhost:3001/lml_debris_data/${email}`, {
+      method: 'DELETE',
+    })
+      .then(response => {
+        return response.text();
+      })
+      .then(data => {
+        alert("Deleted!");
+      });
+  }
 
   // Table style
   const tableTheme = useTheme({
@@ -129,7 +170,6 @@ function Login_Apr() {
     }
   `,
   });
-
 
   return (
     <div className='main'>
@@ -218,13 +258,9 @@ function Login_Apr() {
         </Table>
         {/* Button  to add a new user */}
         <button type="button" className="btn btn-blue" onClick={handleSubmit}>Add User</button>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <br></br>
-          <UploadCSV/>
+        <br></br>
+        <br></br>
+        <UploadCSV/>
       </div>
     </div>
   );
