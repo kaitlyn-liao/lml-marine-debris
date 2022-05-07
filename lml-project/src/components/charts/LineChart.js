@@ -86,6 +86,7 @@ function LineChart() {
     console.log("in format date:");
     console.log(date);
     const dateNums = date.split("-");
+    if(!dateNums){return;}
     let month;
     const dayNum = dateNums[2].split('T');
     let day = dayNum[0];
