@@ -16,7 +16,14 @@ class DataVis extends React.Component {
       return (
         // html goes here
         <div>
-          <Graph />
+          <div class="row">
+            <div class="col-md-1">
+              <Graph />
+            </div>
+            <div class="col">
+              <i className="text-secondary">Press "esc" to close a beach tag.</i>
+            </div>
+          </div>
           <Map />
         </div>
       );

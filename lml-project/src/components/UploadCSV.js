@@ -147,11 +147,10 @@ function UploadCSV() {
       .then(response => {
         if(!response.ok){
           response.text().then(function (text) {
-            console.log(i);
+            console.log(text);
           });
         }
       })
-
   }
 
   async function errorChecking(data) {
