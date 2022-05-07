@@ -6,6 +6,7 @@ import {
     CategoryScale,
     LinearScale,
     BarElement,
+    LineElement,
     Title,
     Tooltip,
     Legend,
@@ -43,8 +44,7 @@ const beachList = [
   { label: "Del Monte", value: 11 },
 ];
 
-
-function BarChart() {
+function LineChart() {
   let newBeach;
   console.log(newBeach);
   const chartContainer = useRef(null);
@@ -58,11 +58,11 @@ function BarChart() {
 
   function updateChart(){
     newChartInstance.data.datasets[0].data = Xdata;
+    newChartInstance.data.labels = Xvalues;
   }
 
-  var Xvalues = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
-  var Xdata = [0,0,0,0,0,0,0,0,0,0,0]
-
+  var Xvalues = [];
+  var Xdata = [];
 
   // debrisData stores the result of a GET call from the data table, setDebrisData sets the value of debrisData
   const [debrisData, setDebrisData] = useState(false);
@@ -82,46 +82,64 @@ function BarChart() {
     newChartInstance.update();
   }
 
-  function dataToArray(){
-    let debrisDataArray = []
-    if(debrisData){
-      for(var i=0; i < debrisData.length; i++){
-        debrisDataArray[i] = [
-          debrisData[i].entry_id, 
-          debrisData[i].beach, 
-          debrisData[i].type, 
-          debrisData[i].season,
-          debrisData[i].date, 
-          debrisData[i].total_fragmented_plastic, 
-          debrisData[i].total_plastic_products, 
-          debrisData[i].total_food_wrappers,
-          debrisData[i].total_styrofoam, 
-          debrisData[i].total_cigarette_butts, 
-          debrisData[i].total_paper_and_treated_wood, 
-          debrisData[i].total_metal,
-          debrisData[i].total_glass, 
-          debrisData[i].total_fabric, 
-          debrisData[i].total_rubber, 
-          debrisData[i].total_other,
-          debrisData[i].total_debris,
-          debrisData[i].total_debris_divby_m_sq, 
-          debrisData[i].notes
-        ]
-        debrisDataArray[i] = debrisDataArray[i].map((row) => 
-          row = row + " "
-        );
-      }
-      debrisDataArray = debrisDataArray.map((row) => 
-        <li>{row}</li>
-      );
-      return debrisDataArray;
+  function formatDate(date) {
+    console.log("in format date:");
+    console.log(date);
+    const dateNums = date.split("-");
+    let month;
+    const dayNum = dateNums[2].split('T');
+    let day = dayNum[0];
+    //if(day && day.charAt(0) === '0'){
+    //    day = day.substring(1);
+    //}
+    switch (dateNums[1]){
+        case '01':
+            month = "January ";
+            break;
+        case '02':
+            month = "February ";
+            break;
+        case '03':
+            month = "March ";
+            break;
+        case '04':
+            month = "April ";
+            break;
+        case '05':
+            month = "May ";
+            break;
+        case '06':
+            month = "June ";
+            break;
+        case '07':
+            month = "July ";
+            break;
+        case '08':
+            month = "August ";
+            break;
+        case '09':
+            month = "September ";
+            break;
+        case '10':
+            month = "October ";
+            break;
+        case '11':
+            month = "November ";
+            break;
+        case '12':
+            month = "December ";
+            break;
+        default:
+            month = "";
+            console.log("month unspecified");
     }
+    return month.concat(' ', day, ', ', dateNums[0]);
   }
-  
+
   if(debrisData){
     let i = 0;
     while(debrisData[i]){
-      Xdata[0] += debrisData[i].total_fragmented_plastic;
+      /*Xdata[0] += debrisData[i].total_fragmented_plastic;
       Xdata[1] += debrisData[i].total_plastic_products;
       Xdata[2] += debrisData[i].total_food_wrappers;
       Xdata[3] += debrisData[i].total_styrofoam;
@@ -131,7 +149,9 @@ function BarChart() {
       Xdata[7] += debrisData[i].total_glass;
       Xdata[8] += debrisData[i].total_fabric;
       Xdata[9] += debrisData[i].total_rubber;
-      Xdata[10] += debrisData[i].total_other;
+      Xdata[10] += debrisData[i].total_other;*/
+      Xdata[i] = debrisData[i].total_debris;
+      Xvalues[i] = formatDate(debrisData[i].date);
       i++;
     }
     console.log(Xdata)
@@ -140,15 +160,16 @@ function BarChart() {
   }
   
   const chartConfig = {
-      type: 'pie',
+      type: 'line',
       data: {
           labels: Xvalues,
           datasets: [{ 
-            backgroundColor: ["#91B77B", "#003D03", "#002839", "#005F73", "#0A9396", "#94D2BD" , "#E9d8A6", "#ECBA53", "#EE9B00", "#CA6702", "#9B2226"],
+            backgroundColor: 'rgba(255, 99, 132, 1)', 
+            borderColor: 'rgba(255, 99, 132, 1)',
             data: Xdata 
           }]
       },
-      /*options: {
+      options: {
         plugins: {
           legend: {
             display: false
@@ -157,9 +178,9 @@ function BarChart() {
             enabled: false
           }
         }
-      },*/
-      height: 200,
-      width: 300
+      },
+      height: 400,
+      width: 600
   };
   console.log("after config " + Xdata)
 
@@ -176,15 +197,10 @@ function BarChart() {
           </div>
         <div class="bar-chart">
           <canvas ref={chartContainer} />
-           {/* {!debrisData ? 'There is no debrisData available' : 
-            <ol>
-              {dataToArray()}
-            </ol>
-          }  */}
         </div>
     </div>
 
   );
 }
 
-export default BarChart;
+export default LineChart;
