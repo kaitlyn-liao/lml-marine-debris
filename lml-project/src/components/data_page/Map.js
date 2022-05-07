@@ -10,45 +10,20 @@ import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
 import Button from 'react-bootstrap/Button'
 import { withSize } from "react-sizeme";
 import BEACHES from "./beaches.json";
-import { GeoAltFill, XCircleFill } from "react-bootstrap-icons";
+import { PieChartFill, GeoAltFill, BarChartFill } from "react-bootstrap-icons";
 import Graph from './Graph.js';
 import "../../css/Map.css";
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { closeComplete } from 'pg-protocol/dist/messages';
+import PieChart from '../charts/PieChart.js';
+import Select from 'react-select';
 
 const beachJSON = BEACHES;
 const latLongList = getLatLongList(beachJSON);
 const mapViewCenter = getMapCenter(latLongList);
-const defaultBeach = {
-  "beach_id": -1,
-  "name": "",
-  "lat": 0,
-  "long": 0,
-  "type": "neither",
-  "bottom": [0, 0]
-};
-let selectedBeach;
-let popup;
-let onPopup = false;
-let p;
-let popups = [];
-let settingBeach = false;
-let idx = 0;
-let currentZoom = 9.5;
-let currentLat = mapViewCenter[0];
-let currentLong = mapViewCenter[1];
+
 const INITIAL_MAP_VIEW = {
   latitude: mapViewCenter[0],
   longitude:mapViewCenter[1],
   zoom: 9.5,
-  maxZoom: 18,
-  minZoom: 8
-}
-
-let NEW_MAP_VIEW = {
-  latitude: mapViewCenter[0],
-  longitude:mapViewCenter[1],
-  zoom: 9.6,
   maxZoom: 18,
   minZoom: 8
 }
@@ -60,8 +35,6 @@ const SizeAware = withSize({ noPlaceholder: true, monitorHeight: true })(
 function Map(props) {
   // Default map orientation
   const [viewport, setViewport] = useState( INITIAL_MAP_VIEW );
-
-  // map.scrollZoom.disable();
 
   const mapContainer = {
     width: "100%", height: "83vh",
@@ -76,81 +49,9 @@ function Map(props) {
   const resizeMap = () => {
     mapRef.current && mapRef.current.getMap().resize();
   };
-  //const selectedBeach = useRef(null);
-  //const [selectedBeach, setSelectedBeach] = React.useState(null);
 
-  
+  const [selectedBeach, setSelectedBeach] = useState(null);
 
-  /*let popup = [<Popup
-  latitude={0}
-  longitude={0}
-  offsetTop={-30}
-  anchor="bottom"
-  bottom = {0}
->
-  <div>
-    <h2>Hi</h2>
-  </div>
-</Popup>];*/
-function delay(time) {
-  return new Promise(resolve => setTimeout(resolve, time));
-}
-
-function updateDiv()
-{ 
-  if(!document.getElementById("pop")){return};
-  document.getElementById("pop").innerHTML = document.getElementById("pop").innerHTML;
-
-}
-
-function setSelectedBeach(b){
-  selectedBeach = b;
-  currentZoom = viewport.zoom;
-  currentLat = viewport.latitude;
-  currentLong = viewport.longitude;
-  NEW_MAP_VIEW = {
-    latitude: currentLat,
-    longitude: currentLong,
-    zoom: currentZoom,
-    maxZoom: 18,
-    minZoom: 8
-  }
-  setViewport(NEW_MAP_VIEW);
-  /*if(idx === 0){
-  setViewport(INITIAL_MAP_VIEW); idx = 1;}
-  else{setViewport(NEW_MAP_VIEW); idx = 0;}*/
-  /*for(var i = 0; i < BEACHES.length; i++){
-    popups[i] = <Popup
-    key={BEACHES[i].id}
-    latitude={BEACHES[i].lat}
-    longitude={BEACHES[i].long}
-    offsetTop={-30}
-    anchor="bottom"
-    offset = {50}
-    closeOnClick={true}
-    onClose={() => {
-      setSelectedBeach(selectedBeach);
-    }}
-  >
-    <div>
-      <h2>Hi</h2>
-    </div>
-  </Popup>
-  if(selectedBeach.name === BEACHES[i].name){
-    popup = [popups[i]];
-  }
-  }*/       
-}
-
-  /*useEffect(() => {
-    if (selectedBeach) {
-      setSelectedBeach(selectedBeach);
-    }
-  }, [selectedBeach]);*/
-
-  /*function setSelectedBeach (b){
-    selectedBeach = b;
-  }*/
   useEffect(() => {
     const listener = e => {
       if (e.key === "Escape") {
@@ -164,13 +65,10 @@ function setSelectedBeach(b){
     };
   }, []);
 
-  
-
   return (
     <div>
       <SizeAware onSize={resizeMap}>
         <MapGL
-        id='mainMap'
         {...viewport}
         ref={mapRef}
         style={ mapContainer } 
@@ -181,48 +79,28 @@ function setSelectedBeach(b){
           viewport.zoom=9.5
           viewport.maxZoom=18
           viewport.minZoom=8
-          //setSelectedBeach(selectedBeach);
-          //if(document.getElementById('pop')){document.getElementById('pop').reload(true);}
-          //setViewport(viewport);
+          setViewport(viewport);
         }}
         >
           {BEACHES.map(beach => (
-                <Marker
+            <Marker 
             key={beach.beach_id}
             longitude={beach.long}
             latitude={beach.lat}
+            onClick={ e => {
+              e.preventDefault();
+              setSelectedBeach(beach);
+            }}
             >
-              <GeoAltFill id="fly" class="pin" onMouseOver={e => {
-                e.preventDefault();
-                console.log(beach);
-                //updateBeach(beach);
-                console.log('setting');
-                if(!onPopup)
-                {setSelectedBeach(beach);}
-                //setViewport(INITIAL_MAP_VIEW);
-                console.log(selectedBeach);
-                updateDiv();
-                if(document.getElementById("pop")){console.log("found");}
-                }}  
-                onMouseLeave={e => {
-                  e.preventDefault();
-                  if(!onPopup)
-                  {setSelectedBeach(defaultBeach);}
-                  }}
-                  onClick={e => {
-                    e.preventDefault();
-                    setSelectedBeach(defaultBeach);
-                    setSelectedBeach(beach);
-                    onPopup = true;
-                    }}
+              <GeoAltFill class="pin"
               id={beach.type}
               size={50} />
             </Marker>
           ))}
-          
-          {/*selectedBeach ? <div id='pop'><ol>{popups}</ol></div> : null*/}
-          {selectedBeach && selectedBeach != defaultBeach? (
-            <div><Popup id='notpop'
+
+
+          {selectedBeach ? (
+            <Popup
             value="Capitola"
             latitude={selectedBeach.lat}
             longitude={selectedBeach.long}
@@ -232,32 +110,17 @@ function setSelectedBeach(b){
             closeOnClick={false}
             closeButton={false}
             onClose={() => {
-              if(!settingBeach){
-                console.log('trying to set');}
-              //setSelectedBeach(defaultBeach);
-              setSelectedBeach(defaultBeach);
-              onPopup = false;
+              setSelectedBeach(null);
             }}
           >
             <div>
-              {onPopup ? (<div className="text-center"><XCircleFill
-              onClick={e => {
-                e.preventDefault();
-                setSelectedBeach(defaultBeach);
-                onPopup = false;
-                }}
-                size={20}
-              />
-              <h4 className="text-center">{selectedBeach.name}</h4></div>) :
-              <h4 className="text-center text-secondary">{selectedBeach.name}</h4>}
-              
+              <h4 className="text-center">{selectedBeach.name}</h4>
+              <PieChart />
             </div>
-          </Popup></div>
+          </Popup>
           ) : null}
         </MapGL>
       </SizeAware>
-      <b id='pop'>{selectedBeach ? selectedBeach.name : null}</b>
-        
     </div>
   );
 }
@@ -326,6 +189,5 @@ function getMapCenter( latLongList ) {
 
     return ([rad2degr(lat), rad2degr(lng)]);
 }
-
 
 export default Map;

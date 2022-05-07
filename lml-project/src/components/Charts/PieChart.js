@@ -43,6 +43,7 @@ const beachList = [
   { label: "Del Monte", value: 11 },
 ];
 
+
 function BarChart() {
   let newBeach;
   console.log(newBeach);
