@@ -26,7 +26,8 @@ Chart.register(
 );
 
 let newChartInstance;
-let placeholderBeach = "Waddell";
+let placeholderBeach = "";
+let setVisible = true;
 
 const beachList = [
   { label: "Waddell", value: 0 },
@@ -47,12 +48,18 @@ function BarChart({selectBeach}) {
   let newBeach;
   console.log(placeholderBeach);
   function setBeach(newBeach) {
+    setPlaceholder();
+    //setVisible = false;
     console.log(newBeach.label);
     getDebrisDataByBeach(newBeach.label);
+    if(document.getElementById("drop")
+    && document.getElementById("drop").innerHTML != document.getElementById("pop").innerHTML){document.getElementById("drop").innerHTML = document.getElementById("drop").innerHTML;}
     updateChart();
     newChartInstance.update();
+    setVisible = true;
   }
   function setPlaceholder(){
+    if(document.getElementById("pop").innerHTML){selectBeach = document.getElementById("pop").innerHTML;}
   if({selectBeach}){
     switch(selectBeach){
       case '':
@@ -152,7 +159,7 @@ document.body.addEventListener('click', setPlaceholder, true);
 
   return (
     <div>
-        <div className="row">
+      <div className="row">
             <div className="col-md-2">
                 <h4>Beach: </h4>
             </div>
@@ -162,7 +169,9 @@ document.body.addEventListener('click', setPlaceholder, true);
           </div>
         <div class="bar-chart">
           <canvas ref={chartContainer} />
+          <h4 id="drop" className="text-center text-secondary">{selectBeach}</h4>
         </div>
+
     </div>
 
   );

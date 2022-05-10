@@ -153,6 +153,7 @@ function LineChart() {
       Xdata[10] += debrisData[i].total_other;*/
       Xdata[i] = debrisData[i].total_debris;
       Xvalues[i] = formatDate(debrisData[i].date);
+      //Xvalues[i] = debrisData[i].date;
       i++;
     }
     console.log(Xdata)

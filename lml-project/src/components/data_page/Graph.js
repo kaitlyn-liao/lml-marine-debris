@@ -72,7 +72,7 @@ function ControlledTabs() {
       className="mb-3"
     >
       <Tab eventKey="BarChart" title={<BarChartFill size={20}></BarChartFill>}>
-        {!inProgress ? <BarChart selectBeach={selectBeach}/> : null}
+        {!inProgress ? <BarChart id="barGraph" selectBeach={selectBeach}/> : null}
       </Tab>
       <Tab eventKey="PieChart" title={<PieChartFill size={20}></PieChartFill>}>
         <PieChart />

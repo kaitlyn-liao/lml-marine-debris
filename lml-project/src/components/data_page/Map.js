@@ -103,7 +103,20 @@ function updateDiv()
 { 
   if(!document.getElementById("pop")){return};
   document.getElementById("pop").innerHTML = document.getElementById("pop").innerHTML;
-
+  if(!onPopup){return;}
+  if(!document.getElementById("drop")){return};
+  document.getElementById("drop").innerHTML = document.getElementById("drop").innerHTML;
+  if(document.getElementById("pop").innerHTML != document.getElementById("drop").innerHTML){
+    for(var i = 0; i < BEACHES.length; i++){
+      var b = BEACHES[i];
+      if(b.name === document.getElementById("pop").innerHTML){
+        setSelectedBeach(defaultBeach);
+        setSelectedBeach(b);
+        document.getElementById("drop").innerHTML = document.getElementById("pop").innerHTML;
+        return;
+      }
+    }
+  }
 }
 
 function setSelectedBeach(b){
@@ -118,6 +131,8 @@ function setSelectedBeach(b){
     maxZoom: 18,
     minZoom: 8
   }
+
+  
   setViewport(NEW_MAP_VIEW);
   /*if(idx === 0){
   setViewport(INITIAL_MAP_VIEW); idx = 1;}
@@ -142,7 +157,7 @@ function setSelectedBeach(b){
   if(selectedBeach.name === BEACHES[i].name){
     popup = [popups[i]];
   }
-  }*/       
+  }*/   
 }
 
   /*useEffect(() => {
@@ -214,9 +229,11 @@ function setSelectedBeach(b){
                   }}
                   onClick={e => {
                     e.preventDefault();
+                    
                     setSelectedBeach(defaultBeach);
                     setSelectedBeach(beach);
                     onPopup = true;
+                    updateDiv();
                     }}
               id={beach.type}
               size={50} />
@@ -225,7 +242,9 @@ function setSelectedBeach(b){
           
           {/*selectedBeach ? <div id='pop'><ol>{popups}</ol></div> : null*/}
           {selectedBeach && selectedBeach != defaultBeach? (
-            <div><Popup id='notpop'
+            <div>
+              
+            <Popup id='notpop'
             value="Capitola"
             latitude={selectedBeach.lat}
             longitude={selectedBeach.long}
@@ -239,7 +258,7 @@ function setSelectedBeach(b){
                 console.log('trying to set');}
               //setSelectedBeach(defaultBeach);
               setSelectedBeach(defaultBeach);
-              onPopup = false;
+              //onPopup = false;
             }}
           >
             <div>
@@ -251,7 +270,6 @@ function setSelectedBeach(b){
                 }}
                 size={20}
               />
-              <PieChart />
               <h4 className="text-center">{selectedBeach.name}</h4></div>) :
               <h4 className="text-center text-secondary">{selectedBeach.name}</h4>}
             </div>
