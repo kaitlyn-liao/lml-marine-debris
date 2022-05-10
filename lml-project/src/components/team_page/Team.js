@@ -119,6 +119,11 @@ class Team extends React.Component {
                         github="https://github.com/kaitlyn-liao/lml-marine-debris"
                         photo={avatar} linkedIn="https://www.linkedin.com/"/>
                 </div>
+                <div class="row">
+                    <Member name='Vinh Le' bio='Developer and Software Engineer, Computer Science student at UCSC' 
+                        github="https://github.com/kaitlyn-liao/lml-marine-debris"
+                        photo={avatar} linkedIn="https://www.linkedin.com/"/>
+                </div>
                 
                 <div class="thanks-box">
                     <h1>Acknowledgements</h1>

@@ -273,7 +273,7 @@ function setSelectedBeach(b){
               <h4 className="text-center">{selectedBeach.name}</h4></div>) :
               <h4 className="text-center text-secondary">{selectedBeach.name}</h4>}
             </div>
-          </Popup></div>
+              </Popup></div>
           ) : null}
         </MapGL>
       </SizeAware>
