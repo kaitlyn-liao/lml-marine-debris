@@ -15,6 +15,24 @@ const getAdmin = () => {
   }) 
 }
 
+// Query specific admin 
+const checkAdmin = (username, password) => {
+  return new Promise(function(resolve, reject) {
+    const text = "SELECT EXISTS( SELECT * FROM lml_admins WHERE email = $1 AND password = $2)"
+    const values = [username, password]
+    pool.query(text, values, (error, results) => {
+      if (error) {
+        console.log(error);
+        reject(error)
+      }
+      if(results){
+        resolve(results.rows[0]);
+      }
+    })
+  }) 
+}
+
+
 // TODO: 
 const createAdmin = (body) => {
   console.log("in lml_admin_model")
@@ -52,6 +70,7 @@ const deleteAdmin = (AdminID) => {
 
 module.exports = {
     getAdmin,
+    checkAdmin,
     createAdmin,
     deleteAdmin,
 }

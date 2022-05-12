@@ -8,6 +8,12 @@
     padding-top: 40px;
 }
 
+.login-error-msg {
+    text-align: center;
+    width: 280px;
+    visibility: hidden;
+}
+
 /* Padding to the right */
 .b-example-divider {
     flex-shrink: 0;
