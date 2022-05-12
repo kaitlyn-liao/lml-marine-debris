@@ -45,14 +45,14 @@ const createAdmin = (body) => {
   })
 }
 
-const deleteAdmin = (DebrisDataId) => {
+const deleteAdmin = (AdminID) => {
   return new Promise(function(resolve, reject) {
-    const entry_id = parseInt(DebrisDataId)
-    pool.query('DELETE FROM lml_admins WHERE entry_id = $1', [entry_id], (error, results) => {
+    const admin_id = parseInt(AdminID)
+    pool.query('DELETE FROM lml_admins WHERE admin_id = $1', [admin_id], (error, results) => {
       if (error) {
         reject(error)
       }
-      resolve(`Admin removed with email: ${entry_id}`)
+      resolve(`Admin removed with email: ${admin_id}`)
     })
   })
 }

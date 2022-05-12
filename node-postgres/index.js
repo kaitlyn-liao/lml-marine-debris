@@ -47,8 +47,8 @@ app.get('/lml_admins/getAdmins', (req, res) => {
 
 // Delete a specified row out the lml_admin_data table
 // take in a string email and find that user
-app.delete('/lml_admins/removeAdmin/:email', (req, res) => {
-  lml_admin_model.deleteAdmin(req.params.email)
+app.delete('/lml_admins/removeAdmin/:admin_id', (req, res) => {
+  lml_admin_model.deleteAdmin(req.params.admin_id)
   .then(response => {
     res.status(200).send(response);
   })

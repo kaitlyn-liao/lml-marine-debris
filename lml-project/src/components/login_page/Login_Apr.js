@@ -43,6 +43,7 @@ function Login_Apr() {
 
   const [adminData, setAdminData] = React.useState(false);
   React.useEffect(() => { getAdminData(); }, []);
+  const [adArray, setAdArray] = React.useState(false);
 
   // Change state of the table when the there is input in the search bar
   // Filters filteredData based on the searchValue
@@ -192,6 +193,7 @@ function Login_Apr() {
       adminArray = adminArray.map((row) => 
         <li>{row}</li>
       );
+      // setAdArray(adminArray)
       return adminArray;
     }
   }
@@ -304,9 +306,10 @@ function Login_Apr() {
         </Table>
         {/* Button  to add a new user */}
         <button type="button" className="btn btn-blue" onClick={handleSubmit}>Add User</button>
+        <button type="button" className="btn btn-danger" onClick={handleRemove}>Kill User</button>
 
         <br></br>
-        {adminData == [] ? 'There is no adminData available' : <ol> {dataToArray()} </ol>}
+        {adminData === [] ? 'There is no adminData available' : <ol> {dataToArray()} </ol>}
         <br></br>
         <UploadCSV/>
       </div>
