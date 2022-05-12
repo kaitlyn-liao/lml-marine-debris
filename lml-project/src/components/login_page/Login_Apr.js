@@ -41,6 +41,9 @@ function Login_Apr() {
   const [data, setData] = React.useState({ nodes });
   const [filteredData, setFilteredData] = React.useState({ nodes });
 
+  const [adminData, setAdminData] = React.useState(false);
+  React.useEffect(() => { getAdminData(); }, []);
+
   // Change state of the table when the there is input in the search bar
   // Filters filteredData based on the searchValue
   const handleSearch = (event) => {
@@ -64,6 +67,7 @@ function Login_Apr() {
   console.log("Nodes", nodes, typeof nodes)
 
   // Add row to table when submitting a name and email
+  // calls postAdmin to post to admin DB
   const handleSubmit = (event) => {
     const id = nodes.length + 1;
     let person = prompt("Please enter name of user:")
@@ -96,6 +100,7 @@ function Login_Apr() {
     }
   }
 
+  // calls removeAdmin to remove admin from DB
   const handleRemove = (id) => {
     // Deletes the user by their id
     // Will also delete the user from the database (NOT IMPLEMENTED)
@@ -115,8 +120,16 @@ function Login_Apr() {
     }));
   };
 
+  // grabs all admins from DB
+  function getAdminData() {
+    fetch(`http://localhost:3001/lml_admins/getAdmins`)
+      .then(response => response.json())
+      .then(data => { setAdminData(data);});
+  }
+
+  // posts a new admin to DB
   async function postAdmin(name, email, pword){
-    await fetch('http://localhost:3001//lml_admin_data/newAdmin', {
+    await fetch('http://localhost:3001/lml_admins/newAdmin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -131,6 +144,7 @@ function Login_Apr() {
       if(!response.ok){
         response.text().then(function (text) {
           console.log(text);
+          alert("Failed to add admin");
         });
       }
     })
@@ -139,15 +153,47 @@ function Login_Apr() {
   async function removeAdmin(email, pword){
     alert("delete " + email + " " + pword);
 
-    await fetch(`http://localhost:3001/lml_debris_data/${email}`, {
+    await fetch(`http://localhost:3001/lml_admins/${email}`, {
       method: 'DELETE',
     })
       .then(response => {
         return response.text();
       })
-      .then(data => {
-        alert("Deleted!");
-      });
+      .then(response => {
+        if(!response.ok){
+          response.text().then(function (text) {
+            console.log(text);
+            alert("Failed to remove admin");
+          });
+        }
+        else {
+          alert("Deleted!");
+        }
+      })
+  }
+
+  function dataToArray(){
+    console.log(adminData)
+    let adminArray = []
+    if(adminData){
+      for(var i=0; i < adminData.length; i++){
+        adminArray[i] = [
+          adminData[i].admin_id, 
+          adminData[i].name, 
+          adminData[i].email, 
+          adminData[i].password,
+          adminData[i].issuper,
+          adminData[i].created_on
+        ]
+        adminArray[i] = adminArray[i].map((row) => 
+          row = row + " "
+        );
+      }
+      adminArray = adminArray.map((row) => 
+        <li>{row}</li>
+      );
+      return adminArray;
+    }
   }
 
   // Table style
@@ -258,7 +304,9 @@ function Login_Apr() {
         </Table>
         {/* Button  to add a new user */}
         <button type="button" className="btn btn-blue" onClick={handleSubmit}>Add User</button>
+
         <br></br>
+        {adminData == [] ? 'There is no adminData available' : <ol> {dataToArray()} </ol>}
         <br></br>
         <UploadCSV/>
       </div>

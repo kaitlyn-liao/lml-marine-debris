@@ -19,7 +19,6 @@ import { useState } from 'react';
 import PieChart from '../charts/PieChart.js';
 // import StackedChart from '../charts/StackedChart.js';
 import LineChart from '../charts/LineChart.js';
-import StackedChart from '../charts/StackedChart.js';
 import ComparisonChart from '../charts/ComparisonChart.js';
 import OneColumn from '../charts/OneColumn.js';
 import BarChart from '../charts/BarBeachDebris.js';

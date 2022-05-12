@@ -22,10 +22,20 @@ app.use(function (req, res, next) {
 });
 
 
+app.get('/', (req, res) => {
+  lml_admin_model.getAdmin(req)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
 // -------------------------------------------------------- Admin data table calls
 
 // get all debris data from lml_admin_data
-app.get('/lml_admin_data/getAdmins', (req, res) => {
+app.get('/lml_admins/getAdmins', (req, res) => {
   lml_admin_model.getAdmin(req)
   .then(response => {
     res.status(200).send(response);
@@ -37,8 +47,8 @@ app.get('/lml_admin_data/getAdmins', (req, res) => {
 
 // Delete a specified row out the lml_admin_data table
 // take in a string email and find that user
-app.delete('/lml_admin_data/removeAdmin/:email', (req, res) => {
-  lml_data_model.deleteAdmin(req.params.email)
+app.delete('/lml_admins/removeAdmin/:email', (req, res) => {
+  lml_admin_model.deleteAdmin(req.params.email)
   .then(response => {
     res.status(200).send(response);
   })
@@ -48,8 +58,11 @@ app.delete('/lml_admin_data/removeAdmin/:email', (req, res) => {
 })
 
 // Enter a new row into lml_debris_data
-app.post('/lml_admin_data/newAdmin', (req, res) => {
-  lml_data_model.createAdmin(req.body)
+app.post('/lml_admins/newAdmin', (req, res) => {
+  console.log("in index.js")
+  console.log(req.body)
+  lml_admin_model.createAdmin(req.body)
+
   .then(response => {
     res.status(200).send(response);
   })
@@ -59,6 +72,7 @@ app.post('/lml_admin_data/newAdmin', (req, res) => {
 })
 
 // -------------------------------------------------------- Debris data table calls 
+
 // get all debris data from lml_debris_data
 app.get('/data', (req, res) => {
   lml_data_model.getDebrisData(req.params.beach)
