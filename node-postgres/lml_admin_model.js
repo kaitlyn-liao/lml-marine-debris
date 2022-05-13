@@ -1,5 +1,23 @@
 const pool = require('./dbConnect.js');
 
+// Query specific admin info
+const getAdminInfo = (email) => {
+  return new Promise(function(resolve, reject) {
+    const text = "SELECT name FROM lml_admins WHERE email = $1"
+    const values = [email]
+    pool.query(text, values, (error, results) => {
+      if (error) {
+        console.log(error);
+        reject(error)
+      }
+      if(results){
+        resolve(results.rows[0]);
+      }
+    })
+  }) 
+}
+
+
 // TODO: 
 const getAdmin = () => {
   return new Promise(function(resolve, reject) {
@@ -15,7 +33,7 @@ const getAdmin = () => {
   }) 
 }
 
-// Query specific admin 
+// Query the existence of a specific admin 
 const checkAdmin = (username, password) => {
   return new Promise(function(resolve, reject) {
     const text = "SELECT EXISTS( SELECT * FROM lml_admins WHERE email = $1 AND password = $2)"
@@ -70,6 +88,7 @@ const deleteAdmin = (AdminID) => {
 
 module.exports = {
     getAdmin,
+    getAdminInfo,
     checkAdmin,
     createAdmin,
     deleteAdmin,

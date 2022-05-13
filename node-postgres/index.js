@@ -45,6 +45,17 @@ app.get('/lml_admins/getAdmins', (req, res) => {
   })
 })
 
+// get all debris data from lml_admin_data
+app.get('/lml_admins/getAdminInfo/:email', (req, res) => {
+  lml_admin_model.getAdminInfo(req.params.email)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
 // check if email and password exists in lml_admins
 app.get('/lml_admins/checkAdmins/:username/:password', (req, res) => {
   lml_admin_model.checkAdmin(req.params.username, req.params.password)

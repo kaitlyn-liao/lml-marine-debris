@@ -18,6 +18,8 @@ import {
 import { useTheme } from '@table-library/react-table-library/theme';
 import '../../css/LoginStyle.css'
 import UploadCSV from '../UploadCSV';
+import Login_UnApr from './Login_UnApr';
+import { useEffect } from 'react';
 
 const nodes = [
   {
@@ -37,7 +39,25 @@ const nodes = [
   }
 ];
 
-function Login_Apr() {
+function Login_Apr({email}) {
+  const [profileName, setProfileName] = React.useState("");
+  useEffect(() => {
+    // Only set local storage value if undefined
+    // if(localStorage.getItem('newEmail') === null){
+    //   localStorage.setItem('newEmail', email);
+    // }
+    // Modify local storage if state variable email is different than the one in local storage 
+    console.log("Email",email, email != null)
+    console.log("Email2",localStorage.getItem('newEmail'), email !== localStorage.getItem('newEmail'))
+    if((email != null) && (email !== localStorage.getItem('newEmail'))){
+      console.log("SETTER")
+      localStorage.setItem('newEmail', email);
+    }
+    // Get email value from local storage
+    const profileEmail = localStorage.getItem('newEmail');
+    getAdminInfo(profileEmail);
+  }, []);
+
   const [data, setData] = React.useState({ nodes });
   const [filteredData, setFilteredData] = React.useState({ nodes });
 
@@ -219,6 +239,17 @@ function Login_Apr() {
   `,
   });
 
+  // Retrieve logged-in user info 
+  function getAdminInfo(profileEmail){
+    fetch(`http://localhost:3001/lml_admins/getAdminInfo/${profileEmail}`)
+    .then(response => response.json())
+    .then(data => {
+      console.log("From database", data.name);
+      setProfileName(data.name);
+    });
+  }
+
+
   return (
     <div className='main'>
       {/* Create a sidebar to display user profile and settings */}
@@ -231,7 +262,7 @@ function Login_Apr() {
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfkGq1f7x3EPaXHdH75vQXY-Co3z-hyD5F3XeZQaELfc6HzB5rRBrs5IkIUk0zSFcFgfI&usqp=CAU"
               alt="" width="80" height="80"></img>
           </div>
-          <h3>Bridget Chew</h3>
+          <h3>{profileName}</h3>
         </div>
         <br></br>
         <ul class="nav nav-pills flex-column mb-auto">

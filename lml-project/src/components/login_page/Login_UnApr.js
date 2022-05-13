@@ -10,8 +10,9 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/LoginStyle.css';
 import UploadAdmin from '../UploadAdmin';
 import Login from './Login';
+import Login_Apr from './Login_Apr';
 
-function Login_UnApr() {
+function Login_UnApr({setEmail}) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
@@ -34,6 +35,8 @@ function Login_UnApr() {
       .then(data => {
         if (data.exists) {
           console.log("Logged in", data.exists);
+          // setEmail sets the value of email in the parent Login component
+          setEmail(email.value);
           let path = `postSlug`;
           navigate(path);
 
