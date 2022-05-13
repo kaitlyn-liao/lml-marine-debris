@@ -77,7 +77,7 @@ function Login_Apr() {
     let person = prompt("Please enter name of user:")
     let newUserid = prompt("Please enter user's user-ID (can be any username):")
     let pword = prompt("Please enter the password to be associated with: " + newUserid)
-    // Check if person and email are non-empty strings and that the prompt was not cancelled
+
     if ((person !== null && person !== "") && (newUserid !== null && newUserid !== "") && (pword !== null && pword !== "") ) {
       // add to data table
       postAdmin(person, newUserid, pword);
@@ -273,11 +273,12 @@ function Login_Apr() {
           {(tableList) => (
             <>
               {/* Create header with table attributes */}
-              <Header resize={{ minWidth: 100 }}>
+              <Header>
                 <HeaderRow>
                   <HeaderCell>Name</HeaderCell>
                   <HeaderCell>User-ID</HeaderCell>
-                  <HeaderCell></HeaderCell>
+                  {/* <HeaderCell>Super?</HeaderCell> */}
+                  <HeaderCell>Delete</HeaderCell>
                 </HeaderRow>
               </Header>
 
@@ -285,8 +286,8 @@ function Login_Apr() {
                 {/* Display row values by iterating through tableList */}
                 {tableList.map((item) => (
                   <Row key={item.id} item={item}>
-                    <Cell>{item.name}</Cell>
-                    <Cell>{item.userID}</Cell>
+                    <Cell >{item.name}</Cell>
+                    <Cell >{item.userID}</Cell>
                     {/* Button to Delete users from Table */}
                     <Cell>
                       <button type="button" className="btn" onClick={() => handleRemove(item.id)} >
@@ -295,6 +296,14 @@ function Login_Apr() {
                         </svg>
                       </button>
                     </Cell>
+                    {/* Button to display Superadmin status */}
+                    {/* <Cell>
+                      <button type="button" className="btn" onClick={() => handleRemove(item.id)} >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                          <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                        </svg>
+                      </button>
+                    </Cell> */}
                   </Row>
                 ))}
               </Body>
@@ -305,9 +314,9 @@ function Login_Apr() {
         <button type="button" className="btn btn-blue" onClick={handleSubmit}>Add User</button>
         <button type="button" className="btn btn-danger" onClick={handleRemove}>Kill User</button>
 
-        <br></br>
+        {/* <br></br> */}
         {adminData === [] ? 'There is no adminData available' : <ol> {dataToArray()} </ol>}
-        <br></br>
+        {/* <br></br> */}
         <UploadCSV/>
       </div>
     </div>

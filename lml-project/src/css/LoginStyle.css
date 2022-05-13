@@ -23,8 +23,11 @@
 
 /* Table size */
 .custom-table{
-    width: 500px;
-    height: 150px;
+    width: 75%;
+    /* width: 500px; */
+    height: 200px;
+    /* height: 50% */
+    
 }
 
 
@@ -39,7 +42,7 @@
 
 /* Width of side navigation bar */
 .nav-bar{
-    width:280px;
+    width: 20%;
     min-height: 100vh;
     overflow: visible;
 }
