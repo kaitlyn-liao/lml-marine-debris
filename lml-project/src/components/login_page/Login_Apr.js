@@ -25,17 +25,20 @@ const nodes = [
   {
     id: '1',
     name: 'Bob',
-    email: 'bob@gmail.com',
+    userID: 'bobgmai',
+    super: false,
   },
   {
     id: '2',
     name: 'Jane',
-    email: 'jane@email.com',
+    userID: 'janesqoo1',
+    super: false,
   },
   {
     id: '3',
     name: 'Jacob',
-    email: 'jacob@email.com',
+    userID: 'fishyfish',
+    super: false,
   }
 ];
 
@@ -83,22 +86,21 @@ function Login_Apr({email}) {
     }
   }
 
-  console.log("Data", data, typeof data);
-  console.log("Filtered Data", filteredData);
-  console.log("Nodes", nodes, typeof nodes)
+  // console.log("Data", data, typeof data);
+  // console.log("Filtered Data", filteredData);
+  // console.log("Nodes", nodes, typeof nodes)
 
   // Add row to table when submitting a name and email
   // calls postAdmin to post to admin DB
   const handleSubmit = (event) => {
     const id = nodes.length + 1;
     let person = prompt("Please enter name of user:")
-    let newEmail = prompt("Please enter user's email:")
-    let pword = prompt("Please enter the password to be associated with: " + newEmail)
-    // Check if person and email are non-empty strings and that the prompt was not cancelled
-    if ((person !== null && person !== "") && (newEmail !== null && newEmail !== "")) {
+    let newUserid = prompt("Please enter user's user-ID (can be any username):")
+    let pword = prompt("Please enter the password to be associated with: " + newUserid)
 
+    if ((person !== null && person !== "") && (newUserid !== null && newUserid !== "") && (pword !== null && pword !== "") ) {
       // add to data table
-      postAdmin(person, newEmail, pword);
+      postAdmin(person, newUserid, pword);
 
       // Change the nodes of data by adding a new element to its nodes
       setData((state) => ({
@@ -106,7 +108,7 @@ function Login_Apr({email}) {
         nodes: state.nodes.concat({
           id,
           name: person,
-          email: newEmail,
+          userID: newUserid,
         }),
       }));
       // Change the nodes of filteredData by adding a new element to its nodes
@@ -115,7 +117,7 @@ function Login_Apr({email}) {
         nodes: state.nodes.concat({
           id,
           name: person,
-          email: newEmail,
+          userID: newUserid,
         }),
       }));
     }
@@ -128,7 +130,8 @@ function Login_Apr({email}) {
     // Changes the nodes of data by removing element from its nodes
 
     // TODO
-    removeAdmin("email", "pword");
+    let userId = prompt('Enter username');
+    removeAdmin(userId);
 
     setData((state) => ({
       ...state,
@@ -149,7 +152,7 @@ function Login_Apr({email}) {
   }
 
   // posts a new admin to DB
-  async function postAdmin(name, email, pword){
+  async function postAdmin(name, userid, pword){
     await fetch('http://localhost:3001/lml_admins/newAdmin', {
       method: 'POST',
       headers: {
@@ -157,7 +160,7 @@ function Login_Apr({email}) {
       },
       body: JSON.stringify({
         name, 
-        email,
+        userid,
         pword
       }),
     })
@@ -169,28 +172,22 @@ function Login_Apr({email}) {
         });
       }
     })
+    getAdminData()
   }
 
-  async function removeAdmin(email, pword){
-    alert("delete " + email + " " + pword);
+  async function removeAdmin(userID){
+    alert("delete " + userID );
 
-    await fetch(`http://localhost:3001/lml_admins/${email}`, {
+    await fetch(`http://localhost:3001/lml_admins/${userID}`, {
       method: 'DELETE',
     })
-      .then(response => {
-        return response.text();
-      })
-      .then(response => {
-        if(!response.ok){
-          response.text().then(function (text) {
-            console.log(text);
-            alert("Failed to remove admin");
-          });
-        }
-        else {
-          alert("Deleted!");
-        }
-      })
+    .then(response => {
+      return response.text();
+    }).then(response => {
+      console.log(response)
+    })
+
+    getAdminData()
   }
 
   function dataToArray(){
@@ -201,7 +198,7 @@ function Login_Apr({email}) {
         adminArray[i] = [
           adminData[i].admin_id, 
           adminData[i].name, 
-          adminData[i].email, 
+          adminData[i].userid, 
           adminData[i].password,
           adminData[i].issuper,
           adminData[i].created_on
@@ -307,11 +304,12 @@ function Login_Apr({email}) {
           {(tableList) => (
             <>
               {/* Create header with table attributes */}
-              <Header resize={{ minWidth: 100 }}>
+              <Header>
                 <HeaderRow>
                   <HeaderCell>Name</HeaderCell>
-                  <HeaderCell>Email</HeaderCell>
-                  <HeaderCell></HeaderCell>
+                  <HeaderCell>User-ID</HeaderCell>
+                  {/* <HeaderCell>Super?</HeaderCell> */}
+                  <HeaderCell>Delete</HeaderCell>
                 </HeaderRow>
               </Header>
 
@@ -319,8 +317,8 @@ function Login_Apr({email}) {
                 {/* Display row values by iterating through tableList */}
                 {tableList.map((item) => (
                   <Row key={item.id} item={item}>
-                    <Cell>{item.name}</Cell>
-                    <Cell>{item.email}</Cell>
+                    <Cell >{item.name}</Cell>
+                    <Cell >{item.userID}</Cell>
                     {/* Button to Delete users from Table */}
                     <Cell>
                       <button type="button" className="btn" onClick={() => handleRemove(item.id)} >
@@ -329,6 +327,14 @@ function Login_Apr({email}) {
                         </svg>
                       </button>
                     </Cell>
+                    {/* Button to display Superadmin status */}
+                    {/* <Cell>
+                      <button type="button" className="btn" onClick={() => handleRemove(item.id)} >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                          <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                        </svg>
+                      </button>
+                    </Cell> */}
                   </Row>
                 ))}
               </Body>
@@ -339,9 +345,9 @@ function Login_Apr({email}) {
         <button type="button" className="btn btn-blue" onClick={handleSubmit}>Add User</button>
         <button type="button" className="btn btn-danger" onClick={handleRemove}>Kill User</button>
 
-        <br></br>
+        {/* <br></br> */}
         {adminData === [] ? 'There is no adminData available' : <ol> {dataToArray()} </ol>}
-        <br></br>
+        {/* <br></br> */}
         <UploadCSV/>
       </div>
     </div>

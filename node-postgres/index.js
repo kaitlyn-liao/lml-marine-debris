@@ -69,8 +69,8 @@ app.get('/lml_admins/checkAdmins/:username/:password', (req, res) => {
 
 // Delete a specified row out the lml_admin_data table
 // take in a string email and find that user
-app.delete('/lml_admins/removeAdmin/:admin_id', (req, res) => {
-  lml_admin_model.deleteAdmin(req.params.admin_id)
+app.delete('/lml_admins/:userID', (req, res) => {
+  lml_admin_model.deleteAdmin(req.params.userID)
   .then(response => {
     res.status(200).send(response);
   })
@@ -183,7 +183,6 @@ app.get('/rural_list', (req, res) => {
     res.status(500).send(error);
   })
 })
-
 
 // Enter a new row into lml_debris_data
 app.post('/lml_debris_data', (req, res) => {
