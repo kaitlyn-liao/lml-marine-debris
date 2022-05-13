@@ -42,23 +42,17 @@ const nodes = [
   }
 ];
 
-function Login_Apr({email}) {
+function Login_Apr({userID}) {
   const [profileName, setProfileName] = React.useState("");
   useEffect(() => {
     // Only set local storage value if undefined
-    // if(localStorage.getItem('newEmail') === null){
-    //   localStorage.setItem('newEmail', email);
-    // }
-    // Modify local storage if state variable email is different than the one in local storage 
-    console.log("Email",email, email != null)
-    console.log("Email2",localStorage.getItem('newEmail'), email !== localStorage.getItem('newEmail'))
-    if((email != null) && (email !== localStorage.getItem('newEmail'))){
-      console.log("SETTER")
-      localStorage.setItem('newEmail', email);
+    // Modify local storage if state variable userID is different than the one in local storage 
+    if((userID != null) && (userID !== localStorage.getItem('newuserID'))){
+      localStorage.setItem('newuserID', userID);
     }
-    // Get email value from local storage
-    const profileEmail = localStorage.getItem('newEmail');
-    getAdminInfo(profileEmail);
+    // Get userID value from local storage
+    const profileuserID = localStorage.getItem('newuserID');
+    getAdminInfo(profileuserID);
   }, []);
 
   const [data, setData] = React.useState({ nodes });
@@ -90,7 +84,7 @@ function Login_Apr({email}) {
   // console.log("Filtered Data", filteredData);
   // console.log("Nodes", nodes, typeof nodes)
 
-  // Add row to table when submitting a name and email
+  // Add row to table when submitting a name and userID
   // calls postAdmin to post to admin DB
   const handleSubmit = (event) => {
     const id = nodes.length + 1;
@@ -237,11 +231,10 @@ function Login_Apr({email}) {
   });
 
   // Retrieve logged-in user info 
-  function getAdminInfo(profileEmail){
-    fetch(`http://localhost:3001/lml_admins/getAdminInfo/${profileEmail}`)
+  function getAdminInfo(profileuserID){
+    fetch(`http://localhost:3001/lml_admins/getAdminInfo/${profileuserID}`)
     .then(response => response.json())
     .then(data => {
-      console.log("From database", data.name);
       setProfileName(data.name);
     });
   }

@@ -1,10 +1,10 @@
 const pool = require('./dbConnect.js');
 
 // Query specific admin info
-const getAdminInfo = (email) => {
+const getAdminInfo = (username) => {
   return new Promise(function(resolve, reject) {
-    const text = "SELECT name FROM lml_admins WHERE email = $1"
-    const values = [email]
+    const text = "SELECT name FROM lml_admins WHERE userid = $1"
+    const values = [username]
     pool.query(text, values, (error, results) => {
       if (error) {
         console.log(error);

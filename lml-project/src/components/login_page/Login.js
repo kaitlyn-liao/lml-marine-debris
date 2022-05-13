@@ -12,18 +12,16 @@ import Login_Apr from './Login_Apr';
 import Login_UnApr from './Login_UnApr';
 
 function Login () {
-  // Email must be stored in the parent App component to be passed
+  // User ID must be stored in the parent App component to be passed
   // to its child components
-  const [email, setEmail] = useState();
+  const [userID, setUserID] = useState();
 
   return(
       <div className="Login">
         {/* <Outlet/> */}
-          {/* <Login_Apr setEmail={setEmail}/>
-          <Login_UnApr email={email}/> */}
           <Routes>
-            <Route path="" element={<Login_UnApr setEmail={setEmail}/>}/>
-            <Route path=":postSlug" element={<Login_Apr email={email}/>} />
+            <Route path="" element={<Login_UnApr setUserID={setUserID}/>}/>
+            <Route path=":postSlug" element={<Login_Apr userID={userID}/>} />
 
           </Routes>
       </div>
