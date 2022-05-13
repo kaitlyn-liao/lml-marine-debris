@@ -18,7 +18,7 @@ const getAdmin = () => {
 // Query specific admin 
 const checkAdmin = (username, password) => {
   return new Promise(function(resolve, reject) {
-    const text = "SELECT EXISTS( SELECT * FROM lml_admins WHERE email = $1 AND password = $2)"
+    const text = "SELECT EXISTS( SELECT * FROM lml_admins WHERE userid = $1 AND password = $2)"
     const values = [username, password]
     pool.query(text, values, (error, results) => {
       if (error) {
@@ -37,12 +37,12 @@ const checkAdmin = (username, password) => {
 const createAdmin = (body) => {
   console.log("in lml_admin_model")
   return new Promise(function(resolve, reject) {
-    const {name, email, pword} = body
+    const {name, userid, pword} = body
     const isSuper = false
     const date = '3/3/2022'
 
-    pool.query('INSERT INTO lml_admins (email, password, name, issuper, created_on) VALUES ($1, $2, $3, $4, $5) RETURNING *', 
-      [email, pword, name, isSuper, date], 
+    pool.query('INSERT INTO lml_admins (userid, password, name, issuper, created_on) VALUES ($1, $2, $3, $4, $5) RETURNING *', 
+      [userid, pword, name, isSuper, date], 
       (error, results) => {
       if (error) {
         console.log("failed attempt")
@@ -58,12 +58,15 @@ const createAdmin = (body) => {
 
 const deleteAdmin = (AdminID) => {
   return new Promise(function(resolve, reject) {
-    const admin_id = parseInt(AdminID)
-    pool.query('DELETE FROM lml_admins WHERE admin_id = $1', [admin_id], (error, results) => {
+    const admin_id = AdminID
+    console.log(admin_id)
+    pool.query('DELETE FROM lml_admins WHERE userid = $1', [admin_id], (error, results) => {
       if (error) {
+        console.log("failed attempt")
+        console.log(error)
         reject(error)
       }
-      resolve(`Admin removed with email: ${admin_id}`)
+      resolve(`Admin removed with userID: ${admin_id}`)
     })
   })
 }

@@ -23,17 +23,20 @@ const nodes = [
   {
     id: '1',
     name: 'Bob',
-    email: 'bob@gmail.com',
+    userID: 'bobgmai',
+    super: false,
   },
   {
     id: '2',
     name: 'Jane',
-    email: 'jane@email.com',
+    userID: 'janesqoo1',
+    super: false,
   },
   {
     id: '3',
     name: 'Jacob',
-    email: 'jacob@email.com',
+    userID: 'fishyfish',
+    super: false,
   }
 ];
 
@@ -63,22 +66,21 @@ function Login_Apr() {
     }
   }
 
-  console.log("Data", data, typeof data);
-  console.log("Filtered Data", filteredData);
-  console.log("Nodes", nodes, typeof nodes)
+  // console.log("Data", data, typeof data);
+  // console.log("Filtered Data", filteredData);
+  // console.log("Nodes", nodes, typeof nodes)
 
   // Add row to table when submitting a name and email
   // calls postAdmin to post to admin DB
   const handleSubmit = (event) => {
     const id = nodes.length + 1;
     let person = prompt("Please enter name of user:")
-    let newEmail = prompt("Please enter user's email:")
-    let pword = prompt("Please enter the password to be associated with: " + newEmail)
+    let newUserid = prompt("Please enter user's user-ID (can be any username):")
+    let pword = prompt("Please enter the password to be associated with: " + newUserid)
     // Check if person and email are non-empty strings and that the prompt was not cancelled
-    if ((person !== null && person !== "") && (newEmail !== null && newEmail !== "")) {
-
+    if ((person !== null && person !== "") && (newUserid !== null && newUserid !== "") && (pword !== null && pword !== "") ) {
       // add to data table
-      postAdmin(person, newEmail, pword);
+      postAdmin(person, newUserid, pword);
 
       // Change the nodes of data by adding a new element to its nodes
       setData((state) => ({
@@ -86,7 +88,7 @@ function Login_Apr() {
         nodes: state.nodes.concat({
           id,
           name: person,
-          email: newEmail,
+          userID: newUserid,
         }),
       }));
       // Change the nodes of filteredData by adding a new element to its nodes
@@ -95,7 +97,7 @@ function Login_Apr() {
         nodes: state.nodes.concat({
           id,
           name: person,
-          email: newEmail,
+          userID: newUserid,
         }),
       }));
     }
@@ -108,7 +110,8 @@ function Login_Apr() {
     // Changes the nodes of data by removing element from its nodes
 
     // TODO
-    removeAdmin("email", "pword");
+    let userId = prompt('Enter username');
+    removeAdmin(userId);
 
     setData((state) => ({
       ...state,
@@ -129,7 +132,7 @@ function Login_Apr() {
   }
 
   // posts a new admin to DB
-  async function postAdmin(name, email, pword){
+  async function postAdmin(name, userid, pword){
     await fetch('http://localhost:3001/lml_admins/newAdmin', {
       method: 'POST',
       headers: {
@@ -137,7 +140,7 @@ function Login_Apr() {
       },
       body: JSON.stringify({
         name, 
-        email,
+        userid,
         pword
       }),
     })
@@ -149,28 +152,22 @@ function Login_Apr() {
         });
       }
     })
+    getAdminData()
   }
 
-  async function removeAdmin(email, pword){
-    alert("delete " + email + " " + pword);
+  async function removeAdmin(userID){
+    alert("delete " + userID );
 
-    await fetch(`http://localhost:3001/lml_admins/${email}`, {
+    await fetch(`http://localhost:3001/lml_admins/${userID}`, {
       method: 'DELETE',
     })
-      .then(response => {
-        return response.text();
-      })
-      .then(response => {
-        if(!response.ok){
-          response.text().then(function (text) {
-            console.log(text);
-            alert("Failed to remove admin");
-          });
-        }
-        else {
-          alert("Deleted!");
-        }
-      })
+    .then(response => {
+      return response.text();
+    }).then(response => {
+      console.log(response)
+    })
+
+    getAdminData()
   }
 
   function dataToArray(){
@@ -181,7 +178,7 @@ function Login_Apr() {
         adminArray[i] = [
           adminData[i].admin_id, 
           adminData[i].name, 
-          adminData[i].email, 
+          adminData[i].userid, 
           adminData[i].password,
           adminData[i].issuper,
           adminData[i].created_on
@@ -279,7 +276,7 @@ function Login_Apr() {
               <Header resize={{ minWidth: 100 }}>
                 <HeaderRow>
                   <HeaderCell>Name</HeaderCell>
-                  <HeaderCell>Email</HeaderCell>
+                  <HeaderCell>User-ID</HeaderCell>
                   <HeaderCell></HeaderCell>
                 </HeaderRow>
               </Header>
@@ -289,7 +286,7 @@ function Login_Apr() {
                 {tableList.map((item) => (
                   <Row key={item.id} item={item}>
                     <Cell>{item.name}</Cell>
-                    <Cell>{item.email}</Cell>
+                    <Cell>{item.userID}</Cell>
                     {/* Button to Delete users from Table */}
                     <Cell>
                       <button type="button" className="btn" onClick={() => handleRemove(item.id)} >
