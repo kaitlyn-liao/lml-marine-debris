@@ -45,7 +45,18 @@ app.get('/lml_admins/getAdmins', (req, res) => {
   })
 })
 
-// check if email and password exists in lml_admins
+// get all debris data from lml_admin_data
+app.get('/lml_admins/getAdminInfo/:userID', (req, res) => {
+  lml_admin_model.getAdminInfo(req.params.userID)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+// check if userID and password exists in lml_admins
 app.get('/lml_admins/checkAdmins/:username/:password', (req, res) => {
   lml_admin_model.checkAdmin(req.params.username, req.params.password)
   .then(response => {
@@ -57,7 +68,7 @@ app.get('/lml_admins/checkAdmins/:username/:password', (req, res) => {
 })
 
 // Delete a specified row out the lml_admin_data table
-// take in a string email and find that user
+// take in a string userID and find that user
 app.delete('/lml_admins/:userID', (req, res) => {
   lml_admin_model.deleteAdmin(req.params.userID)
   .then(response => {

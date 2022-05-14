@@ -18,12 +18,26 @@ import {
 import { useTheme } from '@table-library/react-table-library/theme';
 import '../../css/LoginStyle.css'
 import UploadCSV from '../UploadCSV';
+import Login_UnApr from './Login_UnApr';
+import { useEffect } from 'react';
 
 const nodes = [
 
 ];
 
-function Login_Apr() {
+function Login_Apr({userID}) {
+  const [profileName, setProfileName] = React.useState("");
+  useEffect(() => {
+    // Only set local storage value if undefined
+    // Modify local storage if state variable userID is different than the one in local storage 
+    if((userID != null) && (userID !== localStorage.getItem('newuserID'))){
+      localStorage.setItem('newuserID', userID);
+    }
+    // Get userID value from local storage
+    const profileuserID = localStorage.getItem('newuserID');
+    getAdminInfo(profileuserID);
+  }, []);
+
   const [data, setData] = React.useState({ nodes });
   const [filteredData, setFilteredData] = React.useState({ nodes });
 
@@ -52,6 +66,11 @@ function Login_Apr() {
   }
 
   // Add row to table when submitting a name and email
+  // console.log("Data", data, typeof data);
+  // console.log("Filtered Data", filteredData);
+  // console.log("Nodes", nodes, typeof nodes)
+
+  // Add row to table when submitting a name and userID
   // calls postAdmin to post to admin DB
   async function handleSubmit(event){
     const id = nodes.length + 1;
@@ -198,6 +217,16 @@ function Login_Apr() {
   `,
   });
 
+  // Retrieve logged-in user info 
+  function getAdminInfo(profileuserID){
+    fetch(`http://localhost:3001/lml_admins/getAdminInfo/${profileuserID}`)
+    .then(response => response.json())
+    .then(data => {
+      setProfileName(data.name);
+    });
+  }
+
+
   return (
     <div className='main'>
       {/* Create a sidebar to display user profile and settings */}
@@ -210,7 +239,7 @@ function Login_Apr() {
               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfkGq1f7x3EPaXHdH75vQXY-Co3z-hyD5F3XeZQaELfc6HzB5rRBrs5IkIUk0zSFcFgfI&usqp=CAU"
               alt="" width="80" height="80"></img>
           </div>
-          <h3>Bridget Chew</h3>
+          <h3>{profileName}</h3>
         </div>
         <br></br>
         <ul class="nav nav-pills flex-column mb-auto">

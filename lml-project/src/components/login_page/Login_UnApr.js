@@ -10,8 +10,9 @@ import { useNavigate } from 'react-router-dom';
 import '../../css/LoginStyle.css';
 import UploadAdmin from '../UploadAdmin';
 import Login from './Login';
+import Login_Apr from './Login_Apr';
 
-function Login_UnApr() {
+function Login_UnApr({setUserID}) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
@@ -25,18 +26,20 @@ function Login_UnApr() {
   let navigate = useNavigate();
   const handleLogin = async (event) => {
     event.preventDefault();
-    const { email, password } = event.target.elements;
-    console.log(email.value, password.value)
+    const { userID, password } = event.target.elements;
+    console.log(userID.value, password.value)
 
-    // Check if email and password combination is valid
-    fetch(`http://localhost:3001/lml_admins/checkAdmins/${email.value}/${password.value}`)
+    // Check if userID and password combination is valid
+    fetch(`http://localhost:3001/lml_admins/checkAdmins/${userID.value}/${password.value}`)
       .then(response => response.json())
       .then(data => {
         if (data.exists) {
           console.log("Logged in", data.exists);
+          // setUserID sets the value of userID in the parent Login component
+          setUserID(userID.value);
           let path = `postSlug`;
           navigate(path);
-
+         
         }
         else {
           document.getElementById("loginForm").reset()
@@ -54,7 +57,7 @@ function Login_UnApr() {
           Incorrect username or password
         </div>
         <form id="loginForm" onSubmit={handleLogin}>
-          <input type="text" className="bg-gray email-input-size" name="email" placeholder=" Email" onChange={event => setUserName(event.target.value)} />
+          <input type="text" className="bg-gray email-input-size" name="userID" placeholder=" User ID" onChange={event => setUserName(event.target.value)} />
           <br></br>
           <br></br>
 

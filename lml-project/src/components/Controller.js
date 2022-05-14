@@ -26,9 +26,9 @@ class Controller extends React.Component {
             <Route path="/debris-data" element={<DataVis/>}> </Route>
             <Route path="/methodology" element={<Methodology/>}> </Route>
             <Route path="/team" element={<Team/>}> </Route>
-            <Route path="/login" element={<Login/>}> 
-                <Route path="" element={<Login_UnApr/>}/>
-                <Route path=":postSlug" element={<Login_Apr/>} />
+            <Route path="/login/*" element={<Login/>}> 
+                {/* <Route path="" element={<Login_UnApr/>}/>
+                <Route path=":postSlug" element={<Login_Apr/>} /> */}
             </Route>
             <Route path="/" element={<CallToAction/>}> </Route>
           </Routes>
