@@ -36,12 +36,14 @@ function Login_Apr({userID}) {
     // Get userID value from local storage
     const profileuserID = localStorage.getItem('newuserID');
     getAdminInfo(profileuserID);
+
   }, []);
 
   const [data, setData] = React.useState({ nodes });
   const [filteredData, setFilteredData] = React.useState({ nodes });
 
   const [adminData, setAdminData] = React.useState(false);
+
   React.useEffect(() => { 
     getAdminData();
   }, []);
@@ -86,17 +88,22 @@ function Login_Apr({userID}) {
     // Will also delete the user from the database (NOT IMPLEMENTED)
     // Changes the nodes of data by removing element from its nodes
 
-    // TODO
-    let userId = prompt('Enter username');
-    await removeAdmin(userId);
+    const admins = dataToArray()
+    const selectedAdminUserid = admins[id].props.children[2]
+    console.log(id)
+    console.log(selectedAdminUserid)
+    // .props.children
+
+    await removeAdmin(selectedAdminUserid);
     updateNodes()
   }
 
-  // calls removeAdmin to remove admin from DB
+  // 
   async function handleStar(id){
-    // Deletes the user by their id
-    // Will also delete the user from the database (NOT IMPLEMENTED)
-    // Changes the nodes of data by removing element from its nodes
+    // Affects the user by their id
+    // Will also grant the user super admin privledges (or take them away) 
+    // Edits issuper boolean of admin row in databas (NOT IMPLEMENTED)
+    // Changes element by filling in star in row 
 
     // TODO
     let userId = prompt('Enter username');
@@ -151,7 +158,6 @@ function Login_Apr({userID}) {
   }
 
   function dataToArray(){
-    console.log("in dataarray")
     let adminArray = []
     if(adminData){
       for(var i=0; i < adminData.length; i++){
@@ -185,12 +191,14 @@ function Login_Apr({userID}) {
     let i = 0;
     while(adminArray[i] != undefined){
       let admin = adminArray[i].props.children
-      console.log(i, admin[1])
+      // console.log(i, admin[1])
 
+      // if i dont use this const, i++ will update all node's i's 
+      const m = i
       setData((state) => ({
         ...state,
         nodes: state.nodes.concat({
-          i,
+          id: m,
           name: admin[1],
           userID: admin[2],
         }),
@@ -199,13 +207,12 @@ function Login_Apr({userID}) {
       setFilteredData((state) => ({
         ...state,
         nodes: state.nodes.concat({
-          i,
+          id: m,
           name: admin[1],
           userID: admin[2],
         }),
       }));
-      
-      i += 1;
+      i++;
     }
   }
 
@@ -293,6 +300,7 @@ function Login_Apr({userID}) {
               {/* Create header with table attributes */}
               <Header>
                 <HeaderRow>
+                  <HeaderCell>ID</HeaderCell>
                   <HeaderCell>Name</HeaderCell>
                   <HeaderCell>User-ID</HeaderCell>
                   <HeaderCell>Super?</HeaderCell>
@@ -304,6 +312,7 @@ function Login_Apr({userID}) {
                 {/* Display row values by iterating through tableList */}
                 {tableList.map((item) => (
                   <Row key={item.id} item={item}>
+                    <Cell >{item.id}</Cell>
                     <Cell >{item.name}</Cell>
                     <Cell >{item.userID}</Cell>
                     {/* Button to display Superadmin status */}
