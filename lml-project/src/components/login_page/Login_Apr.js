@@ -65,11 +65,6 @@ function Login_Apr({userID}) {
     }
   }
 
-  // Add row to table when submitting a name and email
-  // console.log("Data", data, typeof data);
-  // console.log("Filtered Data", filteredData);
-  // console.log("Nodes", nodes, typeof nodes)
-
   // Add row to table when submitting a name and userID
   // calls postAdmin to post to admin DB
   async function handleSubmit(event){
@@ -95,19 +90,19 @@ function Login_Apr({userID}) {
     let userId = prompt('Enter username');
     await removeAdmin(userId);
     updateNodes()
-  };
+  }
 
-    // calls removeAdmin to remove admin from DB
-    async function handleStar(id){
-      // Deletes the user by their id
-      // Will also delete the user from the database (NOT IMPLEMENTED)
-      // Changes the nodes of data by removing element from its nodes
-  
-      // TODO
-      let userId = prompt('Enter username');
-      await removeAdmin(userId);
-      updateNodes()
-    };
+  // calls removeAdmin to remove admin from DB
+  async function handleStar(id){
+    // Deletes the user by their id
+    // Will also delete the user from the database (NOT IMPLEMENTED)
+    // Changes the nodes of data by removing element from its nodes
+
+    // TODO
+    let userId = prompt('Enter username');
+    await removeAdmin(userId);
+    updateNodes()
+  }
 
   // grabs all admins from DB
   async function getAdminData() {
@@ -214,6 +209,15 @@ function Login_Apr({userID}) {
     }
   }
 
+  // Retrieve logged-in user info 
+  function getAdminInfo(profileuserID){
+    fetch(`http://localhost:3001/lml_admins/getAdminInfo/${profileuserID}`)
+    .then(response => response.json())
+    .then(data => {
+      setProfileName(data.name);
+    });
+  }
+
   // Table style
   const tableTheme = useTheme({
     Table: `
@@ -229,16 +233,6 @@ function Login_Apr({userID}) {
     }
   `,
   });
-
-  // Retrieve logged-in user info 
-  function getAdminInfo(profileuserID){
-    fetch(`http://localhost:3001/lml_admins/getAdminInfo/${profileuserID}`)
-    .then(response => response.json())
-    .then(data => {
-      setProfileName(data.name);
-    });
-  }
-
 
   return (
     <div className='main'>
@@ -314,18 +308,18 @@ function Login_Apr({userID}) {
                     <Cell >{item.userID}</Cell>
                     {/* Button to display Superadmin status */}
                     <Cell>
-                      <button type="button" className="btn" onClick={() => handleStar(item.id)} >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                          <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                        </svg>
+                      <button type="button" className="btn" onClick={() => handleStar(item.id)}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star" viewBox="0 0 16 16">
+                        <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
+                      </svg>
                       </button>
                     </Cell>
                     {/* Button to Delete users from Table */}
                     <Cell>
                       <button type="button" className="btn" onClick={() => handleRemove(item.id)} >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                          <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                        </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0z"/>
+                      </svg>
                       </button>
                     </Cell>
                   </Row>
@@ -341,7 +335,7 @@ function Login_Apr({userID}) {
 
         {/* <br></br> */}
         {adminData === [] ? 'There is no adminData available' : <ol> {dataToArray()} </ol>}
-        {/* <br></br> */}
+        <br></br>
         <UploadCSV/>
       </div>
     </div>
