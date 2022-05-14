@@ -18,7 +18,6 @@ const getAdminInfo = (username) => {
   }) 
 }
 
-
 // TODO: 
 const getAdmin = () => {
   return new Promise(function(resolve, reject) {
@@ -51,14 +50,12 @@ const checkAdmin = (username, password) => {
   }) 
 }
 
-
 // TODO: 
 const createAdmin = (body) => {
   console.log("in lml_admin_model")
   const {name, userid, pword} = body
   const isSuper = false
   const date = '3/3/2022'
-  // console.log(crypt.crypt(pword))
 
   return new Promise(function(resolve, reject) {
     pool.query('INSERT INTO lml_admins (userid, password, name, issuper, created_on) VALUES ($1, $2, $3, $4, $5) RETURNING *', 

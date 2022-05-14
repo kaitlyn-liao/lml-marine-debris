@@ -97,6 +97,18 @@ function Login_Apr({userID}) {
     updateNodes()
   };
 
+    // calls removeAdmin to remove admin from DB
+    async function handleStar(id){
+      // Deletes the user by their id
+      // Will also delete the user from the database (NOT IMPLEMENTED)
+      // Changes the nodes of data by removing element from its nodes
+  
+      // TODO
+      let userId = prompt('Enter username');
+      await removeAdmin(userId);
+      updateNodes()
+    };
+
   // grabs all admins from DB
   async function getAdminData() {
     fetch(`http://localhost:3001/lml_admins/getAdmins`)
@@ -206,13 +218,14 @@ function Login_Apr({userID}) {
   const tableTheme = useTheme({
     Table: `
         height: 100%;
+        width: 100%;
     `,
     BaseCell: `
     &:nth-child(1), &:nth-child(2) {
-      width: 35%;
+      width: 30%;
     }
-    &:nth-child(3) {
-      width: 20%;
+    &:nth-child(3), &:nth-child(4) {
+      width: 18%;
     }
   `,
   });
@@ -245,7 +258,7 @@ function Login_Apr({userID}) {
         <ul class="nav nav-pills flex-column mb-auto">
           <li class="nav-item">
             <a href="#" class="nav-link active" aria-current="page">
-              <svg class="bi" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16">
+              <svg class="bi" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16">
                 <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
                 <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
               </svg>
@@ -288,7 +301,7 @@ function Login_Apr({userID}) {
                 <HeaderRow>
                   <HeaderCell>Name</HeaderCell>
                   <HeaderCell>User-ID</HeaderCell>
-                  {/* <HeaderCell>Super?</HeaderCell> */}
+                  <HeaderCell>Super?</HeaderCell>
                   <HeaderCell>Delete</HeaderCell>
                 </HeaderRow>
               </Header>
@@ -299,6 +312,14 @@ function Login_Apr({userID}) {
                   <Row key={item.id} item={item}>
                     <Cell >{item.name}</Cell>
                     <Cell >{item.userID}</Cell>
+                    {/* Button to display Superadmin status */}
+                    <Cell>
+                      <button type="button" className="btn" onClick={() => handleStar(item.id)} >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
+                          <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
+                        </svg>
+                      </button>
+                    </Cell>
                     {/* Button to Delete users from Table */}
                     <Cell>
                       <button type="button" className="btn" onClick={() => handleRemove(item.id)} >
@@ -307,14 +328,6 @@ function Login_Apr({userID}) {
                         </svg>
                       </button>
                     </Cell>
-                    {/* Button to display Superadmin status */}
-                    {/* <Cell>
-                      <button type="button" className="btn" onClick={() => handleRemove(item.id)} >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash3-fill" viewBox="0 0 16 16">
-                          <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                        </svg>
-                      </button>
-                    </Cell> */}
                   </Row>
                 ))}
               </Body>
