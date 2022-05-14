@@ -5,7 +5,7 @@
 
 // Login_Apr.js is rendered by Login.js, and renders no children.
 
-import React from 'react';
+import React, { Component } from 'react';
 import {
   Table,
   Header,
@@ -20,24 +20,7 @@ import '../../css/LoginStyle.css'
 import UploadCSV from '../UploadCSV';
 
 const nodes = [
-  {
-    id: '1',
-    name: 'Bob',
-    userID: 'bobgmai',
-    super: false,
-  },
-  {
-    id: '2',
-    name: 'Jane',
-    userID: 'janesqoo1',
-    super: false,
-  },
-  {
-    id: '3',
-    name: 'Jacob',
-    userID: 'fishyfish',
-    super: false,
-  }
+
 ];
 
 function Login_Apr() {
@@ -45,8 +28,10 @@ function Login_Apr() {
   const [filteredData, setFilteredData] = React.useState({ nodes });
 
   const [adminData, setAdminData] = React.useState(false);
-  React.useEffect(() => { getAdminData(); }, []);
-  const [adArray, setAdArray] = React.useState(false);
+  React.useEffect(() => { 
+    getAdminData();
+  }, []);
+
 
   // Change state of the table when the there is input in the search bar
   // Filters filteredData based on the searchValue
@@ -66,13 +51,9 @@ function Login_Apr() {
     }
   }
 
-  // console.log("Data", data, typeof data);
-  // console.log("Filtered Data", filteredData);
-  // console.log("Nodes", nodes, typeof nodes)
-
   // Add row to table when submitting a name and email
   // calls postAdmin to post to admin DB
-  const handleSubmit = (event) => {
+  async function handleSubmit(event){
     const id = nodes.length + 1;
     let person = prompt("Please enter name of user:")
     let newUserid = prompt("Please enter user's user-ID (can be any username):")
@@ -80,55 +61,28 @@ function Login_Apr() {
 
     if ((person !== null && person !== "") && (newUserid !== null && newUserid !== "") && (pword !== null && pword !== "") ) {
       // add to data table
-      postAdmin(person, newUserid, pword);
-
-      // Change the nodes of data by adding a new element to its nodes
-      setData((state) => ({
-        ...state,
-        nodes: state.nodes.concat({
-          id,
-          name: person,
-          userID: newUserid,
-        }),
-      }));
-      // Change the nodes of filteredData by adding a new element to its nodes
-      setFilteredData((state) => ({
-        ...state,
-        nodes: state.nodes.concat({
-          id,
-          name: person,
-          userID: newUserid,
-        }),
-      }));
+      await postAdmin(person, newUserid, pword);
+      updateNodes()
     }
   }
 
   // calls removeAdmin to remove admin from DB
-  const handleRemove = (id) => {
+  async function handleRemove(id){
     // Deletes the user by their id
     // Will also delete the user from the database (NOT IMPLEMENTED)
     // Changes the nodes of data by removing element from its nodes
 
     // TODO
     let userId = prompt('Enter username');
-    removeAdmin(userId);
-
-    setData((state) => ({
-      ...state,
-      nodes: state.nodes.filter((node) => node.id !== id),
-    }));
-    // Changes the nodes of filteredData by removing element from its nodes
-    setFilteredData((state) => ({
-      ...state,
-      nodes: state.nodes.filter((node) => node.id !== id)
-    }));
+    await removeAdmin(userId);
+    updateNodes()
   };
 
   // grabs all admins from DB
-  function getAdminData() {
+  async function getAdminData() {
     fetch(`http://localhost:3001/lml_admins/getAdmins`)
       .then(response => response.json())
-      .then(data => { setAdminData(data);});
+      .then(data => { setAdminData(data);})
   }
 
   // posts a new admin to DB
@@ -171,7 +125,7 @@ function Login_Apr() {
   }
 
   function dataToArray(){
-    console.log(adminData)
+    console.log("in dataarray")
     let adminArray = []
     if(adminData){
       for(var i=0; i < adminData.length; i++){
@@ -195,22 +149,50 @@ function Login_Apr() {
     }
   }
 
+  function updateNodes(){
+    let adminArray = dataToArray()
+
+    // Empty out the able display
+    setData((state) => ({ state, nodes: [] }));
+    setFilteredData((state) => ({ state, nodes: [] }));
+
+    let i = 0;
+    while(adminArray[i] != undefined){
+      let admin = adminArray[i].props.children
+      console.log(i, admin[1])
+
+      setData((state) => ({
+        ...state,
+        nodes: state.nodes.concat({
+          i,
+          name: admin[1],
+          userID: admin[2],
+        }),
+      }));
+
+      setFilteredData((state) => ({
+        ...state,
+        nodes: state.nodes.concat({
+          i,
+          name: admin[1],
+          userID: admin[2],
+        }),
+      }));
+      
+      i += 1;
+    }
+  }
+
   // Table style
   const tableTheme = useTheme({
     Table: `
         height: 100%;
     `,
     BaseCell: `
-    &:nth-child(1) {
-      min-width: 15%;
+    &:nth-child(1), &:nth-child(2) {
       width: 35%;
     }
-    &:nth-child(2), &:nth-child(3), &:nth-child(4) {
-      min-width: 35%;
-      width: 15%;
-    }
-    &:nth-child(5) {
-      min-width: 20%;
+    &:nth-child(3) {
       width: 20%;
     }
   `,
@@ -313,6 +295,7 @@ function Login_Apr() {
         {/* Button  to add a new user */}
         <button type="button" className="btn btn-blue" onClick={handleSubmit}>Add User</button>
         <button type="button" className="btn btn-danger" onClick={handleRemove}>Kill User</button>
+        <button type="button" className="btn btn-warning" onClick={updateNodes}>Reload Table</button>
 
         {/* <br></br> */}
         {adminData === [] ? 'There is no adminData available' : <ol> {dataToArray()} </ol>}
