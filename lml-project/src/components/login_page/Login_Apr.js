@@ -87,18 +87,13 @@ function Login_Apr({userID}) {
     // Deletes the user by their id
     // Will also delete the user from the database (NOT IMPLEMENTED)
     // Changes the nodes of data by removing element from its nodes
-
     const admins = dataToArray()
     const selectedAdminUserid = admins[id].props.children[2]
-    console.log(id)
-    console.log(selectedAdminUserid)
-    // .props.children
-
     await removeAdmin(selectedAdminUserid);
     updateNodes()
   }
 
-  // 
+  // calls changeSuper to toggle issuper for specified admin in DB
   async function handleStar(id){
     // Affects the user by their id
     // Will also grant the user super admin privledges (or take them away) 
@@ -106,8 +101,11 @@ function Login_Apr({userID}) {
     // Changes element by filling in star in row 
 
     // TODO
-    let userId = prompt('Enter username');
-    await removeAdmin(userId);
+    const admins = dataToArray()
+    console.log(admins[id].props.children)
+    const selectedAdminUserid = admins[id].props.children[2] // userid
+    const selectedAdminSuperStatus = admins[id].props.children[4] // current issuper bool
+    await toggleSuperAdmin(selectedAdminUserid, selectedAdminSuperStatus);
     updateNodes()
   }
 
@@ -153,6 +151,31 @@ function Login_Apr({userID}) {
     }).then(response => {
       console.log(response)
     })
+
+    getAdminData()
+  }
+
+  async function toggleSuperAdmin(userID, userSuperStatus){
+    alert("toggle " + userID + "" + userSuperStatus );
+
+    if(userSuperStatus === true){
+      // user is a super admin currently
+
+    }
+    else{
+        // user is not a super admin currently
+        
+    }
+
+
+    // await fetch(`http://localhost:3001/lml_admins/${userID}`, {
+    //   method: 'DELETE',
+    // })
+    // .then(response => {
+    //   return response.text();
+    // }).then(response => {
+    //   console.log(response)
+    // })
 
     getAdminData()
   }
@@ -300,7 +323,7 @@ function Login_Apr({userID}) {
               {/* Create header with table attributes */}
               <Header>
                 <HeaderRow>
-                  <HeaderCell>ID</HeaderCell>
+                  {/* <HeaderCell>ID</HeaderCell> */}
                   <HeaderCell>Name</HeaderCell>
                   <HeaderCell>User-ID</HeaderCell>
                   <HeaderCell>Super?</HeaderCell>
@@ -312,7 +335,7 @@ function Login_Apr({userID}) {
                 {/* Display row values by iterating through tableList */}
                 {tableList.map((item) => (
                   <Row key={item.id} item={item}>
-                    <Cell >{item.id}</Cell>
+                    {/* <Cell >{item.id}</Cell> */}
                     <Cell >{item.name}</Cell>
                     <Cell >{item.userID}</Cell>
                     {/* Button to display Superadmin status */}
