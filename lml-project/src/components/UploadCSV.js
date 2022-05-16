@@ -234,7 +234,7 @@ function UploadCSV() {
         );
       }
       debrisDataArray = debrisDataArray.map((row) => 
-        <li>{row}</li>
+        <li key={row}>{row}</li>
       );
       return debrisDataArray;
     }
@@ -250,7 +250,7 @@ function UploadCSV() {
           </div> 
           :
           <div>
-            <div class="uploadCSVtoCache">
+            <div className="uploadCSVtoCache">
               <h1>Upload CSV Data</h1>
               <form>
                 <input type={"file"} id={"csvFileInput"} accept={".csv"} onChange={handleOnChange} />

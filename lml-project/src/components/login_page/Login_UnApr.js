@@ -12,16 +12,9 @@ import UploadAdmin from '../UploadAdmin';
 import Login from './Login';
 import Login_Apr from './Login_Apr';
 
-function Login_UnApr({setUserID}) {
+function Login_UnApr({ setUserID }) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
-
-  // const[token, setToken] = useState();
-  // if(!token){
-  //   // Display Login page if token is false
-  //   return <Login_UnApr setToken={setToken}/>
-  // }
-
 
   let navigate = useNavigate();
   const handleLogin = async (event) => {
@@ -29,23 +22,32 @@ function Login_UnApr({setUserID}) {
     const { userID, password } = event.target.elements;
     console.log(userID.value, password.value)
 
-    // Check if userID and password combination is valid
-    fetch(`http://localhost:3001/lml_admins/checkAdmins/${userID.value}/${password.value}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.exists) {
-          console.log("Logged in", data.exists);
-          // setUserID sets the value of userID in the parent Login component
-          setUserID(userID.value);
-          let path = `postSlug`;
-          navigate(path);
-         
-        }
-        else {
-          document.getElementById("loginForm").reset()
-          document.getElementById("login-error").style.visibility = "visible";
-        }
-      });
+    console.log(typeof userID.value, typeof password.value)
+    if (userID.value === "" || password.value === "") {
+      document.getElementById("loginForm").reset()
+      document.getElementById("login-error").style.visibility = "visible";
+    }
+    else{
+      // Check if userID and password combination is valid
+      fetch(`http://localhost:3001/lml_admins/checkAdmins/${userID.value}/${password.value}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.exists) {
+            console.log("Logged in", data.exists);
+            // setUserID sets the value of userID in the parent Login component
+            setUserID(userID.value);
+            let path = `postSlug`;
+            navigate(path);
+  
+          }
+          else {
+            document.getElementById("loginForm").reset()
+            document.getElementById("login-error").style.visibility = "visible";
+          }
+        });
+
+    }
+
 
   }
 
