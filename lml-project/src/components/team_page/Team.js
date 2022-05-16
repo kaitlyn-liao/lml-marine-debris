@@ -30,10 +30,16 @@ import { useEffect, useRef, useState } from 'react'
 *  Outputs: formatted card for team member with given info
 */
 
+// Keep these updated with the name of the person with the longest bio
+// in the Reseacher and Member category.
+// For now, Professor Dunkin's card does not count, as it is on a separate line.
+const TALL_R_BOX_ID = 'Juliana Limon';
+const TALL_M_BOX_ID = '';
+
 function Member(props) {
    function setHeight() {
-       if(!document.getElementById('Juliana Limon') || !document.getElementById('Maia Smith')){return;}
-          const height = document.getElementById('Juliana Limon')?.clientHeight;
+       if(!document.getElementById(TALL_R_BOX_ID) || !document.getElementById('Maia Smith')){return;}
+          const height = document.getElementById(TALL_R_BOX_ID)?.clientHeight;
           // the "last-boicotes" div it's in another component, in the same page.
           document.getElementById('Maia Smith').style.height = `${height}px`;
         }

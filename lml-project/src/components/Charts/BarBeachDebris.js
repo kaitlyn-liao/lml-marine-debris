@@ -48,18 +48,58 @@ function BarChart({selectBeach}) {
   let newBeach;
   console.log(placeholderBeach);
   function setBeach(newBeach) {
-    setPlaceholder();
+    //setPlaceholder();
     //setVisible = false;
     console.log(newBeach.label);
     getDebrisDataByBeach(newBeach.label);
-    if(document.getElementById("drop")
-    && document.getElementById("drop").innerHTML != document.getElementById("pop").innerHTML){document.getElementById("drop").innerHTML = document.getElementById("drop").innerHTML;}
+    if(document.getElementById("drop")){
+      document.getElementById("pop").innerHTML = document.getElementById("pop").innerHTML;
+      document.getElementById("drop").innerHTML = document.getElementById("holder").innerHTML;
+    }
     updateChart();
     newChartInstance.update();
     setVisible = true;
   }
+
+  function updateName(){
+    var temp = document.getElementById("holder").innerHTML;
+    if(document.getElementById("drop") && document.getElementById("pop").innerHTML != ""){
+      document.getElementById("pop").innerHTML = document.getElementById("pop").innerHTML;
+      document.getElementById("holder").innerHTML = document.getElementById("pop").innerHTML;
+      document.getElementById("drop").innerHTML = document.getElementById("holder").innerHTML;
+      switch(document.getElementById("holder").innerHTML){
+          case '':
+            break;
+          case 'Sunset State Beach':
+            document.getElementById("holder").innerHTML = 'Sunset';
+            break;
+          case 'North Zmudowski':
+            document.getElementById("holder").innerHTML = 'N. Zmudowski';
+            break;
+          case 'South Zmudowski':
+            document.getElementById("holder").innerHTML = 'S. Zmudowski';
+            break;
+          default:
+            break;
+        }
+        document.getElementById("holder").innerHTML = document.getElementById("holder").innerHTML;
+        if(placeholderBeach != temp){
+          updateChart();
+        }
+      
+    }
+  }
+
+  useEffect(() => {
+    updateName();
+  }, []);
+
+  setInterval(updateName, 1000);
+
   function setPlaceholder(){
+    setVisible = false;
     if(document.getElementById("pop").innerHTML){selectBeach = document.getElementById("pop").innerHTML;}
+    console.log(selectBeach);
   if({selectBeach}){
     switch(selectBeach){
       case '':
@@ -78,6 +118,7 @@ function BarChart({selectBeach}) {
     }
   }
   if(newBeach){setBeach();}
+  setVisible = true;
 }
 setPlaceholder();
 document.body.addEventListener('click', setPlaceholder, true);
@@ -164,7 +205,8 @@ document.body.addEventListener('click', setPlaceholder, true);
                 <h4>Beach: </h4>
             </div>
             <div className="col-md-4">
-              <Select placeholder={ placeholderBeach } value={ placeholderBeach } options={ beachList } onChange={setBeach}/>
+              {setVisible ?
+              <Select placeholder={ <div id="holder">{placeholderBeach}</div> } value={ selectBeach } options={ beachList } onChange={setBeach}/> : null}
             </div>
           </div>
         <div class="bar-chart">
