@@ -131,7 +131,7 @@ function OffCanvasExample({ ...props }) {
       </Button>
       <Offcanvas show={show} onHide={handleClose} {...props} style={graphOffcanvas} >
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Graphs</Offcanvas.Title>
+          <Offcanvas.Title></Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
           <ControlledTabs />
@@ -151,4 +151,4 @@ function Example() {
   );
 }
 
-export default Graph
+export default Graph;
