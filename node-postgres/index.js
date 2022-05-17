@@ -23,7 +23,7 @@ app.use(function (req, res, next) {
 
 
 app.get('/', (req, res) => {
-  lml_admin_model.getAdmin(req)
+  lml_admin_model.getAllAdmin()
   .then(response => {
     res.status(200).send(response);
   })

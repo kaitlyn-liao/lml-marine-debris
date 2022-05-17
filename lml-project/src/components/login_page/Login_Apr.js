@@ -21,6 +21,7 @@ import UploadCSV from '../UploadCSV';
 import Login_UnApr from './Login_UnApr';
 import { useEffect } from 'react';
 
+var CryptoJS = require("crypto-js");
 const nodes = [];
 
 function Login_Apr({ userID }) {
@@ -42,6 +43,7 @@ function Login_Apr({ userID }) {
   const [filteredData, setFilteredData] = React.useState({ nodes });
 
   const getAdminData = () => {
+    // get all users with a userid that isnt the current logged in user
     fetch(`http://localhost:3001/lml_admins/getAdmins/${profileuserID}`)
       .then(response => response.json())
       .then(json => {
@@ -107,6 +109,9 @@ function Login_Apr({ userID }) {
     let person = prompt("Please enter name of user:")
     let newUserid = prompt("Please enter user's user-ID (can be any username):")
     let pword = prompt("Please enter the password to be associated with: " + newUserid)
+
+    // TODO encrypt the password
+    // pword = lockPassword(pword);
 
     if ((person !== null && person !== "") && (newUserid !== null && newUserid !== "") && (pword !== null && pword !== "")) {
       // add to data table
@@ -258,6 +263,22 @@ function Login_Apr({ userID }) {
     }
   }
 
+  function lockPassword(pw){
+    // Encrypt
+    console.log("raw " + pw)
+    var lockedpw = CryptoJS.AES.encrypt(pw, 'protected key').toString();
+    console.log("locked " + lockedpw)
+    return(lockedpw)
+  }
+
+  function unlockPassword(pw){
+    // Decrypt
+    var bytes = CryptoJS.AES.decrypt(pw, 'protected key');
+    var unlockedpw = bytes.toString(CryptoJS.enc.Utf8);
+    console.log("unlocked " + unlockedpw)
+    return(unlockedpw)
+  }
+
   const tableTheme = useTheme({
     Table: `
         height: 150%;
@@ -353,7 +374,6 @@ function Login_Apr({ userID }) {
   }
 
 
-
   return (
     <div className='main'>
       {/* Create a sidebar to display user profile and settings */}
@@ -402,6 +422,7 @@ function Login_Apr({ userID }) {
       <div className='b-example-divider'></div>
       <div className='custom-table '>
         {profileSuper ? getTable() : null }
+        <button type="button" className="btn btn-blue" onClick={lockPassword}>Lock PW</button>
         <UploadCSV />
       </div>
     </div>
