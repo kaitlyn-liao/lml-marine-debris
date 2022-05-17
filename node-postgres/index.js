@@ -45,7 +45,7 @@ app.get('/lml_admins/getAdmins/:userID', (req, res) => {
   })
 })
 
-// get all debris data from lml_admin_data
+// 
 app.get('/lml_admins/getAdminInfo/:userID', (req, res) => {
   lml_admin_model.getAdminInfo(req.params.userID)
   .then(response => {
@@ -85,6 +85,28 @@ app.post('/lml_admins/newAdmin', (req, res) => {
   console.log(req.body)
   lml_admin_model.createAdmin(req.body)
 
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+// change the isssuper status of userid to true
+app.post('/lml_admins/giveSuper/:userID', (req, res) => {
+  lml_admin_model.giveSuperStatus(req.params.userID)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+// change the isssuper status of userid to false
+app.post('/lml_admins/loseSuper/:userID', (req, res) => {
+  lml_admin_model.loseSuperStatus(req.params.userID)
   .then(response => {
     res.status(200).send(response);
   })
