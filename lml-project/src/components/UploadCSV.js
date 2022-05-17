@@ -174,21 +174,6 @@ function UploadCSV() {
     return false;
   }
  
-  // DELETE call and remove the row specified by id via user input
-  function deleteDebrisData() {
-    let entry_id = prompt('Enter debris entry_id');
-    fetch(`http://localhost:3001/lml_debris_data/${entry_id}`, {
-      method: 'DELETE',
-    })
-      .then(response => {
-        return response.text();
-      })
-      .then(data => {
-        // alert(data);
-        getDebrisData();
-      });
-  }
-
   // DELETE call with no parameters, removing every row from the datatable
   function clearDebrisDataTable() {
     fetch(`http://localhost:3001/lml_debris_data`, {
@@ -255,7 +240,7 @@ function UploadCSV() {
               <form>
                 <input type={"file"} id={"csvFileInput"} accept={".csv"} onChange={handleOnChange} />
                 <button onClick={(e) => {handleOnSubmit(e);}} >SUBMIT</button>
-                {uploadLoading === true ? <p>LOADING</p> : <p> NOT LOADING</p>}
+                {/* {uploadLoading === true ? <p>LOADING</p> : <p> NOT LOADING</p>} */}
               </form>
             </div>
             <br/>
