@@ -24,6 +24,7 @@ import { useEffect } from 'react';
 const nodes = [];
 
 function Login_Apr({ userID }) {
+  let profileuserID;
   const [profileName, setProfileName] = React.useState("");
   const [profileSuper, setProfileSuper] = React.useState("");
   useEffect(() => {
@@ -33,7 +34,7 @@ function Login_Apr({ userID }) {
       localStorage.setItem('newuserID', userID);
     }
     // Get userID value from local storage
-    const profileuserID = localStorage.getItem('newuserID');
+    profileuserID = localStorage.getItem('newuserID');
     getAdminInfo(profileuserID);
   }, []);
 
@@ -41,10 +42,7 @@ function Login_Apr({ userID }) {
   const [filteredData, setFilteredData] = React.useState({ nodes });
 
   const getAdminData = () => {
-    // Avoid loading the logged in user
-    const loggedUserid = localStorage.getItem('newuserID')
-
-    fetch(`http://localhost:3001/lml_admins/getAdmins`)
+    fetch(`http://localhost:3001/lml_admins/getAdmins/${profileuserID}`)
       .then(response => response.json())
       .then(json => {
         if (json) {
