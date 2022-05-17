@@ -93,6 +93,28 @@ app.post('/lml_admins/newAdmin', (req, res) => {
   })
 })
 
+// change the isssuper status of userid to true
+app.post('/lml_admins/giveSuper/:userID', (req, res) => {
+  lml_admin_model.giveSuperStatus(req.params.userID)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+// change the isssuper status of userid to false
+app.post('/lml_admins/loseSuper/:userID', (req, res) => {
+  lml_admin_model.loseSuperStatus(req.params.userID)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
 // -------------------------------------------------------- Debris data table calls 
 
 // get all debris data from lml_debris_data

@@ -40,6 +40,9 @@ function Login_Apr({ userID }) {
   const [filteredData, setFilteredData] = React.useState({ nodes });
 
   const getAdminData = () => {
+    // Avoid loading the logged in user
+    const loggedUserid = localStorage.getItem('newuserID')
+
     fetch(`http://localhost:3001/lml_admins/getAdmins`)
       .then(response => response.json())
       .then(json => {
@@ -48,6 +51,7 @@ function Login_Apr({ userID }) {
           while (json[i] != undefined) {
             // if i dont use this const, i++ will update all node's i's 
             const m = i;
+
             // Change the nodes of data by adding a new element to its nodes
             setData((state) => ({
               ...state,
@@ -69,7 +73,7 @@ function Login_Apr({ userID }) {
               }),
             }));
             i++;
-          }
+          }     
         }
       })
   }
@@ -157,18 +161,25 @@ function Login_Apr({ userID }) {
     // Will also change user's super status on the databae
     // Changes the nodes of data by changing row's issuper to !issuper
 
-    // Find the userid from the row chosen
-    toggleAdminSuperStatus(data.nodes[id].userID, data.nodes[id].issuper)
+    let updateNodes = data.nodes
+    updateNodes[id].issuper = !updateNodes[id].issuper
+
+    // Call function to set the selected superstatus to selected userid
+    toggleAdminSuperStatus(updateNodes[id].userID, updateNodes[id].issuper)
     
-    // setData((state) => ({
-    //   ...state,
-    //   nodes: state.nodes.filter((node) => node.id !== id),
-    // }));
-    // // Changes the nodes of filteredData by removing element from its nodes
-    // setFilteredData((state) => ({
-    //   ...state,
-    //   nodes: state.nodes.filter((node) => node.id !== id)
-    // }));
+    // Change the nodes of data by adding a new element to its nodes
+    setData((state) => ({
+      ...state,
+      nodes: updateNodes
+    }));
+
+    // Changes the nodes of filteredData by removing element from its nodes
+    setFilteredData((state) => ({
+      ...state,
+      nodes: updateNodes
+      }),
+    );
+
     console.log("finish super toggle", data.nodes)
   };
 
@@ -211,14 +222,40 @@ function Login_Apr({ userID }) {
     //getAdminData()
   }
 
-  async function toggleAdminSuperStatus(userID, superStatus){
-    // If the admin is already a super admin, take away super privlegde
+  async function toggleAdminSuperStatus(userid, superStatus){
+    // Set usserid's super status to true
     if(superStatus == true){
-      console.log(userID + "is now " + !superStatus)
+      await fetch(`http://localhost:3001/lml_admins/giveSuper/${userid}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(response => {
+          if (!response.ok) {
+            response.text().then(function (text) {
+              console.log(text);
+              alert("Failed to toggle admin");
+            });
+          }
+        })
     }
-    // If the admin is not yet a super admin, grant them super privlegde
+    // Set usserid's super status to true
     else{
-      console.log(userID + "is now " + !superStatus)
+      await fetch(`http://localhost:3001/lml_admins/loseSuper/${userid}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+        .then(response => {
+          if (!response.ok) {
+            response.text().then(function (text) {
+              console.log(text);
+              alert("Failed to toggle admin");
+            });
+          }
+        })
     }
   }
 
@@ -228,8 +265,8 @@ function Login_Apr({ userID }) {
     `,
     BaseCell: `
     &:nth-child(1), &:nth-child(2) {
-      min-width: 30%;
-      width: 35%;
+      min-width: 29%;
+      width: 33%;
     }
     &:nth-child(3), &:nth-child(4) {
       min-width: 15%;
@@ -321,14 +358,20 @@ function Login_Apr({ userID }) {
                     <Cell >{item.name}</Cell>
                     <Cell >{item.userID}</Cell>
                     {/* Button to display Superadmin status */}
+                    {/* Make an if statement for filled star vs empty star and add color to star when full*/}
+                    {/* Hopefully make an onhover for star too */}
                     <Cell>
                       <button type="button" className="btn" onClick={() => handleStar(item.id)}>
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-star" viewBox="0 0 16 16">
                         <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z"/>
                       </svg>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+                        <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+                      </svg>
                       </button>
                     </Cell>
                     {/* Button to Delete users from Table */}
+                    {/* Make an onhover for tras can */}
                     <Cell>
                       <button type="button" className="btn" onClick={() => handleRemove(item.id)} >
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3-fill" viewBox="0 0 16 16">
