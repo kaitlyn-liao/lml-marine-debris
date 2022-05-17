@@ -19,9 +19,11 @@ const getAdminInfo = (username) => {
 }
 
 // TODO: 
-const getAdmin = () => {
+const getAdmin = (username) => {
   return new Promise(function(resolve, reject) {
-    pool.query('SELECT * FROM lml_admins ORDER BY admin_id ASC', (error, results) => {
+    const text = "SELECT * FROM lml_admins WHERE userid NOT IN (SELECT userid FROM lml_admins WHERE userid = $1);"
+    const values = [username]
+    pool.query(text, values, (error, results) => {
       if (error) {
         console.log(error);
         reject(error)
