@@ -4,7 +4,7 @@ const crypto = require('crypto');
 // Query specific admin info based on username
 const getAdminInfo = (username) => {
   return new Promise(function(resolve, reject) {
-    const text = "SELECT name FROM lml_admins WHERE userid = $1"
+    const text = "SELECT * FROM lml_admins WHERE userid = $1"
     const values = [username]
     pool.query(text, values, (error, results) => {
       if (error) {
@@ -55,6 +55,7 @@ const createAdmin = (body) => {
   console.log("in lml_admin_model")
   const {name, userid, pword} = body
   const isSuper = false
+  // TODO
   const date = '3/3/2022'
 
   return new Promise(function(resolve, reject) {
@@ -91,7 +92,7 @@ const deleteAdmin = (AdminID) => {
 
 // Set userID's issuper status to true
 const giveSuperStatus = (userID) => {
-  console.log("in giveSuperStatus")
+  // console.log("in giveSuperStatus")
   const userid = userID
   return new Promise(function(resolve, reject) {
     pool.query('UPDATE lml_admins SET issuper = TRUE WHERE userid = $1;', [userid], 

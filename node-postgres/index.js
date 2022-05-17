@@ -45,7 +45,7 @@ app.get('/lml_admins/getAdmins', (req, res) => {
   })
 })
 
-// get all debris data from lml_admin_data
+// 
 app.get('/lml_admins/getAdminInfo/:userID', (req, res) => {
   lml_admin_model.getAdminInfo(req.params.userID)
   .then(response => {
