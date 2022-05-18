@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Select from 'react-select';
-import { Bar, Pie } from "react-chartjs-2"
+import { Bar, Pie, Line } from "react-chartjs-2"
 import {
     Chart,
     CategoryScale,
@@ -86,12 +86,13 @@ function LineChart() {
     console.log("in format date:");
     console.log(date);
     const dateNums = date.split("-");
+    if(!dateNums){return;}
     let month;
     const dayNum = dateNums[2].split('T');
     let day = dayNum[0];
-    //if(day && day.charAt(0) === '0'){
-    //    day = day.substring(1);
-    //}
+    if(day && day.charAt(0) === '0'){
+        day = day.substring(1);
+    }
     switch (dateNums[1]){
         case '01':
             month = "January ";
@@ -152,6 +153,7 @@ function LineChart() {
       Xdata[10] += debrisData[i].total_other;*/
       Xdata[i] = debrisData[i].total_debris;
       Xvalues[i] = formatDate(debrisData[i].date);
+      //Xvalues[i] = debrisData[i].date;
       i++;
     }
     console.log(Xdata)
@@ -166,8 +168,10 @@ function LineChart() {
           datasets: [{ 
             backgroundColor: 'rgba(255, 99, 132, 1)', 
             borderColor: 'rgba(255, 99, 132, 1)',
-            data: Xdata 
-          }]
+            data: Xdata ,
+            //lineAtIndex: 2
+          }],
+          
       },
       options: {
         plugins: {
@@ -175,14 +179,23 @@ function LineChart() {
             display: false
           },
           tooltips: {
+            mode: 'index',
+            intersect: false,
             enabled: false
-          }
+        },
+        hover: {
+            mode: 'index',
+            intersect: false
         }
-      },
+        }
+    },
+      
+      
+    
       height: 400,
       width: 600
   };
-  console.log("after config " + Xdata)
+  console.log("after config " + Xdata);
 
 
   return (

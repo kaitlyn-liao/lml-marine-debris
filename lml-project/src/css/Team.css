@@ -33,14 +33,19 @@
 
 .box {
   margin-bottom: 20px;
-  max-width: 550px;
+  /*max-width: 550px;*/
   background:#72a8d4;
 }
 
 .researcher-box {
   margin-bottom: 20px;
-  max-width: 550px;
+  /*max-width: 550px;*/
   background:#e4c954;
+}
+
+.team-container {
+  width: 1000px;
+  position: absolute;
 }
 
 .thanks-box {

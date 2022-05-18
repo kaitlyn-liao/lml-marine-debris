@@ -72,7 +72,7 @@ function ControlledTabs() {
       className="mb-3"
     >
       <Tab eventKey="BarChart" title={<BarChartFill size={20}></BarChartFill>}>
-        {!inProgress ? <BarChart selectBeach={selectBeach}/> : null}
+        {!inProgress ? <BarChart id="barGraph" selectBeach={selectBeach}/> : null}
       </Tab>
       <Tab eventKey="PieChart" title={<PieChartFill size={20}></PieChartFill>}>
         <PieChart />
@@ -131,7 +131,7 @@ function OffCanvasExample({ ...props }) {
       </Button>
       <Offcanvas show={show} onHide={handleClose} {...props} style={graphOffcanvas} >
         <Offcanvas.Header closeButton>
-          <Offcanvas.Title>Graphs</Offcanvas.Title>
+          <Offcanvas.Title></Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
           <ControlledTabs />
@@ -151,4 +151,4 @@ function Example() {
   );
 }
 
-export default Graph
+export default Graph;
