@@ -231,12 +231,12 @@ function UploadCSV() {
         {fetchLoading === true ? 
           <div>
             Uploading your file! <br/>
-            <img Style="hieght:10%; width:10%;" src={loadIcon} alt="loading..." /> 
+            <img Style="height:10%; width:10%;" src={loadIcon} alt="loading..." /> 
           </div> 
           :
           <div>
             <div className="uploadCSVtoCache">
-              <h1>Upload CSV Data</h1>
+              <h3>Upload CSV Data</h3>
               <form>
                 <input type={"file"} id={"csvFileInput"} accept={".csv"} onChange={handleOnChange} />
                 <button onClick={(e) => {handleOnSubmit(e);}} >SUBMIT</button>

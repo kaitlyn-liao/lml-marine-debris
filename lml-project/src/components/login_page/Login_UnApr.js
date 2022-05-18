@@ -22,8 +22,6 @@ function Login_UnApr({ setUserID }) {
   const handleLogin = async (event) => {
     event.preventDefault();
     const { userID, password } = event.target.elements;
-    console.log(userID.value, password.value)
-    console.log(typeof userID.value, typeof password.value)
     if (userID.value === "" || password.value === "") {
       document.getElementById("loginForm").reset()
       document.getElementById("login-error").style.visibility = "visible";
