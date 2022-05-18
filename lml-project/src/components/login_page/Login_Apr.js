@@ -20,6 +20,9 @@ import '../../css/LoginStyle.css'
 import UploadCSV from '../UploadCSV';
 import Login_UnApr from './Login_UnApr';
 import { useEffect } from 'react';
+import Nav from 'react-bootstrap/Nav'
+import Navbar from 'react-bootstrap/Navbar'
+import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 
 var CryptoJS = require("crypto-js");
 const nodes = [];
@@ -93,6 +96,7 @@ function Login_Apr({ userID }) {
   useEffect(() => {
     getAdminData();
   }, [])
+
   // Change state of the table when the there is input in the search bar
   // Filters filteredData based on the searchValue
   const handleSearch = (event) => {
@@ -287,18 +291,34 @@ function Login_Apr({ userID }) {
     return(unlockedpw)
   }
 
+  // Toggle to display member table or upload csv
+  const [showUploadCSV, setShowUploadCSV] = React.useState(true)
+  const [showMemberTable, setShowMemberTable] = React.useState(false)
+
+  const onUploadClick = () => {
+    //Show Upload CSV Data
+    setShowMemberTable(false)
+    setShowUploadCSV(true)
+  }
+
+  const onTableClick = () => {
+    //Show Member table
+    setShowMemberTable(true)
+    setShowUploadCSV(false)
+  }
+
   const tableTheme = useTheme({
     Table: `
-        height: 150%;
+        height: 100%;
     `,
     BaseCell: `
     &:nth-child(1), &:nth-child(2) {
-      min-width: 29%;
-      width: 33%;
+      min-width: 30%;
+      width: 30%;
     }
     &:nth-child(3), &:nth-child(4) {
-      min-width: 15%;
-      width: 15%;
+      min-width: 20%;
+      width: 20%;
     }
   `,
   });
@@ -383,22 +403,8 @@ function Login_Apr({ userID }) {
     )
   }
 
-  // Toggle to display member table or upload csv
-  const [showUploadCSV, setShowUploadCSV] = React.useState(true)
-  const [showMemberTable, setShowMemberTable] = React.useState(false)
-  const onUploadClick = () => {
-    //Show Upload CSV Data
-    setShowMemberTable(false)
-    setShowUploadCSV(true)
-  }
-
-  const onTableClick = () => {
-    //Show Member table
-    setShowMemberTable(true)
-    setShowUploadCSV(false)
-  }
-
   return (
+
     <div className='Login_Apr row'>
       {/* Create a sidebar to display user profile and settings */}
       <div className="col-md-3 bg-gray">
@@ -414,16 +420,18 @@ function Login_Apr({ userID }) {
         </div>
         <div className='pt-3'>
           <ul className="nav nav-pills flex-column mb-auto">
-            <li className="nav-item active" >
-              <a href="#" className="nav-link" aria-current="page" onClick={onUploadClick}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
-                  <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5v2zM3 12v-2h2v2H3zm0 1h2v2H4a1 1 0 0 1-1-1v-1zm3 2v-2h3v2H6zm4 0v-2h3v1a1 1 0 0 1-1 1h-2zm3-3h-3v-2h3v2zm-7 0v-2h3v2H6z" />
-                </svg>
-                Upload CSV File
-              </a>
+            <li className="nav-item active">
+                <a href="#" className="nav-link" aria-current="page" onClick={onUploadClick}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
+                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5v2zM3 12v-2h2v2H3zm0 1h2v2H4a1 1 0 0 1-1-1v-1zm3 2v-2h3v2H6zm4 0v-2h3v1a1 1 0 0 1-1 1h-2zm3-3h-3v-2h3v2zm-7 0v-2h3v2H6z" />
+                  </svg>
+                  Upload .CSV
+                </a>
             </li>
             {/* Check if superadmin */}
+            {/* {profileSuper ? <Route path="/debris-data" element={getManageUsers()}> </Route> : null} */}
             {profileSuper ? getManageUsers() : null}
+
             <li className="nav-item active dropdown">
               <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16">
@@ -441,28 +449,17 @@ function Login_Apr({ userID }) {
           </ul>
 
         </div>
+        {/* <Nav.Link href="/lml_marine_debris/debris-data"> Debris Data      </Nav.Link>
+        <Nav.Link href="/lml_marine_debris/methodology"> Data Collection  </Nav.Link>
+        <Nav.Link href="/lml_marine_debris/team">        Meet the Team    </Nav.Link> */}
         <hr></hr>
-        {/* <div className="dropdown">
-          <a href="#" className="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfkGq1f7x3EPaXHdH75vQXY-Co3z-hyD5F3XeZQaELfc6HzB5rRBrs5IkIUk0zSFcFgfI&usqp=CAU"
-              alt="" width="32" height="32" className="rounded-circle me-2"></img>
-            <strong>Account</strong>
-          </a>
-          <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-            <li><a className="dropdown-item" href="#">New project...</a></li>
-            <li><a className="dropdown-item" href="#">Settings</a></li>
-            <li><a className="dropdown-item" href="#">Profile</a></li>
-            <li><hr className="dropdown-divider"></hr></li>
-            <li><a className="dropdown-item" href="#">Sign out</a></li>
-          </ul>
-        </div> */}
+
       </div>
       {/* <div className='b-example-divider'></div> */}
       <div className='col login-content'>
         <div className='custom-table '>
-          {profileSuper && showMemberTable ? getTable() : null}
-          {showUploadCSV ? <UploadCSV /> : null}
-          {/* <UploadCSV /> */}
+            {profileSuper && showMemberTable ? getTable() : null}
+            {showUploadCSV  ? <UploadCSV/> : null}
         </div>
 
       </div>

@@ -8,9 +8,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../css/LoginStyle.css';
-import UploadAdmin from '../UploadAdmin';
-import Login from './Login';
-import Login_Apr from './Login_Apr';
 
 var CryptoJS = require("crypto-js");
 
