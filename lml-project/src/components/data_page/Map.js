@@ -297,9 +297,9 @@ function setSelectedBeach(b){
               </Popup></div>
           ) : null}
         {hoveredBeach != defaultBeach && hoveredBeach != selectedBeach ? 
-          <div>
+          <div class="small-popup">
               <Popup
-              class="small-popup"
+              
               value="Capitola"
               latitude={hoveredBeach.lat}
               longitude={hoveredBeach.long}

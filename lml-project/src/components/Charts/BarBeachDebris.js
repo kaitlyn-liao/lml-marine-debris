@@ -62,7 +62,7 @@ function BarChart({selectBeach}) {
   }
 
   function updateName(){
-    var temp = document.getElementById("holder").innerHTML;
+   if(document.getElementById("holder").innerHTML){var temp = document.getElementById("holder").innerHTML;}
     if(document.getElementById("drop") && document.getElementById("pop").innerHTML != ""){
       document.getElementById("pop").innerHTML = document.getElementById("pop").innerHTML;
       document.getElementById("holder").innerHTML = document.getElementById("pop").innerHTML;
