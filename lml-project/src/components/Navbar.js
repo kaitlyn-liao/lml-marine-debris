@@ -22,12 +22,11 @@ class NavBar extends React.Component {
           <Navbar collapseOnSelect expand="lg" sticky="top"
           bg="light" variant="light" style={{ padding: "10px" }} >
             <Navbar.Brand href="/">
-              <img
+              <img class="logo"
                 src={brandImg}
                 alt="UCSC LML Logo"
               />
               {' '}
-              UCSC LML Marine Debris
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
@@ -44,7 +43,6 @@ class NavBar extends React.Component {
               </Nav>
             </Navbar.Collapse>
           </Navbar>
-          <br></br>
           <Controller/>
         </div>
       </Router>

@@ -47,6 +47,7 @@ const beachList = [
 function BarChart({selectBeach}) {
   let newBeach;
   console.log(placeholderBeach);
+  
   function setBeach(newBeach) {
     setPlaceholder();
     //setVisible = false;
@@ -58,24 +59,25 @@ function BarChart({selectBeach}) {
     newChartInstance.update();
     setVisible = true;
   }
-  function setPlaceholder(){
+
+  function setPlaceholder() {
     if(document.getElementById("pop").innerHTML){selectBeach = document.getElementById("pop").innerHTML;}
-  if({selectBeach}){
-    switch(selectBeach){
-      case '':
-        break;
-      case 'Sunset State Beach':
-        placeholderBeach = 'Sunset';
-        break;
-      case 'North Zmudowski':
-        placeholderBeach = 'N. Zmudowski';
-        break;
-      case 'South Zmudowski':
-        placeholderBeach = 'S. Zmudowski';
-        break;
-      default:
-        placeholderBeach = selectBeach;
-    }
+    if({selectBeach}) {
+      switch(selectBeach) {
+        case '':
+          break;
+        case 'Sunset State Beach':
+          placeholderBeach = 'Sunset';
+          break;
+        case 'North Zmudowski':
+          placeholderBeach = 'N. Zmudowski';
+          break;
+        case 'South Zmudowski':
+          placeholderBeach = 'S. Zmudowski';
+          break;
+        default:
+          placeholderBeach = selectBeach;
+      }
   }
   if(newBeach){setBeach();}
 }

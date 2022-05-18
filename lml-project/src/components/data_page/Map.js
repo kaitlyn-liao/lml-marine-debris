@@ -107,9 +107,9 @@ function updateDiv()
   if(!document.getElementById("drop")){return};
   document.getElementById("drop").innerHTML = document.getElementById("drop").innerHTML;
   if(document.getElementById("pop").innerHTML != document.getElementById("drop").innerHTML){
-    for(var i = 0; i < BEACHES.length; i++){
+    for(var i = 0; i < BEACHES.length; i++) {
       var b = BEACHES[i];
-      if(b.name === document.getElementById("pop").innerHTML){
+      if(b.name === document.getElementById("pop").innerHTML) {
         setSelectedBeach(defaultBeach);
         setSelectedBeach(b);
         document.getElementById("drop").innerHTML = document.getElementById("pop").innerHTML;
@@ -229,7 +229,6 @@ function setSelectedBeach(b){
                   }}
                   onClick={e => {
                     e.preventDefault();
-                    
                     setSelectedBeach(defaultBeach);
                     setSelectedBeach(beach);
                     onPopup = true;
