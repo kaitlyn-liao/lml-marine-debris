@@ -31,8 +31,9 @@ const defaultBeach = {
   "bottom": [0, 0]
 };
 let selectedBeach;
+let hoveredBeach = defaultBeach;
 let popup;
-let onPopup = false;
+//let onPopup = false;
 let p;
 let popups = [];
 let settingBeach = false;
@@ -63,7 +64,6 @@ const SizeAware = withSize({ noPlaceholder: true, monitorHeight: true })(
 function Map(props) {
   // Default map orientation
   const [viewport, setViewport] = useState( INITIAL_MAP_VIEW );
-
   // map.scrollZoom.disable();
 
   const mapContainer = {
@@ -103,7 +103,7 @@ function updateDiv()
 { 
   if(!document.getElementById("pop")){return};
   document.getElementById("pop").innerHTML = document.getElementById("pop").innerHTML;
-  if(!onPopup){return;}
+  //if(!onPopup){return;}
   if(!document.getElementById("drop")){return};
   document.getElementById("drop").innerHTML = document.getElementById("drop").innerHTML;
   if(document.getElementById("pop").innerHTML != document.getElementById("drop").innerHTML){
@@ -117,6 +117,21 @@ function updateDiv()
       }
     }
   }
+}
+
+function setHoveredBeach(b){
+  hoveredBeach = b;
+  currentZoom = viewport.zoom;
+  currentLat = viewport.latitude;
+  currentLong = viewport.longitude;
+  NEW_MAP_VIEW = {
+    latitude: currentLat,
+    longitude: currentLong,
+    zoom: currentZoom,
+    maxZoom: 18,
+    minZoom: 8
+  }
+  setViewport(NEW_MAP_VIEW);
 }
 
 function setSelectedBeach(b){
@@ -215,30 +230,37 @@ function setSelectedBeach(b){
                 console.log(beach);
                 //updateBeach(beach);
                 console.log('setting');
-                if(!onPopup)
-                {setSelectedBeach(beach);}
+                setHoveredBeach(defaultBeach);
+                setHoveredBeach(beach);
+                console.log(hoveredBeach);
+                //if(!onPopup)
+                //{setSelectedBeach(beach);}
                 //setViewport(INITIAL_MAP_VIEW);
                 console.log(selectedBeach);
-                updateDiv();
+                //updateDiv();
                 if(document.getElementById("pop")){console.log("found");}
                 }}  
                 onMouseLeave={e => {
                   e.preventDefault();
-                  if(!onPopup)
-                  {setSelectedBeach(defaultBeach);}
+                  //if(!onPopup)
+                  //{setSelectedBeach(defaultBeach);}
+                  setHoveredBeach(defaultBeach);
+                  console.log(hoveredBeach);
+                  //updateDiv();
                   }}
                   onClick={e => {
                     e.preventDefault();
                     
                     setSelectedBeach(defaultBeach);
                     setSelectedBeach(beach);
-                    onPopup = true;
-                    updateDiv();
+                    //onPopup = true;
+                    //updateDiv();
                     }}
               id={beach.type}
               size={50} />
             </Marker>
           ))}
+          
           
           {/*selectedBeach ? <div id='pop'><ol>{popups}</ol></div> : null*/}
           {selectedBeach && selectedBeach != defaultBeach? (
@@ -262,23 +284,41 @@ function setSelectedBeach(b){
             }}
           >
             <div>
-              {onPopup ? (<div className="text-center"><XCircleFill
+              <div className="text-center"><XCircleFill
               onClick={e => {
                 e.preventDefault();
                 setSelectedBeach(defaultBeach);
-                onPopup = false;
+                //onPopup = false;
                 }}
                 size={20}
               />
-              <h4 className="text-center">{selectedBeach.name}</h4></div>) :
-              <h4 className="text-center text-secondary">{selectedBeach.name}</h4>}
+              <h4 className="text-center">{selectedBeach.name}</h4></div>
             </div>
               </Popup></div>
           ) : null}
+        {hoveredBeach != defaultBeach && hoveredBeach != selectedBeach ? 
+          <div>
+              <Popup
+              class="small-popup"
+              value="Capitola"
+              latitude={hoveredBeach.lat}
+              longitude={hoveredBeach.long}
+              anchor="left"
+              offset = {5}
+              closeOnClick={false}
+              closeButton={false}
+              onClose={() => {
+                //setHoveredBeach(defaultBeach);
+                //onPopup = false;
+              }}
+            >
+              <div>
+                <b className="text-center text-secondary">{hoveredBeach? hoveredBeach.name : ""}</b>
+              </div>
+                </Popup></div> : null}
         </MapGL>
       </SizeAware>
-      <b id='pop'>{selectedBeach ? selectedBeach.name : null}</b>
-        
+      <b id='pop'>{selectedBeach && selectedBeach != defaultBeach ? selectedBeach.name : null}</b>
     </div>
   );
 }

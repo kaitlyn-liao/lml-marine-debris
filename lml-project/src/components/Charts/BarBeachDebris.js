@@ -83,9 +83,7 @@ function BarChart({selectBeach}) {
             break;
         }
         document.getElementById("holder").innerHTML = document.getElementById("holder").innerHTML;
-        if(placeholderBeach != temp){
-          updateChart();
-        }
+        
       
     }
   }
