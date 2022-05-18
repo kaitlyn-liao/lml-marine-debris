@@ -7,39 +7,12 @@ import loadIcon from './loading.gif';
 // Completes the process of accepting a user's CSV file, parsing through
 // the file, and beginning the process of handing off the information to the postgreSQL
 function UploadCSV() {
-  const [file, setFile] = useState();
-  const [dataToDB, setdataToDB] = useState();
   const fileReader = new FileReader();
-
+  const [file, setFile] = useState();
+  const [dataToDB, setdataToDB] = useState(false);
   const [uploadLoading, setUploadLoading] = useState(false)
   const [fetchLoading, setFetchLoading] = useState(false)
   const [uploadError, updateUploadError] = useState(false)
-
-  // console.log(uploadErrorRows)
-
-  // handles the display name next to the "seclect file" button
-  const handleOnChange = (e) => {
-    console.log(e.target.files)
-    setFile(e.target.files[0]);
-  };
-
-  // reads throuh the file submission and changes state setdataToDB to raw csv text
-  const handleOnSubmit = (e) => {
-    setUploadLoading(true);
-
-    e.preventDefault();
-    if (file) {
-      fileReader.onload = function (event) {
-        const csvOutput = event.target.result;
-        setdataToDB(csvOutput);
-      };
-      fileReader.readAsText(file);
-      handleReadString();
-    setUploadLoading(false);
-    }
-  };
-
-  // const [fileText, setText ] = useState('');
   const [fileContentJSON, setFileContent] = useState([]);
   const {readString} = usePapaParse();
 
@@ -47,14 +20,40 @@ function UploadCSV() {
   // debrisData stores the result of a GET call from the data table
   // setDebrisData sets the value of debrisData
   const [debrisData, setDebrisData] = useState(false);
-  useEffect(() => { getDebrisData(); }, []);
+  useEffect(() => { 
+    getDebrisData(); 
+  },[]);
+
+  // handles the display name next to the "seclect file" button
+  const handleOnChange = (e) => {
+    // console.log(file)
+    setFile(e.target.files[0]);
+
+    const f = e.target.files[0]
+    e.preventDefault();
+    if (f) {
+      fileReader.onload = function (event) {
+        const csvOutput = event.target.result;
+        setdataToDB(csvOutput);
+      };
+      fileReader.readAsText(f);
+    }
+  };
+
+  // reads throuh the file submission and changes state setdataToDB to raw csv text
+  const handleOnSubmit = (e) => {
+    setUploadLoading(true);
+
+    fileReader.readAsText(file);
+    handleReadString();
+
+    setUploadLoading(false);
+  };
 
   // handleReadString() -> parses through CSV text content and converts it to JSON format vis Papaparse
   // reference found at https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/readString.tsx
-  async function handleReadString() {
+  function handleReadString() {
     const content = dataToDB
-    // console.log(content)
-    setFileContent(content);
 
     readString(content, {
       worker: true,
@@ -79,7 +78,7 @@ function UploadCSV() {
     setFetchLoading(true)
 
     updateUploadError( await errorChecking(fileContentJSON) )
-    console.log(uploadError)
+    // console.log(uploadError)
 
     // only update and upload if the file is without error
     if(uploadError === false){
@@ -230,6 +229,7 @@ function UploadCSV() {
         <div>
         {fetchLoading === true ? 
           <div>
+            {file}
             Uploading your file! <br/>
             <img Style="height:10%; width:10%;" src={loadIcon} alt="loading..." /> 
           </div> 
