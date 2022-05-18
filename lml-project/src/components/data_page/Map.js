@@ -19,6 +19,7 @@ import Select from 'react-select';
 const beachJSON = BEACHES;
 const latLongList = getLatLongList(beachJSON);
 const mapViewCenter = getMapCenter(latLongList);
+const mapAPItoken = "pk.eyJ1Ijoia2F5bGlhbyIsImEiOiJjbDFuOW96cTQwNmw1M2tudmJidnpia3pzIn0.Yui35e5YWeAit229l_ThRQ"
 
 const INITIAL_MAP_VIEW = {
   latitude: mapViewCenter[0],
@@ -72,7 +73,7 @@ function Map(props) {
         {...viewport}
         ref={mapRef}
         style={ mapContainer } 
-        accessToken={ process.env.REACT_APP_MAPBOX_TOKEN }
+        accessToken={ mapAPItoken }
         mapStyle="mapbox://styles/hfox999/ck6crjgkn0bfs1imqs16f84wz"
         maxBounds={bounds}
         onViewportChange={(viewport) => {
