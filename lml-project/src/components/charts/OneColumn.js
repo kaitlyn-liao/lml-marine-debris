@@ -14,7 +14,7 @@ import ReactDOM from 'react-dom';
 import { Bar, Pie } from "react-chartjs-2"
 import Select from 'react-select';
 import { usePapaParse } from 'react-papaparse';
-import { ArrowLeft, ArrowRight } from "react-bootstrap-icons";
+import { ArrowLeft, ArrowRight, Circle, CircleFill } from "react-bootstrap-icons";
 import {
     Chart,
     CategoryScale,
@@ -55,12 +55,26 @@ const beachList = [
 ];
 
 function OneColumn() {
-  var Xvalues = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
+    function dots() {
+        var dotsRow = [];
+        for (var i=0; i<11; i++){
+            if(i === idx){
+                dotsRow[i] = <CircleFill></CircleFill>;
+            }
+            else{
+                dotsRow[i] = <Circle></Circle>;
+            }
+        }
+        
+        return dotsRow;
+    }
+    var Xvalues = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
   var Udata = [0,0,0,0,0,0,0,0,0,0,0]
   var Rdata = [0,0,0,0,0,0,0,0,0,0,0]
   var Uselect = [Udata[idx]];
   var Rselect = [Rdata[idx]];
   var Xselect = [Xvalues[idx]];
+  var dotVar = dots();
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
   useEffect(() => {
@@ -78,6 +92,7 @@ function OneColumn() {
     newChartInstance.data.datasets[1].data = Rselect;
     newChartInstance.data.labels = Xselect;
     newChartInstance.update();
+    dotVar = dots();
     console.log("updating");
   }
 
@@ -260,6 +275,13 @@ function OneColumn() {
                 <ArrowRight size={20}></ArrowRight>
             </Button>
             </div>
+        </div>
+        <div class="row">
+            <center>
+            <ol>
+                {dotVar}
+            </ol>
+            </center>
         </div>
         </div>
         {/*!urbanData ? 'There is no debrisData available' : 

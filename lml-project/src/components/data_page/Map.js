@@ -6,13 +6,15 @@
 // Map.js is rendered by DataVis.js, and currently renders no children.
 
 import React, { useRef, useEffect, useState } from 'react';
-import MapGL, { Marker  } from "@urbica/react-map-gl";
+import MapGL, { Marker, Popup } from "@urbica/react-map-gl";
 import Button from 'react-bootstrap/Button'
 import { withSize } from "react-sizeme";
 import BEACHES from "./beaches.json";
-import { GeoAltFill } from "react-bootstrap-icons";
+import { PieChartFill, GeoAltFill, BarChartFill } from "react-bootstrap-icons";
 import Graph from './Graph.js';
 import "../../css/Map.css";
+import PieChart from '../charts/PieChart.js';
+import Select from 'react-select';
 
 const beachJSON = BEACHES;
 const latLongList = getLatLongList(beachJSON);
@@ -35,8 +37,6 @@ function Map(props) {
   // Default map orientation
   const [viewport, setViewport] = useState( INITIAL_MAP_VIEW );
 
-  // map.scrollZoom.disable();
-
   const mapContainer = {
     width: "100%", height: "83vh",
   }
@@ -51,6 +51,20 @@ function Map(props) {
     mapRef.current && mapRef.current.getMap().resize();
   };
 
+  const [selectedBeach, setSelectedBeach] = useState(null);
+
+  useEffect(() => {
+    const listener = e => {
+      if (e.key === "Escape") {
+        setSelectedBeach(null);
+      }
+    };
+    window.addEventListener("keydown", listener);
+
+    return () => {
+      window.removeEventListener("keydown", listener);
+    };
+  }, []);
 
   return (
     <div>
@@ -69,18 +83,43 @@ function Map(props) {
           setViewport(viewport);
         }}
         >
-          {BEACHES.map(beach =>(
+          {BEACHES.map(beach => (
             <Marker 
             key={beach.beach_id}
             longitude={beach.long}
             latitude={beach.lat}
+            onClick={ e => {
+              e.preventDefault();
+              setSelectedBeach(beach);
+            }}
             >
-              {/* <Button> */}
-                {/* <i className="bi biGeoAltFill"></i> */}
-                <GeoAltFill class="pin" id={beach.type} size={50} />
-              {/* </Button> */}
+              <GeoAltFill class="pin"
+              id={beach.type}
+              size={50} />
             </Marker>
           ))}
+
+
+          {selectedBeach ? (
+            <Popup
+            value="Capitola"
+            latitude={selectedBeach.lat}
+            longitude={selectedBeach.long}
+            offsetTop={-30}
+            anchor="bottom"
+            offset = {50}
+            closeOnClick={false}
+            closeButton={false}
+            onClose={() => {
+              setSelectedBeach(null);
+            }}
+          >
+            <div>
+              <h4 className="text-center">{selectedBeach.name}</h4>
+              <PieChart />
+            </div>
+          </Popup>
+          ) : null}
         </MapGL>
       </SizeAware>
     </div>
@@ -114,7 +153,7 @@ function Map(props) {
 
 
 // Helper functions for mapViewCenter
-function rad2degr(rad) { return rad * 180 / Math.PI; }
+function rad2degr(rad) { return rad * 180 / Math.PI; }  
 function degr2rad(degr) { return degr * Math.PI / 180; }
 /**
  * @param latLngInDeg array of arrays with latitude and longtitude
@@ -151,6 +190,5 @@ function getMapCenter( latLongList ) {
 
     return ([rad2degr(lat), rad2degr(lng)]);
 }
-
 
 export default Map;
