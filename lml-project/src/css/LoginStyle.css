@@ -1,6 +1,6 @@
-.main{
+.main {
     display: flex;
-    
+
 }
 
 .Login_UnApr {
@@ -8,15 +8,17 @@
     padding-top: 40px;
 }
 
-.Login_Apr {
-    padding-right: 20%;
-}
-
 .login-error-msg {
     text-align: center;
     width: 280px;
     visibility: hidden;
 }
+
+
+.Login_Apr {
+    padding-right: 20%;
+}
+
 
 /* Padding to the right */
 .b-example-divider {
@@ -31,26 +33,25 @@
 }
 
 /* Table size */
-.custom-table{
-    width: 75%;
-    /* width: 500px; */
+.custom-table {
+    /* width: 75%; */
+    width: 700px;
     height: 200px;
     /* height: 50% */
-    
 }
 
 
 /* Search bar size */
 #search {
-  width: 100%; 
-  font-size: 16px; 
-  padding: 5px 10px 5px 10px;
-  border: 1px solid rgb(207, 206, 206); 
-  margin-bottom: 12px; 
-} 
+    width: 100%;
+    font-size: 16px;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid rgb(207, 206, 206);
+    margin-bottom: 12px;
+}
 
 /* Width of side navigation bar */
-.nav-bar{
+.nav-bar {
     width: 20%;
     min-height: 100vh;
     overflow: visible;
@@ -68,7 +69,7 @@
 }
 
 /* Padding for card */
-.card-image{
+.card-image {
     text-align: center;
     padding-top: 10px;
 }
@@ -84,6 +85,7 @@
     /* color: rgb(255, 255, 255); */
     background-color: #61b1fb;
 }
+
 .btn-blue:hover {
     color: rgb(255, 255, 255);
     background-color: #3888d3;
@@ -96,4 +98,20 @@
     font-size: 18px;
     line-height: 1.5;
     border-radius: 3px;
+}
+
+.data-box {
+    height: 400px;
+}
+
+.upload-history {
+    width: 400px;
+}
+
+/* .file-image {
+    padding-top: 3px;
+} */
+
+.file-button {
+    padding-left:20px;
 }

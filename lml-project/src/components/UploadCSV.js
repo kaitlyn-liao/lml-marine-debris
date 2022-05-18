@@ -1,8 +1,13 @@
 // A file used to test the implimentation of uploading a csv file into the PostgreSQL Database
 
-import React, {useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePapaParse } from 'react-papaparse';
+import Button from 'react-bootstrap/Button'
+import Modal from 'react-bootstrap/Modal'
+import Dropdown from 'react-bootstrap/Dropdown'
+import DropdownButton from 'react-bootstrap/DropdownButton'
 import loadIcon from './loading.gif';
+import '../css/LoginStyle.css'
 
 // Completes the process of accepting a user's CSV file, parsing through
 // the file, and beginning the process of handing off the information to the postgreSQL
@@ -35,13 +40,13 @@ function UploadCSV() {
       };
       fileReader.readAsText(file);
       handleReadString();
-    setUploadLoading(false);
+      setUploadLoading(false);
     }
   };
 
   // const [fileText, setText ] = useState('');
   const [fileContentJSON, setFileContent] = useState([]);
-  const {readString} = usePapaParse();
+  const { readString } = usePapaParse();
 
   // Communicate with database server
   // debrisData stores the result of a GET call from the data table
@@ -66,27 +71,27 @@ function UploadCSV() {
       },
     });
   }
-  
+
   // GET call to display updated version of data table
   function getDebrisData() {
     fetch(`http://localhost:3001/data`)
       .then(response => response.json())
-      .then(data => { setDebrisData(data);});
+      .then(data => { setDebrisData(data); });
   }
 
   // Calls createDesbrisData() until every row of the CSV file is POSTed
   async function postDebrisData() {
     setFetchLoading(true)
 
-    updateUploadError( await errorChecking(fileContentJSON) )
+    updateUploadError(await errorChecking(fileContentJSON))
     console.log(uploadError)
 
     // only update and upload if the file is without error
-    if(uploadError === false){
+    if (uploadError === false) {
       clearDebrisDataTable();
       // loop for future use of adding in every row into the database, do be filtered by checking for new entries
       let i = 1;
-      while(fileContentJSON.data[i] !== undefined){
+      while (fileContentJSON.data[i] !== undefined) {
         await createDesbrisRow(i);
         i++;
       }
@@ -97,7 +102,7 @@ function UploadCSV() {
   }
 
   // Reads through the array created via CSV file, and POSTS specified row to the data table
-  async function createDesbrisRow(i){
+  async function createDesbrisRow(i) {
 
     // Beach	type	Date	Season	
     let beach = fileContentJSON.data[i][0];                   // beach collected  
@@ -126,9 +131,9 @@ function UploadCSV() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ 
-        beach, type, season, mmddyy, 
-        totalFragPlastic, 
+      body: JSON.stringify({
+        beach, type, season, mmddyy,
+        totalFragPlastic,
         totalPlasticProducts,
         totalFoodWrap,
         totalStyro,
@@ -137,7 +142,7 @@ function UploadCSV() {
         totalMetal,
         totalGlass,
         totalFabric,
-        totalRubber, 
+        totalRubber,
         totalOther,
         totalDebris,
         totalDebrisDivMsq,
@@ -145,7 +150,7 @@ function UploadCSV() {
       }),
     })
       .then(response => {
-        if(!response.ok){
+        if (!response.ok) {
           response.text().then(function (text) {
             console.log(text);
           });
@@ -155,102 +160,176 @@ function UploadCSV() {
 
   async function errorChecking(data) {
     let i = 1;
-    while(data.data[i] !== undefined){
+    while (data.data[i] !== undefined) {
       let row = data.data[i]
       // correct colm amount
-      if(row.length !== 18){ return true; }
+      if (row.length !== 18) { return true; }
       // beach
-      if(row[0] === undefined){ return true; }
+      if (row[0] === undefined) { return true; }
       // urban vs rural
-      if(row[1] !== 'U' && row[1] !== 'R'){ return true; }
+      if (row[1] !== 'U' && row[1] !== 'R') { return true; }
       // date
-      if(row[2] === undefined){ return true; }
+      if (row[2] === undefined) { return true; }
       // season
-      if(row[3] === undefined){ return true; }
+      if (row[3] === undefined) { return true; }
       // assure types of debris is not negative
-      for(let d=4; d<=16; d++){ if(row[d] < 0){ return true; }  }
+      for (let d = 4; d <= 16; d++) { if (row[d] < 0) { return true; } }
       i++;
     }
     return false;
   }
- 
+
   // DELETE call with no parameters, removing every row from the datatable
   function clearDebrisDataTable() {
     fetch(`http://localhost:3001/lml_debris_data`, {
       method: 'DELETE'
     })
-    .then(response => {
-      return response.text();
-    })
-    .then(data => {
-      // alert(data);
-      setDebrisData(undefined);
-      getDebrisData();
-    });
+      .then(response => {
+        return response.text();
+      })
+      .then(data => {
+        // alert(data);
+        setDebrisData(undefined);
+        getDebrisData();
+      });
   }
 
-  function dataToArray(){
+  function dataToArray() {
     let debrisDataArray = []
-    if(debrisData){
-      for(var i=0; i < debrisData.length; i++){
+    if (debrisData) {
+      for (var i = 0; i < debrisData.length; i++) {
         debrisDataArray[i] = [
-          debrisData[i].entry_id, 
-          debrisData[i].beach, 
-          debrisData[i].type, 
+          debrisData[i].entry_id,
+          debrisData[i].beach,
+          debrisData[i].type,
           debrisData[i].season,
-          debrisData[i].date, 
-          debrisData[i].total_fragmented_plastic, 
-          debrisData[i].total_plastic_products, 
+          debrisData[i].date,
+          debrisData[i].total_fragmented_plastic,
+          debrisData[i].total_plastic_products,
           debrisData[i].total_food_wrappers,
-          debrisData[i].total_styrofoam, 
-          debrisData[i].total_cigarette_butts, 
-          debrisData[i].total_paper_and_treated_wood, 
+          debrisData[i].total_styrofoam,
+          debrisData[i].total_cigarette_butts,
+          debrisData[i].total_paper_and_treated_wood,
           debrisData[i].total_metal,
-          debrisData[i].total_glass, 
-          debrisData[i].total_fabric, 
-          debrisData[i].total_rubber, 
+          debrisData[i].total_glass,
+          debrisData[i].total_fabric,
+          debrisData[i].total_rubber,
           debrisData[i].total_other,
           debrisData[i].total_debris,
-          debrisData[i].total_debris_divby_m_sq, 
+          debrisData[i].total_debris_divby_m_sq,
           debrisData[i].notes
         ]
-        debrisDataArray[i] = debrisDataArray[i].map((row) => 
+        debrisDataArray[i] = debrisDataArray[i].map((row) =>
           row = row + " "
         );
       }
-      debrisDataArray = debrisDataArray.map((row) => 
+      debrisDataArray = debrisDataArray.map((row) =>
         <li key={row}>{row}</li>
       );
       return debrisDataArray;
     }
   }
-  
+
+
+  const menuItems = [
+    {
+      title: "Home"
+    },
+    {
+      title: "Services"
+    },
+    {
+      title: "About"
+    }
+  ];
+
+  const current = new Date();
+  const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
+
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
   return (
     <div>
-        <div>
-        {fetchLoading === true ? 
+      <div className='pb-2 '>
+        {fetchLoading === true ?
           <div>
-            Uploading your file! <br/>
-            <img Style="height:10%; width:10%;" src={loadIcon} alt="loading..." /> 
-          </div> 
+            Uploading your file! <br />
+            <img Style="height:10%; width:10%;" src={loadIcon} alt="loading..." />
+          </div>
           :
           <div>
             <div className="uploadCSVtoCache">
               <h3>Upload CSV Data</h3>
               <form>
                 <input type={"file"} id={"csvFileInput"} accept={".csv"} onChange={handleOnChange} />
-                <button onClick={(e) => {handleOnSubmit(e);}} >SUBMIT</button>
+                <button onClick={(e) => { handleOnSubmit(e); }} >SUBMIT</button>
                 {/* {uploadLoading === true ? <p>LOADING</p> : <p> NOT LOADING</p>} */}
               </form>
             </div>
-            <br/>
+            <br />
 
             <button type="button" className="btn btn-outline-primary" onClick={postDebrisData}>Add Debris Data Entry</button>
-            <br/>
-          
-            {!debrisData ? 'There is no debrisData available' : <ol> {dataToArray()} </ol>}
-        </div>
+            <br />
+          </div>
         }
+      </div>
+      {/* File Upload History */}
+      <div>
+        <ul className="list-group upload-history">
+          {menuItems.map((menu, index) => {
+            return (
+              <li className="list-group-item" key={index}>
+                <div className='row'>
+                  <div className='col-md-2 bg-gray'>
+                    <img className="class-img-top rounded-circle border border-dark"
+                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfkGq1f7x3EPaXHdH75vQXY-Co3z-hyD5F3XeZQaELfc6HzB5rRBrs5IkIUk0zSFcFgfI&usqp=CAU"
+                      alt="" width="30" height="30"></img>
+                  </div>
+                  <div className='col' onClick={handleShow}>
+                    Uploaded on {date} by Some Guy
+                    {/* <a href="/#">{menu.title}</a> */}
+                    <br></br>
+                    <h6>File Name</h6>
+                  </div>
+                  <div className='col-md-2'>
+                    <Dropdown>
+
+                      <button role="button" type="button" className="btn btn-small file-button" data-toggle="dropdown">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                          <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                        </svg>
+                      </button>
+
+                      <Dropdown.Menu>
+                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </div>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+      <div>
+        {/* modal */}
+        <Modal size="lg" show={show} onHide={handleClose}>
+          <Modal.Header closeButton>
+            <Modal.Title>Raw Data</Modal.Title>
+          </Modal.Header>
+          <Modal.Body
+          ><div className="overflow-auto data-box">
+              {!debrisData ? 'There is no debrisData available' : <ol> {dataToArray()} </ol>}
+
+            </div>
+          </Modal.Body>
+        </Modal>
+
       </div>
     </div>
   );
