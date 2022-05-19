@@ -17,7 +17,6 @@ const getDebrisData = () => {
 }
 
 const getBeachDebrisData = (beach) => {
-  // console.log(beach)
   return new Promise(function(resolve, reject) {
     const text = "SELECT * FROM lml_debris_data WHERE beach = $1 ORDER BY entry_id ASC";
     const values = [beach];
@@ -35,7 +34,6 @@ const getBeachDebrisData = (beach) => {
 
 // Query a specific beach's debris data by season
 const getBeachDebrisDataBySeason = (beach, season) => {
-  // console.log(beach + season)
   return new Promise(function(resolve, reject) {
     const text = "SELECT * FROM lml_debris_data WHERE beach = $1 AND season = $2 ORDER BY entry_id ASC";
     const values = [beach, season];
@@ -53,7 +51,6 @@ const getBeachDebrisDataBySeason = (beach, season) => {
 
 // Query all beach's debris data by season
 const getAllBeachDebrisDataBySeason = (season) => {
-  console.log(season)
   return new Promise(function(resolve, reject) {
     const text = "SELECT * FROM lml_debris_data WHERE season = $1 ORDER BY entry_id ASC";
     const values = [season];

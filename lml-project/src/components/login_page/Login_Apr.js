@@ -114,31 +114,44 @@ function Login_Apr({ userID }) {
     //Use the length of array as new id
     const id = data.nodes.length;
     let person = prompt("Please enter name of user:")
-    let newUserid = prompt("Please enter user's user-ID (can be any username):")
+    let newUserid = prompt("Please enter user's user-ID:")
     let pword = prompt("Please enter the password to be associated with: " + newUserid)
 
     if ((person !== null && person !== "") && (newUserid !== null && newUserid !== "") && (pword !== null && pword !== "")) {
-      // add to data table
-      postAdmin(person, newUserid, pword);
+      // Check if userid and password combo exists already
+      fetch(`http://localhost:3001/lml_admins/checkUserID/${newUserid}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.exists) {
+            // Reject and alert user about conflict with existing userid
+            alert("UserID already exists. Please enter a new UserID.")
+          }
+          else{
+            // add to data table
+            postAdmin(person, newUserid, pword);
+      
+            // Change the nodes of data by adding a new element to its nodes
+            setData((state) => ({
+              ...state,
+              nodes: state.nodes.concat({
+                id,
+                name: person,
+                userID: newUserid,
+              }),
+            }));
+            // Change the nodes of filteredData by adding a new element to its nodes
+            setFilteredData((state) => ({
+              ...state,
+              nodes: state.nodes.concat({
+                id,
+                name: person,
+                userID: newUserid,
+              }),
+            }));
+            
+          }
+        });
 
-      // Change the nodes of data by adding a new element to its nodes
-      setData((state) => ({
-        ...state,
-        nodes: state.nodes.concat({
-          id,
-          name: person,
-          userID: newUserid,
-        }),
-      }));
-      // Change the nodes of filteredData by adding a new element to its nodes
-      setFilteredData((state) => ({
-        ...state,
-        nodes: state.nodes.concat({
-          id,
-          name: person,
-          userID: newUserid,
-        }),
-      }));
     }
   }
 
@@ -380,7 +393,7 @@ function Login_Apr({ userID }) {
   return (
     <div className='Login_Apr row'>
       {/* Create a sidebar to display user profile and settings */}
-      <div className="col-md-3 bg-gray">
+      <div className="col-md-3 user-side-panel bg-gray">
         <br></br>
         {/* Card displaying user picture and name */}
         <div className="card card-image bg-gray border-0">
@@ -427,7 +440,6 @@ function Login_Apr({ userID }) {
         <div className='custom-table '>
           {profileSuper && showMemberTable ? getTable() : null}
           {showUploadCSV ? <UploadCSV /> : null}
-          {/* <UploadCSV /> */}
         </div>
 
       </div>

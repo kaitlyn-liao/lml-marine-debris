@@ -33,7 +33,7 @@ app.get('/', (req, res) => {
   })
 })
 
-// -------------------------------------------------------- Upload Data
+// -------------------------------------------------------- Upload Data table calls
 
 // get all upload data from lml_upload
 app.get('/lml_uploads/getUploads', (req, res) => {
@@ -70,7 +70,7 @@ app.get('/lml_admins/getAdmins/:userID', (req, res) => {
   })
 })
 
-// 
+// Get specific info of one admin
 app.get('/lml_admins/getAdminInfo/:userID', (req, res) => {
   lml_admin_model.getAdminInfo(req.params.userID)
   .then(response => {
@@ -81,9 +81,20 @@ app.get('/lml_admins/getAdminInfo/:userID', (req, res) => {
   })
 })
 
-// check if userID and password exists in lml_admins
-app.get('/lml_admins/checkAdmins/:username/:password', (req, res) => {
-  lml_admin_model.checkAdmin(req.params.username, req.params.password)
+// Check if userID and password exists in lml_admins
+app.get('/lml_admins/checkAdmins/:userID/:password', (req, res) => {
+  lml_admin_model.checkAdmin(req.params.userID, req.params.password)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+// Check if userID and password exists in lml_admins
+app.get('/lml_admins/checkUserID/:userID', (req, res) => {
+  lml_admin_model.checkUserID(req.params.userID)
   .then(response => {
     res.status(200).send(response);
   })
@@ -106,8 +117,6 @@ app.delete('/lml_admins/:userID', (req, res) => {
 
 // Enter a new row into lml_debris_data
 app.post('/lml_admins/newAdmin', (req, res) => {
-  console.log("in index.js")
-  console.log(req.body)
   lml_admin_model.createAdmin(req.body)
 
   .then(response => {
@@ -166,7 +175,6 @@ app.get('/beach/:beach', (req, res) => {
 
 // get a single beach debris data by season from lml_debris_data
 app.get('/beach/:beach/season/:season', (req, res) => {
-  //console.log(req.params.beach + req.params.season);
   lml_data_model.getBeachDebrisDataBySeason(req.params.beach, req.params.season)
   .then(response => {
     res.status(200).send(response);

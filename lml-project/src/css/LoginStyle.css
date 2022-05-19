@@ -15,11 +15,16 @@
     visibility: hidden;
 }
 
+/****************************************************************/
 
 .Login_Apr {
     padding-right: 20%;
 }
 
+/* User Profile side panel */
+.user-side-panel {
+    min-height: 100vh;
+}
 
 /* Padding to the right */
 .b-example-divider {
@@ -100,6 +105,8 @@
     line-height: 1.5;
     border-radius: 3px;
 }
+
+/********************************************************/
 
 .UploadCSV {
     width: 80%
