@@ -11,6 +11,7 @@ const port = process.env.PORT || 3001; // Load from .env file
 // const merchant_model = require('./merchant_model');
 const lml_data_model = require('./lml_data_model.js');
 const lml_admin_model = require('./lml_admin_model.js');
+const lml_upload_model = require('./lml_upload_model.js')
 
 app.use(express.json())
 app.use(express.static(path.resolve(__dirname, '../lml-project/build')));
@@ -24,6 +25,30 @@ app.use(function (req, res, next) {
 
 app.get('/', (req, res) => {
   lml_admin_model.getAdmin(req)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+// -------------------------------------------------------- Upload Data
+
+// get all upload data from lml_upload
+app.get('/lml_uploads/getUploads', (req, res) => {
+  lml_upload_model.getUploads(req)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+// update upload (currently only one file exists in database)
+app.post('/lml_uploads/updateUpload/:file_name/:uploader', (req, res) => {
+  lml_upload_model.updateUpload(req.params.file_name, req.params.uploader, req.params.date_uploaded)
   .then(response => {
     res.status(200).send(response);
   })

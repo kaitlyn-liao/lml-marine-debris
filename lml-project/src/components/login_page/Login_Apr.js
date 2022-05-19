@@ -43,7 +43,6 @@ function Login_Apr({ userID }) {
     fetch(`http://localhost:3001/lml_admins/getAdminInfo/${profileuserID}`)
       .then(response => response.json())
       .then(data => {
-        console.log(data)
         setProfileName(data.name);
         setProfileSuper(data.issuper);
       });
@@ -422,23 +421,9 @@ function Login_Apr({ userID }) {
 
         </div>
         <hr></hr>
-        {/* <div className="dropdown">
-          <a href="#" className="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfkGq1f7x3EPaXHdH75vQXY-Co3z-hyD5F3XeZQaELfc6HzB5rRBrs5IkIUk0zSFcFgfI&usqp=CAU"
-              alt="" width="32" height="32" className="rounded-circle me-2"></img>
-            <strong>Account</strong>
-          </a>
-          <ul className="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-            <li><a className="dropdown-item" href="#">New project...</a></li>
-            <li><a className="dropdown-item" href="#">Settings</a></li>
-            <li><a className="dropdown-item" href="#">Profile</a></li>
-            <li><hr className="dropdown-divider"></hr></li>
-            <li><a className="dropdown-item" href="#">Sign out</a></li>
-          </ul>
-        </div> */}
       </div>
       {/* <div className='b-example-divider'></div> */}
-      <div className='col login-content'>
+      <div className='col-6 login-content'>
         <div className='custom-table '>
           {profileSuper && showMemberTable ? getTable() : null}
           {showUploadCSV ? <UploadCSV /> : null}

@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
 import Dropdown from 'react-bootstrap/Dropdown'
 import DropdownButton from 'react-bootstrap/DropdownButton'
+import moment from "moment";
 import loadIcon from './loading.gif';
 import '../css/LoginStyle.css'
 
@@ -20,12 +21,15 @@ function UploadCSV() {
   const [fetchLoading, setFetchLoading] = useState(false)
   const [uploadError, updateUploadError] = useState(false)
 
+  const [filename, setFileName] = useState(false)
+
   // console.log(uploadErrorRows)
 
   // handles the display name next to the "seclect file" button
   const handleOnChange = (e) => {
     console.log(e.target.files)
     setFile(e.target.files[0]);
+    setFileName(e.target.files[0].name)
   };
 
   // reads throuh the file submission and changes state setdataToDB to raw csv text
@@ -97,8 +101,30 @@ function UploadCSV() {
       }
       getDebrisData();
 
+      // Save file upload information
+      const uploader = localStorage.getItem('newuserID');
+      saveFileInfo(filename, uploader)
     }
     setFetchLoading(false)
+
+  }
+
+  // Update upload file 
+  async function saveFileInfo(filename, uploader) {
+    await fetch(`http://localhost:3001/lml_uploads/updateUpload/${filename}/${uploader}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => {
+        if (!response.ok) {
+          response.text().then(function (text) {
+            console.log(text);
+            alert("Failed to save file info");
+          });
+        }
+      })
   }
 
   // Reads through the array created via CSV file, and POSTS specified row to the data table
@@ -230,34 +256,35 @@ function UploadCSV() {
     }
   }
 
+  // Get uploaded files from database
+  const [dataUploads, setDataUploads] = React.useState([]);
+  useEffect(() => {
+    getUploadData();
+  }, [])
 
-  const menuItems = [
-    {
-      title: "Home"
-    },
-    {
-      title: "Services"
-    },
-    {
-      title: "About"
-    }
-  ];
+  const getUploadData = () => {
+    fetch(`http://localhost:3001/lml_uploads/getUploads`)
+      .then(response => response.json())
+      .then(data => {
+        console.log("upload", data)
+        setDataUploads(data);
+      });
+  }
 
-  const current = new Date();
-  const date = `${current.getDate()}/${current.getMonth() + 1}/${current.getFullYear()}`;
-
+  // Display Modal
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+
   return (
-    <div>
+    <div className='UploadCSV'>
       <div className='pb-2 '>
         {fetchLoading === true ?
           <div>
             Uploading your file! <br />
-            <img Style="height:10%; width:10%;" src={loadIcon} alt="loading..." />
+            <img className='upload-icon' src={loadIcon} alt="loading..." />
           </div>
           :
           <div>
@@ -276,23 +303,24 @@ function UploadCSV() {
           </div>
         }
       </div>
-      {/* File Upload History */}
       <div>
+      {/* File Upload Info */}
         <ul className="list-group upload-history">
-          {menuItems.map((menu, index) => {
+          {dataUploads.map((menu, index) => {
             return (
               <li className="list-group-item" key={index}>
                 <div className='row'>
                   <div className='col-md-2 bg-gray'>
-                    <img className="class-img-top rounded-circle border border-dark"
-                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfkGq1f7x3EPaXHdH75vQXY-Co3z-hyD5F3XeZQaELfc6HzB5rRBrs5IkIUk0zSFcFgfI&usqp=CAU"
-                      alt="" width="30" height="30"></img>
+                    <div className='file-image'>
+                      <img className="class-img-top rounded-circle border border-dark"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfkGq1f7x3EPaXHdH75vQXY-Co3z-hyD5F3XeZQaELfc6HzB5rRBrs5IkIUk0zSFcFgfI&usqp=CAU"
+                        alt="" width="30" height="30"></img>
+                    </div>
                   </div>
                   <div className='col' onClick={handleShow}>
-                    Uploaded on {date} by Some Guy
-                    {/* <a href="/#">{menu.title}</a> */}
+                    Uploaded on {moment(menu.date_uploaded).utc().format('MMMM Do YYYY')} by {menu.uploader}
                     <br></br>
-                    <h6>File Name</h6>
+                    <h6>{menu.file_name}</h6>
                   </div>
                   <div className='col-md-2'>
                     <Dropdown>
