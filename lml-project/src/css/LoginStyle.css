@@ -138,7 +138,12 @@
     padding-left: 5px;
 }
 
-/* Padding for button in upload info */
-.file-button {
-    padding-left:20px;
+
+/* Font size of date and uploader */
+.text-date-uploader {
+    font-size: 14px;
 }
+/* Padding for button in upload info */
+/* .file-button {
+    padding-left:20px;
+} */

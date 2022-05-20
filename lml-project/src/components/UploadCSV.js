@@ -93,7 +93,7 @@ function UploadCSV() {
     setFetchLoading(true)
     
     // console.log(uploadError)
-    //updateUploadError(await errorChecking(fileContentJSON))
+    updateUploadError(await errorChecking(fileContentJSON))
     console.log(uploadError)
 
     // only update and upload if the file is without error
@@ -112,7 +112,6 @@ function UploadCSV() {
     setCanUpload(false)
     
     // Save file upload information
-    console.log("PLEASE")
     const uploader = localStorage.getItem('newuserID');
     saveFileInfo(filename, uploader)
   }
@@ -291,7 +290,6 @@ async function saveFileInfo(filename, uploader) {
     fetch(`http://localhost:3001/lml_uploads/getUploads`)
       .then(response => response.json())
       .then(data => {
-        console.log("upload", data)
         setDataUploads(data);
       });
   }
