@@ -52,10 +52,27 @@ const getAdmin = (username) => {
 }
 
 // Query the existence of a specific admin 
-const checkAdmin = (username, password) => {
+const checkAdmin = (userid, password) => {
   return new Promise(function(resolve, reject) {
     const text = "SELECT EXISTS( SELECT * FROM lml_admins WHERE userid = $1 AND password = $2)"
-    const values = [username, password]
+    const values = [userid, password]
+    pool.query(text, values, (error, results) => {
+      if (error) {
+        console.log(error);
+        reject(error)
+      }
+      if(results){
+        resolve(results.rows[0]);
+      }
+    })
+  }) 
+}
+
+// Query the existence of a specific admin 
+const checkUserID = (userid) => {
+  return new Promise(function(resolve, reject) {
+    const text = "SELECT EXISTS( SELECT * FROM lml_admins WHERE userid = $1)"
+    const values = [userid]
     pool.query(text, values, (error, results) => {
       if (error) {
         console.log(error);
@@ -70,7 +87,6 @@ const checkAdmin = (username, password) => {
 
 // Add a new admin user to the datatable
 const createAdmin = (body) => {
-  console.log("in lml_admin_model")
   const {name, userid, pword} = body
   const isSuper = false
   // TODO
@@ -149,6 +165,7 @@ module.exports = {
     getAllAdmin,
     getAdminInfo,
     checkAdmin,
+    checkUserID,
     createAdmin,
     deleteAdmin,
     giveSuperStatus,
