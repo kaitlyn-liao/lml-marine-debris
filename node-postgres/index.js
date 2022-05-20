@@ -48,7 +48,18 @@ app.get('/lml_uploads/getUploads', (req, res) => {
 
 // update upload (currently only one file exists in database)
 app.post('/lml_uploads/updateUpload/:file_name/:uploader', (req, res) => {
-  lml_upload_model.updateUpload(req.params.file_name, req.params.uploader, req.params.date_uploaded)
+  lml_upload_model.updateUpload(req.params.file_name, req.params.uploader)
+  .then(response => {
+    res.status(200).send(response);
+  })
+  .catch(error => {
+    res.status(500).send(error);
+  })
+})
+
+// insert upload (currently only one file exists in database)
+app.post('/lml_uploads/insertUpload/:file_name/:uploader', (req, res) => {
+  lml_upload_model.insertUpload(req.params.file_name, req.params.uploader)
   .then(response => {
     res.status(200).send(response);
   })

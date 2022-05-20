@@ -33,7 +33,27 @@ const updateUpload = (file_name, uploader) => {
     }) 
   }
 
+
+//Insert file upload info (currently only one file exists)
+const insertUpload = (file_name, uploader) => {
+  return new Promise(function(resolve, reject) {
+    const text = "INSERT INTO lml_uploads (file_name, uploader) SELECT $1, $2 WHERE NOT EXISTS (SELECT * FROM lml_uploads)"
+    const values = [file_name, uploader];
+    pool.query(text, values, (error, results) => {
+      if (error) {
+        console.log(error);
+        reject(error)
+      }
+      if(results){
+        resolve(results.rows);
+      }
+    })
+  }) 
+}
+
+
 module.exports = {
     getUploads,
-    updateUpload
+    updateUpload,
+    insertUpload
 }

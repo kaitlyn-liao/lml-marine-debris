@@ -111,20 +111,38 @@ function UploadCSV() {
 
   // Update upload file 
   async function saveFileInfo(filename, uploader) {
+    // Try to update the file info if a file exists in database
     await fetch(`http://localhost:3001/lml_uploads/updateUpload/${filename}/${uploader}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
     })
-      .then(response => {
-        if (!response.ok) {
-          response.text().then(function (text) {
-            console.log(text);
-            alert("Failed to save file info");
-          });
-        }
-      })
+    .then(response => {
+      if (!response.ok) {
+        response.text().then(function (text) {
+          console.log(text);
+          alert("Failed to save file info");
+        });
+      }
+    })
+    // Try to insert the file info if no files exist in database
+    await fetch(`http://localhost:3001/lml_uploads/insertUpload/${filename}/${uploader}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(response => {
+      if (!response.ok) {
+        response.text().then(function (text) {
+          console.log(text);
+          alert("Failed to save file info");
+        });
+      }
+    })
+
+      getDataUpload()
   }
 
   // Reads through the array created via CSV file, and POSTS specified row to the data table
@@ -259,10 +277,10 @@ function UploadCSV() {
   // Get uploaded files from database
   const [dataUploads, setDataUploads] = React.useState([]);
   useEffect(() => {
-    getUploadData();
+    getDataUpload();
   }, [])
 
-  const getUploadData = () => {
+  const getDataUpload = () => {
     fetch(`http://localhost:3001/lml_uploads/getUploads`)
       .then(response => response.json())
       .then(data => {
