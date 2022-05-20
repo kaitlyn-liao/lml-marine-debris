@@ -127,9 +127,14 @@
     width: 400px;
 }
 
+/* Border for upload history list item*/
+.upload-list {
+    border: 2px solid rgba(0,0,0,.125);
+}
+
 /* Padding for image in upload info */
 .file-image {
-    padding-top: 20px;
+    padding-top: 10px;
     padding-left: 5px;
 }
 

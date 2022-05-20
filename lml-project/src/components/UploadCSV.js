@@ -298,7 +298,7 @@ function UploadCSV() {
 
   return (
     <div className='UploadCSV'>
-      <div className='pb-2 '>
+      <div className='pb-3 '>
         {fetchLoading === true ?
           <div>
             Uploading your file! <br />
@@ -326,7 +326,7 @@ function UploadCSV() {
         <ul className="list-group upload-history">
           {dataUploads.map((menu, index) => {
             return (
-              <li className="list-group-item" key={index}>
+              <li className="upload-list list-group-item" key={index}>
                 <div className='row'>
                   <div className='col-md-2 bg-gray'>
                     <div className='file-image'>
@@ -340,22 +340,13 @@ function UploadCSV() {
                     <br></br>
                     <h6>{menu.file_name}</h6>
                   </div>
-                  <div className='col-md-2'>
-                    <Dropdown>
-
-                      <button role="button" type="button" className="btn btn-small file-button" data-toggle="dropdown">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                          <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                        </svg>
-                      </button>
-
-                      <Dropdown.Menu>
-                        <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                        <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                        <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
+                  {/* <div className='col-md-2'>
+                    <button role="button" type="button" className="btn btn-small file-button" onClick={handleShow}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
+                        <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
+                      </svg>
+                    </button>
+                  </div> */}
                 </div>
               </li>
             );
