@@ -339,7 +339,7 @@ function Login_Apr({ userID }) {
                 <HeaderRow>
                   <HeaderCell>Name</HeaderCell>
                   <HeaderCell>User-ID</HeaderCell>
-                  <HeaderCell>Super?</HeaderCell>
+                  <HeaderCell>Status</HeaderCell>
                   <HeaderCell>Delete</HeaderCell>
                 </HeaderRow>
               </Header>
@@ -457,7 +457,7 @@ function Login_Apr({ userID }) {
       </div>
       {/* <div className='b-example-divider'></div> */}
       <div className='col login-content'>
-        <div className='custom-table '>
+        <div className='custom-table' >
             {profileSuper && showMemberTable ? getTable() : null}
             {showUploadCSV  ? <UploadCSV/> : null}
         </div>
