@@ -351,7 +351,7 @@ function Login_Apr({ userID }) {
                 <HeaderRow>
                   <HeaderCell>Name</HeaderCell>
                   <HeaderCell>User-ID</HeaderCell>
-                  <HeaderCell>Status</HeaderCell>
+                  <HeaderCell>Super?</HeaderCell>
                   <HeaderCell>Delete</HeaderCell>
                 </HeaderRow>
               </Header>

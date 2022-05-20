@@ -16,8 +16,11 @@ function UploadCSV() {
   const fileReader = new FileReader();
   const [file, setFile] = useState();
   const [dataToDB, setdataToDB] = useState(false);
+
   const [uploadLoading, setUploadLoading] = useState(false)
   const [fetchLoading, setFetchLoading] = useState(false)
+  const [canUpload, setCanUpload] = useState(false)
+
   const [uploadError, updateUploadError] = useState(false)
   const [fileContentJSON, setFileContent] = useState([]);
   const {readString} = usePapaParse();
@@ -52,8 +55,9 @@ function UploadCSV() {
   // reads throuh the file submission and changes state setdataToDB to raw csv text
   const handleOnSubmit = (e) => {
     setUploadLoading(true);
-      handleReadString();
-      setUploadLoading(false);
+    handleReadString();
+    setUploadLoading(false);
+    setCanUpload(true)
   };
 
   // handleReadString() -> parses through CSV text content and converts it to JSON format vis Papaparse
@@ -74,9 +78,12 @@ function UploadCSV() {
 
   // GET call to display updated version of data table
   function getDebrisData() {
+    setFetchLoading(true)
     fetch(`http://localhost:3001/data`)
       .then(response => response.json())
-      .then(data => { setDebrisData(data); });
+      .then(data => { setDebrisData(data); 
+    });
+    setFetchLoading(false)
   }
 
   // Calls createDesbrisData() until every row of the CSV file is POSTed
@@ -101,27 +108,10 @@ function UploadCSV() {
       // Save file upload information
       const uploader = localStorage.getItem('newuserID');
       saveFileInfo(filename, uploader)
-    }
+    } 
     setFetchLoading(false)
+    setCanUpload(false)
 
-  }
-
-  // Update upload file 
-  async function saveFileInfo(filename, uploader) {
-    await fetch(`http://localhost:3001/lml_uploads/updateUpload/${filename}/${uploader}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => {
-        if (!response.ok) {
-          response.text().then(function (text) {
-            console.log(text);
-            alert("Failed to save file info");
-          });
-        }
-      })
   }
 
   // Reads through the array created via CSV file, and POSTS specified row to the data table
@@ -268,6 +258,24 @@ function UploadCSV() {
       });
   }
 
+  // Update upload file 
+  async function saveFileInfo(filename, uploader) {
+    await fetch(`http://localhost:3001/lml_uploads/updateUpload/${filename}/${uploader}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => {
+        if (!response.ok) {
+          response.text().then(function (text) {
+            console.log(text);
+            alert("Failed to save file info");
+          });
+        }
+      })
+  }
+
   // Display Modal
   const [show, setShow] = useState(false);
 
@@ -286,7 +294,8 @@ function UploadCSV() {
           :
           <div>
             <div className="uploadCSVtoCache">
-              <h3>Upload CSV Data</h3>
+              <h1>Update Marine Debris Data</h1>
+              <h5>Please select a .csv file to upload data from</h5><br/>
               <form>
                 <input type={"file"} id={"csvFileInput"} accept={".csv"} onChange={handleOnChange} />
                 <button onClick={(e) => { handleOnSubmit(e); }} >SUBMIT</button>
@@ -294,8 +303,7 @@ function UploadCSV() {
               </form>
             </div>
             <br />
-
-            <button type="button" className="btn btn-outline-primary" onClick={postDebrisData}>Add Debris Data Entry</button>
+            { canUpload ? <button type="button" className="btn btn-outline-primary" onClick={postDebrisData}>Add Debris Data Entry</button> : null}
             <br />
           </div>
         }
@@ -303,7 +311,7 @@ function UploadCSV() {
       <div>
       {/* File Upload Info */}
         <ul className="list-group upload-history">
-          {dataUploads.map((menu, index) => {
+          {/* {dataUploads.map((menu, index) => {
             return (
               <li className="list-group-item" key={index}>
                 <div className='row'>
@@ -338,7 +346,7 @@ function UploadCSV() {
                 </div>
               </li>
             );
-          })}
+          })} */}
         </ul>
       </div>
       <div>
@@ -347,14 +355,13 @@ function UploadCSV() {
           <Modal.Header closeButton>
             <Modal.Title>Raw Data</Modal.Title>
           </Modal.Header>
-          <Modal.Body
-          ><div className="overflow-auto data-box">
-              {!debrisData ? 'There is no debrisData available' : <ol> {dataToArray()} </ol>}
-
-            </div>
+          <Modal.Body>
+            modal 
           </Modal.Body>
         </Modal>
-
+      </div>
+      <div className="overflow-auto data-box">
+        {!debrisData ? 'There is no debrisData available' : <ol> {dataToArray()} </ol>}
       </div>
     </div>
   );
