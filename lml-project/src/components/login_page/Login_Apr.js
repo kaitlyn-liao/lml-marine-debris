@@ -20,7 +20,11 @@ import '../../css/LoginStyle.css'
 import UploadCSV from '../UploadCSV';
 import Login_UnApr from './Login_UnApr';
 import { useEffect } from 'react';
+import Nav from 'react-bootstrap/Nav'
+import Navbar from 'react-bootstrap/Navbar'
+import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 
+var CryptoJS = require("crypto-js");
 const nodes = [];
 
 function Login_Apr({ userID }) {
@@ -52,6 +56,7 @@ function Login_Apr({ userID }) {
   const [filteredData, setFilteredData] = React.useState({ nodes });
 
   const getAdminData = () => {
+    // get all users with a userid that isnt the current logged in user
     fetch(`http://localhost:3001/lml_admins/getAdmins/${profileuserID}`)
       .then(response => response.json())
       .then(json => {
@@ -90,6 +95,7 @@ function Login_Apr({ userID }) {
   useEffect(() => {
     getAdminData();
   }, [])
+
   // Change state of the table when the there is input in the search bar
   // Filters filteredData based on the searchValue
   const handleSearch = (event) => {
@@ -116,6 +122,9 @@ function Login_Apr({ userID }) {
     let person = prompt("Please enter name of user:")
     let newUserid = prompt("Please enter user's user-ID:")
     let pword = prompt("Please enter the password to be associated with: " + newUserid)
+
+    // TODO encrypt the password
+    // pword = lockPassword(pword);
 
     if ((person !== null && person !== "") && (newUserid !== null && newUserid !== "") && (pword !== null && pword !== "")) {
       // Check if userid and password combo exists already
@@ -278,18 +287,50 @@ function Login_Apr({ userID }) {
     }
   }
 
+  function lockPassword(pw){
+    // Encrypt
+    console.log("raw " + pw)
+    var lockedpw = CryptoJS.AES.encrypt(pw, 'protected key').toString();
+    console.log("locked " + lockedpw)
+    return(lockedpw)
+  }
+
+  function unlockPassword(pw){
+    // Decrypt
+    var bytes = CryptoJS.AES.decrypt(pw, 'protected key');
+    var unlockedpw = bytes.toString(CryptoJS.enc.Utf8);
+    console.log("unlocked " + unlockedpw)
+    return(unlockedpw)
+  }
+
+  // Toggle to display member table or upload csv
+  const [showUploadCSV, setShowUploadCSV] = React.useState(true)
+  const [showMemberTable, setShowMemberTable] = React.useState(false)
+
+  const onUploadClick = () => {
+    //Show Upload CSV Data
+    setShowMemberTable(false)
+    setShowUploadCSV(true)
+  }
+
+  const onTableClick = () => {
+    //Show Member table
+    setShowMemberTable(true)
+    setShowUploadCSV(false)
+  }
+
   const tableTheme = useTheme({
     Table: `
-        height: 150%;
+        height: 100%;
     `,
     BaseCell: `
     &:nth-child(1), &:nth-child(2) {
-      min-width: 29%;
-      width: 33%;
+      min-width: 30%;
+      width: 30%;
     }
     &:nth-child(3), &:nth-child(4) {
-      min-width: 15%;
-      width: 15%;
+      min-width: 20%;
+      width: 20%;
     }
   `,
   });
@@ -374,23 +415,8 @@ function Login_Apr({ userID }) {
     )
   }
 
-  // Toggle to display member table or upload csv
-  const [showUploadCSV, setShowUploadCSV] = React.useState(true)
-  const [showMemberTable, setShowMemberTable] = React.useState(false)
-  const onUploadClick = () => {
-    //Show Upload CSV Data
-    setShowMemberTable(false)
-    setShowUploadCSV(true)
-  }
-
-  const onTableClick = () => {
-    //Show Member table
-    setShowMemberTable(true)
-    setShowUploadCSV(false)
-  }
-
-
   return (
+
     <div className='Login_Apr row'>
       {/* Create a sidebar to display user profile and settings */}
       <div className="col-md-3 user-side-panel bg-gray">
@@ -415,7 +441,9 @@ function Login_Apr({ userID }) {
               </a>
             </li>
             {/* Check if superadmin */}
+            {/* {profileSuper ? <Route path="/debris-data" element={getManageUsers()}> </Route> : null} */}
             {profileSuper ? getManageUsers() : null}
+
             <li className="nav-item active dropdown">
               <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16">
@@ -433,6 +461,9 @@ function Login_Apr({ userID }) {
           </ul>
 
         </div>
+        {/* <Nav.Link href="/lml_marine_debris/debris-data"> Debris Data      </Nav.Link>
+        <Nav.Link href="/lml_marine_debris/methodology"> Data Collection  </Nav.Link>
+        <Nav.Link href="/lml_marine_debris/team">        Meet the Team    </Nav.Link> */}
         <hr></hr>
       </div>
       {/* <div className='b-example-divider'></div> */}

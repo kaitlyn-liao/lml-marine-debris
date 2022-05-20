@@ -13,57 +13,59 @@ import '../css/LoginStyle.css'
 // Completes the process of accepting a user's CSV file, parsing through
 // the file, and beginning the process of handing off the information to the postgreSQL
 function UploadCSV() {
-  const [file, setFile] = useState();
-  const [dataToDB, setdataToDB] = useState();
   const fileReader = new FileReader();
+  const [file, setFile] = useState();
+  const [dataToDB, setdataToDB] = useState(false);
 
   const [uploadLoading, setUploadLoading] = useState(false)
   const [fetchLoading, setFetchLoading] = useState(false)
-  const [uploadError, updateUploadError] = useState(false)
+  const [canUpload, setCanUpload] = useState(false)
 
+  const [uploadError, updateUploadError] = useState(false)
+  const [fileContentJSON, setFileContent] = useState([]);
+  const {readString} = usePapaParse();
+
+  // Communicate with database server
+  // debrisData stores the result of a GET call from the data table
+  // setDebrisData sets the value of debrisData
+  const [debrisData, setDebrisData] = useState(false);
+  useEffect(() => { 
+    getDebrisData(); 
+  },[]);
   const [filename, setFileName] = useState(false)
 
   // console.log(uploadErrorRows)
 
   // handles the display name next to the "seclect file" button
   const handleOnChange = (e) => {
-    console.log(e.target.files)
+    // console.log(file)
     setFile(e.target.files[0]);
     setFileName(e.target.files[0].name)
-  };
 
-  // reads throuh the file submission and changes state setdataToDB to raw csv text
-  const handleOnSubmit = (e) => {
-    setUploadLoading(true);
-
+    const f = e.target.files[0]
     e.preventDefault();
-    if (file) {
+    if (f) {
       fileReader.onload = function (event) {
         const csvOutput = event.target.result;
         setdataToDB(csvOutput);
       };
-      fileReader.readAsText(file);
-      handleReadString();
-      setUploadLoading(false);
+      fileReader.readAsText(f);
     }
   };
 
-  // const [fileText, setText ] = useState('');
-  const [fileContentJSON, setFileContent] = useState([]);
-  const { readString } = usePapaParse();
-
-  // Communicate with database server
-  // debrisData stores the result of a GET call from the data table
-  // setDebrisData sets the value of debrisData
-  const [debrisData, setDebrisData] = useState(false);
-  useEffect(() => { getDebrisData(); }, []);
+  // reads throuh the file submission and changes state setdataToDB to raw csv text
+  const handleOnSubmit = (e) => {
+    e.preventDefault();
+    setUploadLoading(true);
+    handleReadString();
+    setUploadLoading(false);
+    setCanUpload(true)
+  };
 
   // handleReadString() -> parses through CSV text content and converts it to JSON format vis Papaparse
   // reference found at https://github.com/Bunlong/react-papaparse/blob/v4.0.0/examples/readString.tsx
-  async function handleReadString() {
+  function handleReadString() {
     const content = dataToDB
-    // console.log(content)
-    setFileContent(content);
 
     readString(content, {
       worker: true,
@@ -78,16 +80,20 @@ function UploadCSV() {
 
   // GET call to display updated version of data table
   function getDebrisData() {
+    setFetchLoading(true)
     fetch(`http://localhost:3001/data`)
       .then(response => response.json())
-      .then(data => { setDebrisData(data); });
+      .then(data => { setDebrisData(data); 
+    });
+    setFetchLoading(false)
   }
 
   // Calls createDesbrisData() until every row of the CSV file is POSTed
   async function postDebrisData() {
     setFetchLoading(true)
-
-    updateUploadError(await errorChecking(fileContentJSON))
+    
+    // console.log(uploadError)
+    //updateUploadError(await errorChecking(fileContentJSON))
     console.log(uploadError)
 
     // only update and upload if the file is without error
@@ -101,49 +107,50 @@ function UploadCSV() {
       }
       getDebrisData();
 
-      // Save file upload information
-      const uploader = localStorage.getItem('newuserID');
-      saveFileInfo(filename, uploader)
-    }
+    } 
     setFetchLoading(false)
-
+    setCanUpload(false)
+    
+    // Save file upload information
+    console.log("PLEASE")
+    const uploader = localStorage.getItem('newuserID');
+    saveFileInfo(filename, uploader)
   }
 
-  // Update upload file 
-  async function saveFileInfo(filename, uploader) {
-    // Try to update the file info if a file exists in database
-    await fetch(`http://localhost:3001/lml_uploads/updateUpload/${filename}/${uploader}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    .then(response => {
-      if (!response.ok) {
-        response.text().then(function (text) {
-          console.log(text);
-          alert("Failed to save file info");
-        });
-      }
-    })
-    // Try to insert the file info if no files exist in database
-    await fetch(`http://localhost:3001/lml_uploads/insertUpload/${filename}/${uploader}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-    .then(response => {
-      if (!response.ok) {
-        response.text().then(function (text) {
-          console.log(text);
-          alert("Failed to save file info");
-        });
-      }
-    })
-
-      getDataUpload()
-  }
+// Update upload file 
+async function saveFileInfo(filename, uploader) {
+  // Try to insert the file info if no files exist in database
+  await fetch(`http://localhost:3001/lml_uploads/insertUpload/${filename}/${uploader}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  .then(response => {
+    if (!response.ok) {
+      response.text().then(function (text) {
+        console.log(text);
+        alert("Failed to save file info");
+      });
+    }
+  })
+  //Try to update the file info if a file exists in database
+  await fetch(`http://localhost:3001/lml_uploads/updateUpload/${filename}/${uploader}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+  .then(response => {
+    if (!response.ok) {
+      response.text().then(function (text) {
+        console.log(text);
+        alert("Failed to save file info");
+      });
+    }
+  })
+    getDataUpload()
+}
 
   // Reads through the array created via CSV file, and POSTS specified row to the data table
   async function createDesbrisRow(i) {
@@ -307,7 +314,8 @@ function UploadCSV() {
           :
           <div>
             <div className="uploadCSVtoCache">
-              <h3>Upload CSV Data</h3>
+              <h1>Update Marine Debris Data</h1>
+              <h5>Please select a .csv file to upload data from</h5><br/>
               <form>
                 <input type={"file"} id={"csvFileInput"} accept={".csv"} onChange={handleOnChange} />
                 <button onClick={(e) => { handleOnSubmit(e); }} >SUBMIT</button>
@@ -315,8 +323,7 @@ function UploadCSV() {
               </form>
             </div>
             <br />
-
-            <button type="button" className="btn btn-outline-primary" onClick={postDebrisData}>Add Debris Data Entry</button>
+            { canUpload ? <button type="button" className="btn btn-outline-primary" onClick={postDebrisData}>Add Debris Data Entry</button> : null}
             <br />
           </div>
         }
@@ -335,22 +342,15 @@ function UploadCSV() {
                         alt="" width="30" height="30"></img>
                     </div>
                   </div>
-                  <div className='col' onClick={handleShow}>
-                    Uploaded on {moment(menu.date_uploaded).utc().format('MMMM Do YYYY')} by {menu.uploader}
+                  <div className='col text-date-uploader' onClick={handleShow}>
+                    Uploaded on {moment(menu.date_uploaded).format('MMMM Do YYYY, h:mm a')} by {menu.uploader}
                     <br></br>
                     <h6>{menu.file_name}</h6>
                   </div>
-                  {/* <div className='col-md-2'>
-                    <button role="button" type="button" className="btn btn-small file-button" onClick={handleShow}>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-                        <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0zm0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0z" />
-                      </svg>
-                    </button>
-                  </div> */}
                 </div>
               </li>
             );
-          })}
+          })} 
         </ul>
       </div>
       <div>
@@ -359,14 +359,12 @@ function UploadCSV() {
           <Modal.Header closeButton>
             <Modal.Title>Raw Data</Modal.Title>
           </Modal.Header>
-          <Modal.Body
-          ><div className="overflow-auto data-box">
+          <Modal.Body>
+            <div className="overflow-auto data-box">
               {!debrisData ? 'There is no debrisData available' : <ol> {dataToArray()} </ol>}
-
             </div>
           </Modal.Body>
         </Modal>
-
       </div>
     </div>
   );

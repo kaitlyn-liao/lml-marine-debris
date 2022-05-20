@@ -21,7 +21,7 @@ function Login () {
         {/* <Outlet/> */}
           <Routes>
             <Route path="" element={<Login_UnApr setUserID={setUserID}/>}/>
-            <Route path=":postSlug" element={<Login_Apr userID={userID}/>} />
+            <Route path=":postSlug/" element={<Login_Apr userID={userID}/>} />
 
           </Routes>
       </div>

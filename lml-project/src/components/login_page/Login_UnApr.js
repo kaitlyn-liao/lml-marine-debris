@@ -8,9 +8,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../css/LoginStyle.css';
-import UploadAdmin from '../UploadAdmin';
-import Login from './Login';
-import Login_Apr from './Login_Apr';
+
+var CryptoJS = require("crypto-js");
 
 function Login_UnApr({ setUserID }) {
   const [username, setUserName] = useState();
@@ -20,7 +19,6 @@ function Login_UnApr({ setUserID }) {
   const handleLogin = async (event) => {
     event.preventDefault();
     const { userID, password } = event.target.elements;
-
     if (userID.value === "" || password.value === "") {
       document.getElementById("loginForm").reset()
       document.getElementById("login-error").style.visibility = "visible";
@@ -43,10 +41,23 @@ function Login_UnApr({ setUserID }) {
             document.getElementById("login-error").style.visibility = "visible";
           }
         });
-
     }
+  }
 
+  function lockPassword(pw){
+    // Encrypt
+    console.log("raw " + pw)
+    var lockedpw = CryptoJS.AES.encrypt(pw, 'protected key').toString();
+    console.log("locked " + lockedpw)
+    return(lockedpw)
+  }
 
+  function unlockPassword(pw){
+    // Decrypt
+    var bytes = CryptoJS.AES.decrypt(pw, 'protected key');
+    var unlockedpw = bytes.toString(CryptoJS.enc.Utf8);
+    console.log("unlocked " + unlockedpw)
+    return(unlockedpw)
   }
 
   return (

@@ -1,5 +1,4 @@
 const pool = require('./dbConnect.js');
-const crypto = require('crypto');
 
 // Query specific admin info based on username
 const getAdminInfo = (username) => {
@@ -13,6 +12,23 @@ const getAdminInfo = (username) => {
       }
       if(results){
         resolve(results.rows[0]);
+      }
+    })
+  }) 
+}
+
+// TODO: 
+const getAllAdmin = () => {
+  return new Promise(function(resolve, reject) {
+    const text = "SELECT * FROM lml_admins;"
+    const values = []
+    pool.query(text, values, (error, results) => {
+      if (error) {
+        console.log(error);
+        reject(error)
+      }
+      if(results){
+        resolve(results.rows);
       }
     })
   }) 
@@ -146,6 +162,7 @@ const loseSuperStatus = (userID) => {
 
 module.exports = {
     getAdmin,
+    getAllAdmin,
     getAdminInfo,
     checkAdmin,
     checkUserID,
