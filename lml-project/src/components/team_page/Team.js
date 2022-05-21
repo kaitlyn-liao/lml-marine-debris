@@ -47,8 +47,10 @@ function Member(props) {
         useEffect(() => {
           setHeight();
         }, []);
-
-        setInterval(setHeight, 100);
+        
+        window.addEventListener('resize', setHeight);
+        window.addEventListener('load', setHeight);
+        //setInterval(setHeight, 100);
 
       
     return (

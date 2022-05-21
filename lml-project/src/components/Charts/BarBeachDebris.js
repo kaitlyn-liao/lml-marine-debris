@@ -61,13 +61,38 @@ function BarChart({selectBeach}) {
     setVisible = true;
   }
 
+  function setDisplay(){
+    console.log("in");
+    document.getElementById("holder").innerHTML = document.getElementById("pop").innerHTML;
+    document.getElementById("drop").innerHTML = document.getElementById("holder").innerHTML;
+    switch(document.getElementById("holder").innerHTML){
+      case '':
+        break;
+      case 'Sunset State Beach':
+        document.getElementById("holder").innerHTML = 'Sunset';
+        break;
+      case 'North Zmudowski':
+        document.getElementById("holder").innerHTML = 'N. Zmudowski';
+        break;
+      case 'South Zmudowski':
+        document.getElementById("holder").innerHTML = 'S. Zmudowski';
+        break;
+      default:
+        break;
+    }
+    document.getElementById("holder").innerHTML = document.getElementById("holder").innerHTML;
+    
+    
+  }
+
   function updateName(){
    if(document.getElementById("holder").innerHTML){var temp = document.getElementById("holder").innerHTML;}
     if(document.getElementById("drop") && document.getElementById("pop").innerHTML != ""){
       document.getElementById("pop").innerHTML = document.getElementById("pop").innerHTML;
-      document.getElementById("holder").innerHTML = document.getElementById("pop").innerHTML;
-      document.getElementById("drop").innerHTML = document.getElementById("holder").innerHTML;
-      switch(document.getElementById("holder").innerHTML){
+      //document.getElementById("holder").innerHTML = document.getElementById("pop").innerHTML;
+      //document.getElementById("drop").innerHTML = document.getElementById("holder").innerHTML;
+      setTimeout(setDisplay, 100);
+      /*switch(document.getElementById("holder").innerHTML){
           case '':
             break;
           case 'Sunset State Beach':
@@ -82,7 +107,7 @@ function BarChart({selectBeach}) {
           default:
             break;
         }
-        document.getElementById("holder").innerHTML = document.getElementById("holder").innerHTML;
+        document.getElementById("holder").innerHTML = document.getElementById("holder").innerHTML;*/
         
       
     }
@@ -90,9 +115,14 @@ function BarChart({selectBeach}) {
 
   useEffect(() => {
     updateName();
+    setDisplay();
   }, []);
 
-  setInterval(updateName, 1000);
+  const pinMarker = document.querySelector('.pin');
+
+  window.addEventListener("click", updateName);
+
+  //setInterval(updateName, 1000);
 
   function setPlaceholder(){
     setVisible = false;
@@ -100,7 +130,9 @@ function BarChart({selectBeach}) {
     console.log(selectBeach);
   if({selectBeach}){
     switch(selectBeach){
+      case undefined:
       case '':
+        placeholderBeach = 'Waddell';
         break;
       case 'Sunset State Beach':
         placeholderBeach = 'Sunset';
