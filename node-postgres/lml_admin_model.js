@@ -1,4 +1,5 @@
 const pool = require('./dbConnect.js');
+// var CryptoJS = require("crypto-js");
 
 // Query specific admin info based on username
 const getAdminInfo = (username) => {
@@ -34,7 +35,7 @@ const getAllAdmin = () => {
   }) 
 }
 
-// TODO: 
+// returns all info of a user based on username
 const getAdmin = (username) => {
   return new Promise(function(resolve, reject) {
     const text = "SELECT * FROM lml_admins WHERE userid NOT IN (SELECT userid FROM lml_admins WHERE userid = $1);"
@@ -51,22 +52,42 @@ const getAdmin = (username) => {
   }) 
 }
 
-// Query the existence of a specific admin 
-const checkAdmin = (userid, password) => {
+// returns true if attempt is username's password
+const checkAdmin = (username, attempt) => {
   return new Promise(function(resolve, reject) {
-    const text = "SELECT EXISTS( SELECT * FROM lml_admins WHERE userid = $1 AND password = $2)"
-    const values = [userid, password]
+    const text = "SELECT password FROM lml_admins WHERE userid = $1;"
+    const values = [username]
     pool.query(text, values, (error, results) => {
       if (error) {
         console.log(error);
         reject(error)
       }
-      if(results){
+      else if(results){
+        console.log(results)
+        console.log("atempt: " + attempt)
+        console.log("actual: " + results.rows[0])
         resolve(results.rows[0]);
       }
     })
   }) 
 }
+
+// // Query the existence of a specific admin 
+// const checkAdmin = (userid, password) => {
+//   return new Promise(function(resolve, reject) {
+//     const text = "SELECT EXISTS( SELECT * FROM lml_admins WHERE userid = $1 AND password = $2)"
+//     const values = [userid, password]
+//     pool.query(text, values, (error, results) => {
+//       if (error) {
+//         console.log(error);
+//         reject(error)
+//       }
+//       if(results){
+//         resolve(results.rows[0]);
+//       }
+//     })
+//   }) 
+// }
 
 // Query the existence of a specific admin 
 const checkUserID = (userid) => {

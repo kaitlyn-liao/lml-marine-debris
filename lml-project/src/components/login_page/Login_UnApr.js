@@ -28,15 +28,16 @@ function Login_UnApr({ setUserID }) {
       fetch(`http://localhost:3001/lml_admins/checkAdmins/${userID.value}/${password.value}`)
         .then(response => response.json())
         .then(data => {
-          if (data.exists) {
-            console.log("Logged in", data.exists);
+          console.log(data)
+          if (data !== undefined && (data[0].password === password.value)) {
+            console.log("Logged in", data);
             // setUserID sets the value of userID in the parent Login component
             setUserID(userID.value);
             let path = `postSlug`;
             navigate(path);
-  
           }
           else {
+            console.log("failed attempt", data);
             document.getElementById("loginForm").reset()
             document.getElementById("login-error").style.visibility = "visible";
           }

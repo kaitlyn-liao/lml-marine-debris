@@ -95,15 +95,17 @@ app.get('/lml_admins/getAdminInfo/:userID', (req, res) => {
 // Check if userID and password exists in lml_admins
 app.get('/lml_admins/checkAdmins/:userID/:password', (req, res) => {
   lml_admin_model.checkAdmin(req.params.userID, req.params.password)
-  .then(response => {
+  .then(response=> {
+    console.log("response " + response)
     res.status(200).send(response);
   })
   .catch(error => {
+    console.log("error" + error)
     res.status(500).send(error);
   })
 })
 
-// Check if userID and password exists in lml_admins
+// Check if userID exists in lml_admins
 app.get('/lml_admins/checkUserID/:userID', (req, res) => {
   lml_admin_model.checkUserID(req.params.userID)
   .then(response => {

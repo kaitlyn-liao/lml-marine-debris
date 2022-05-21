@@ -291,7 +291,7 @@ function Login_Apr({ userID }) {
     // Encrypt
     console.log("raw " + pw)
     var lockedpw = CryptoJS.AES.encrypt(pw, 'protected key').toString();
-    console.log("locked " + lockedpw)
+    console.log("locked " + lockedpw);
     return(lockedpw)
   }
 
