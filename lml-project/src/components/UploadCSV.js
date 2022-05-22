@@ -328,6 +328,7 @@ async function saveFileInfo(filename, uploader) {
       </div>
       <div>
       {/* File Upload Info */}
+        Most Recent Uploaded Data:
         <ul className="list-group upload-history">
           {dataUploads.map((menu, index) => {
             return (
@@ -355,7 +356,7 @@ async function saveFileInfo(filename, uploader) {
         {/* modal */}
         <Modal size="lg" show={show} onHide={handleClose}>
           <Modal.Header closeButton>
-            <Modal.Title>Raw Data</Modal.Title>
+            <Modal.Title>Website's Currently Used Raw Data</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <div className="overflow-auto data-box">

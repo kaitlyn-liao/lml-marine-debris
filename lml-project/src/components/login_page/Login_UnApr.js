@@ -28,8 +28,9 @@ function Login_UnApr({ setUserID }) {
       fetch(`http://localhost:3001/lml_admins/checkAdmins/${userID.value}/${password.value}`)
         .then(response => response.json())
         .then(data => {
-          console.log(data)
-          if (data !== undefined && (data[0].password === password.value)) {
+          // console.log(data)
+          
+          if (data.length !== 0 && (unlockPassword(data[0].password) === password.value)) {
             console.log("Logged in", data);
             // setUserID sets the value of userID in the parent Login component
             setUserID(userID.value);
@@ -45,19 +46,10 @@ function Login_UnApr({ setUserID }) {
     }
   }
 
-  function lockPassword(pw){
-    // Encrypt
-    console.log("raw " + pw)
-    var lockedpw = CryptoJS.AES.encrypt(pw, 'protected key').toString();
-    console.log("locked " + lockedpw)
-    return(lockedpw)
-  }
-
   function unlockPassword(pw){
     // Decrypt
     var bytes = CryptoJS.AES.decrypt(pw, 'protected key');
     var unlockedpw = bytes.toString(CryptoJS.enc.Utf8);
-    console.log("unlocked " + unlockedpw)
     return(unlockedpw)
   }
 

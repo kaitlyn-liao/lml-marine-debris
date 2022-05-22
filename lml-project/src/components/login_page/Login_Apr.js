@@ -124,7 +124,9 @@ function Login_Apr({ userID }) {
     let pword = prompt("Please enter the password to be associated with: " + newUserid)
 
     // TODO encrypt the password
-    // pword = lockPassword(pword);
+    if(pword !== null && pword !== ""){
+      pword = lockPassword(pword);
+    }
 
     if ((person !== null && person !== "") && (newUserid !== null && newUserid !== "") && (pword !== null && pword !== "")) {
       // Check if userid and password combo exists already
@@ -461,9 +463,6 @@ function Login_Apr({ userID }) {
           </ul>
 
         </div>
-        {/* <Nav.Link href="/lml_marine_debris/debris-data"> Debris Data      </Nav.Link>
-        <Nav.Link href="/lml_marine_debris/methodology"> Data Collection  </Nav.Link>
-        <Nav.Link href="/lml_marine_debris/team">        Meet the Team    </Nav.Link> */}
         <hr></hr>
       </div>
       {/* <div className='b-example-divider'></div> */}

@@ -65,8 +65,8 @@ const checkAdmin = (username, attempt) => {
       else if(results){
         console.log(results)
         console.log("atempt: " + attempt)
-        console.log("actual: " + results.rows[0])
-        resolve(results.rows[0]);
+        console.log("actual: " + results.rows)
+        resolve(results.rows);
       }
     })
   }) 
