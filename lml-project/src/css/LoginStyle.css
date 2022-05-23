@@ -1,11 +1,29 @@
-.main{
+.main {
     display: flex;
-    
+
 }
 
 .Login_UnApr {
     text-align: center;
     padding-top: 40px;
+}
+
+/* Hide login error message initially */
+.login-error-msg {
+    text-align: center;
+    width: 280px;
+    visibility: hidden;
+}
+
+/****************************************************************/
+
+.Login_Apr {
+    padding-right: 20%;
+}
+
+/* User Profile side panel */
+.user-side-panel {
+    min-height: 100vh;
 }
 
 /* Padding to the right */
@@ -15,25 +33,32 @@
     height: 100vh;
 }
 
+/* Container for admin table or csv */
+.login-content {
+    margin-left: 20px;
+}
+
 /* Table size */
-.custom-table{
-    width: 500px;
-    height: 150px;
+.custom-table {
+    /* width: 75%; */
+    width: 700px;
+    height: 200px;
+    /* height: 50% */
 }
 
 
 /* Search bar size */
 #search {
-  width: 100%; 
-  font-size: 16px; 
-  padding: 5px 10px 5px 10px;
-  border: 1px solid rgb(207, 206, 206); 
-  margin-bottom: 12px; 
-} 
+    width: 100%;
+    font-size: 16px;
+    padding: 5px 10px 5px 10px;
+    border: 1px solid rgb(207, 206, 206);
+    margin-bottom: 12px;
+}
 
 /* Width of side navigation bar */
-.nav-bar{
-    width:280px;
+.nav-bar {
+    width: 20%;
     min-height: 100vh;
     overflow: visible;
 }
@@ -50,9 +75,9 @@
 }
 
 /* Padding for card */
-.card-image{
+.card-image {
     text-align: center;
-    padding-top: 20px;
+    padding-top: 10px;
 }
 
 /* Background color for Input group */
@@ -66,6 +91,7 @@
     /* color: rgb(255, 255, 255); */
     background-color: #61b1fb;
 }
+
 .btn-blue:hover {
     color: rgb(255, 255, 255);
     background-color: #3888d3;
@@ -79,3 +105,45 @@
     line-height: 1.5;
     border-radius: 3px;
 }
+
+/********************************************************/
+
+.UploadCSV {
+    width: 80%
+}
+
+.upload-icon {
+    height: 10%;
+    width: 10%;
+}
+
+/* Modal body */
+.data-box {
+    height: 400px;
+}
+
+/* Size of upload history list */
+.upload-history {
+    width: 400px;
+}
+
+/* Border for upload history list item*/
+.upload-list {
+    border: 2px solid rgba(0,0,0,.125);
+}
+
+/* Padding for image in upload info */
+.file-image {
+    padding-top: 10px;
+    padding-left: 5px;
+}
+
+
+/* Font size of date and uploader */
+.text-date-uploader {
+    font-size: 14px;
+}
+/* Padding for button in upload info */
+/* .file-button {
+    padding-left:20px;
+} */

@@ -5,33 +5,75 @@
 
 // Login_UnApr.js is rendered by Login.js, and renders no children.
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../css/LoginStyle.css';
 
-function Login_UnApr() {
+var CryptoJS = require("crypto-js");
+
+function Login_UnApr({ setUserID }) {
+  const [username, setUserName] = useState();
+  const [password, setPassword] = useState();
 
   let navigate = useNavigate();
-  const handleLogin = (event) =>{
-    console.log(event.target.value)
-    let path = `postSlug`;
-    navigate(path);
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const { userID, password } = event.target.elements;
+    if (userID.value === "" || password.value === "") {
+      document.getElementById("loginForm").reset()
+      document.getElementById("login-error").style.visibility = "visible";
+    }
+    else{
+      // Check if userID and password combination is valid
+      fetch(`http://localhost:3001/lml_admins/checkAdmins/${userID.value}/${password.value}`)
+        .then(response => response.json())
+        .then(data => {
+          // console.log(data)
+          
+          if (data.length !== 0 && (unlockPassword(data[0].password) === password.value)) {
+            console.log("Logged in", data);
+            // setUserID sets the value of userID in the parent Login component
+            setUserID(userID.value);
+            let path = `postSlug`;
+            navigate(path);
+          }
+          else {
+            console.log("failed attempt", data);
+            document.getElementById("loginForm").reset()
+            document.getElementById("login-error").style.visibility = "visible";
+          }
+        });
+    }
   }
-      
+
+  function unlockPassword(pw){
+    // Decrypt
+    var bytes = CryptoJS.AES.decrypt(pw, 'protected key');
+    var unlockedpw = bytes.toString(CryptoJS.enc.Utf8);
+    return(unlockedpw)
+  }
+
   return (
-    <div className="Login_UnApr">
+    <div>
+      <div className="Login_UnApr">
         <h1>Login</h1>
-        <form onSubmit={handleLogin}>
-            <input type="email" className="bg-gray email-input-size" name="email" type="email" placeholder=" Email" />
-            <br></br>
-            <br></br>
+        <div id="login-error" className="login-error-msg mx-auto alert alert-danger" role="alert">
+          Incorrect username or password
+        </div>
+        <form id="loginForm" onSubmit={handleLogin}>
+          <input type="text" className="bg-gray email-input-size" name="userID" placeholder=" User ID" onChange={event => setUserName(event.target.value)} />
+          <br></br>
+          <br></br>
 
-            <input type="password" className="bg-gray email-input-size" name="password" type="password" placeholder=" Password" />
-            <br></br>
+          <input type="password" className="bg-gray email-input-size" name="password" placeholder=" Password" onChange={event => setPassword(event.target.value)} />
+          <br></br>
 
-            <br></br>
-            <button type="submit" className="btn-blue btn" onClick={handleLogin}>Login</button>
+          <br></br>
+          <button type="submit" className="btn-blue btn">Login</button>
         </form>
+      </div>
+      <br></br>
+      {/* <UploadAdmin/> */}
     </div>
   );
 

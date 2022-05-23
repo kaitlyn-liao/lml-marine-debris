@@ -46,7 +46,7 @@ const beachList = [
 
 function BarChart() {
   let newBeach;
-  console.log(newBeach);
+  // console.log(newBeach);
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
   useEffect(() => {
@@ -76,7 +76,7 @@ function BarChart() {
   }
 
   function setBeach(newBeach) {
-    console.log(newBeach.label);
+    // console.log(newBeach.label);
     getDebrisDataByBeach(newBeach.label);
     updateChart();
     newChartInstance.update();
@@ -134,7 +134,7 @@ function BarChart() {
       Xdata[10] += debrisData[i].total_other;
       i++;
     }
-    console.log(Xdata)
+    // console.log(Xdata)
     updateChart();
     newChartInstance.update();
   }
@@ -161,7 +161,7 @@ function BarChart() {
       height: 200,
       width: 300
   };
-  console.log("after config " + Xdata)
+  // console.log("after config " + Xdata)
 
 
   return (

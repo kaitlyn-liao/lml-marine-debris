@@ -46,7 +46,7 @@ const beachList = [
 
 function LineChart() {
   let newBeach;
-  console.log(newBeach);
+  // console.log(newBeach);
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
   useEffect(() => {
@@ -76,19 +76,20 @@ function LineChart() {
   }
 
   function setBeach(newBeach) {
-    console.log(newBeach.label);
+    // console.log(newBeach.label);
     getDebrisDataByBeach(newBeach.label);
     updateChart();
     newChartInstance.update();
   }
 
   function formatDate(date) {
-    console.log("in format date:");
-    console.log(date);
+    // console.log("in format date:");
+    console.log("date: " + date);
     const dateNums = date.split("-");
-    if(!dateNums){return;}
+    console.log("DateNums: " + dateNums[0]);
+    const dayNum = dateNums[0].split('T');
+    console.log("dayNum: " + dayNum);
     let month;
-    const dayNum = dateNums[2].split('T');
     let day = dayNum[0];
     if(day && day.charAt(0) === '0'){
         day = day.substring(1);
@@ -132,7 +133,7 @@ function LineChart() {
             break;
         default:
             month = "";
-            console.log("month unspecified");
+            // console.log("month unspecified");
     }
     return month.concat(' ', day, ', ', dateNums[0]);
   }
@@ -140,23 +141,12 @@ function LineChart() {
   if(debrisData){
     let i = 0;
     while(debrisData[i]){
-      /*Xdata[0] += debrisData[i].total_fragmented_plastic;
-      Xdata[1] += debrisData[i].total_plastic_products;
-      Xdata[2] += debrisData[i].total_food_wrappers;
-      Xdata[3] += debrisData[i].total_styrofoam;
-      Xdata[4] += debrisData[i].total_cigarette_butts;
-      Xdata[5] += debrisData[i].total_paper_and_treated_wood;
-      Xdata[6] += debrisData[i].total_metal;
-      Xdata[7] += debrisData[i].total_glass;
-      Xdata[8] += debrisData[i].total_fabric;
-      Xdata[9] += debrisData[i].total_rubber;
-      Xdata[10] += debrisData[i].total_other;*/
       Xdata[i] = debrisData[i].total_debris;
       Xvalues[i] = formatDate(debrisData[i].date);
       //Xvalues[i] = debrisData[i].date;
       i++;
     }
-    console.log(Xdata)
+    // console.log(Xdata)
     updateChart();
     newChartInstance.update();
   }
@@ -195,7 +185,7 @@ function LineChart() {
       height: 400,
       width: 600
   };
-  console.log("after config " + Xdata);
+  // console.log("after config " + Xdata);
 
 
   return (
