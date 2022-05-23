@@ -173,7 +173,7 @@ function Map(props) {
                   onPopup = true;
                   updateDiv();
                 }}
-                id={beach.type}
+                // id={beach.type}
                 size={50} />
             </Marker>
           ))}
