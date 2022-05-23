@@ -35,10 +35,13 @@ function Login_Apr({ userID }) {
     // Only set local storage value if undefined
     // Modify local storage if state variable userID is different than the one in local storage 
     if ((userID != null) && (userID !== localStorage.getItem('newuserID'))) {
-      localStorage.setItem('newuserID', userID);
+      // Encrypt userid
+      const lockeduserid = lockUserID(userID);
+      localStorage.setItem('newuserID', lockeduserid);
     }
     // Get userID value from local storage
-    profileuserID = localStorage.getItem('newuserID');
+    profileuserID = unlockUserID(localStorage.getItem('newuserID'));
+    console.log(profileuserID);
     getAdminInfo(profileuserID);
   }, []);
 
@@ -123,21 +126,20 @@ function Login_Apr({ userID }) {
     let newUserid = prompt("Please enter user's user-ID:")
     let pword = prompt("Please enter the password to be associated with: " + newUserid)
 
-    // TODO encrypt the password
-    if(pword !== null && pword !== ""){
-      pword = lockPassword(pword);
-    }
 
     if ((person !== null && person !== "") && (newUserid !== null && newUserid !== "") && (pword !== null && pword !== "")) {
       // Check if userid and password combo exists already
       fetch(`http://localhost:3001/lml_admins/checkUserID/${newUserid}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.exists) {
-            // Reject and alert user about conflict with existing userid
-            alert("UserID already exists. Please enter a new UserID.")
-          }
-          else{
+      .then(response => response.json())
+      .then(data => {
+        if (data.exists) {
+          // Reject and alert user about conflict with existing userid
+          alert("UserID already exists. Please enter a new UserID.")
+        }
+        else{
+            // TODO encrypt the password
+            pword = lockPassword(pword);
+
             // add to data table
             postAdmin(person, newUserid, pword);
       
@@ -171,9 +173,7 @@ function Login_Apr({ userID }) {
     // Deletes the user by their id
     // Will also delete the user from the database
     // Changes the nodes of data by removing element from its nodes
-
-    // Find the userid from the row chosen
-    removeAdmin(data.nodes[id].userID)
+    const foundnode = data.nodes.find((node) => node.id === id);
 
     setData((state) => ({
       ...state,
@@ -184,6 +184,9 @@ function Login_Apr({ userID }) {
       ...state,
       nodes: state.nodes.filter((node) => node.id !== id)
     }));
+
+    // Find the userid from the row chosen
+    removeAdmin(foundnode.userID)
   };
 
   const handleStar = (id) => {
@@ -297,12 +300,20 @@ function Login_Apr({ userID }) {
     return(lockedpw)
   }
 
-  function unlockPassword(pw){
+  function lockUserID(userid){
+    // Encrypt
+    console.log("raw " + userid)
+    var lockedUserID = CryptoJS.AES.encrypt(userid, 'protected key').toString();
+    console.log("locked " + lockedUserID);
+    return(lockedUserID)
+  }
+
+  function unlockUserID(userid){
     // Decrypt
-    var bytes = CryptoJS.AES.decrypt(pw, 'protected key');
-    var unlockedpw = bytes.toString(CryptoJS.enc.Utf8);
-    console.log("unlocked " + unlockedpw)
-    return(unlockedpw)
+    var bytes = CryptoJS.AES.decrypt(userid, 'protected key');
+    var unlockedUserID = bytes.toString(CryptoJS.enc.Utf8);
+    console.log("unlocked " + unlockedUserID)
+    return(unlockedUserID)
   }
 
   // Toggle to display member table or upload csv

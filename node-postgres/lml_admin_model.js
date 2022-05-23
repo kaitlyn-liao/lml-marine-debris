@@ -111,11 +111,10 @@ const createAdmin = (body) => {
   const {name, userid, pword} = body
   const isSuper = false
   // TODO
-  const date = '3/3/2022'
 
   return new Promise(function(resolve, reject) {
-    pool.query('INSERT INTO lml_admins (userid, password, name, issuper, created_on) VALUES ($1, $2, $3, $4, $5) RETURNING *', 
-      [userid, pword, name, isSuper, date], 
+    pool.query('INSERT INTO lml_admins (userid, password, name, issuper) VALUES ($1, $2, $3, $4) RETURNING *', 
+      [userid, pword, name, isSuper], 
       (error, results) => {
       if (error) {
         console.log("failed attempt")
