@@ -1,12 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react'
 import Select from 'react-select';
-import { Bar, Pie, Line } from "react-chartjs-2"
+import { Bar, Pie } from "react-chartjs-2"
 import {
     Chart,
     CategoryScale,
     LinearScale,
     BarElement,
-    LineElement,
     Title,
     Tooltip,
     Legend,
@@ -44,9 +43,9 @@ const beachList = [
   { label: "Del Monte", value: 11 },
 ];
 
-function LineChart() {
+function BarChart() {
   let newBeach;
-  // console.log(newBeach);
+  console.log(newBeach);
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
   useEffect(() => {
@@ -58,11 +57,10 @@ function LineChart() {
 
   function updateChart(){
     newChartInstance.data.datasets[0].data = Xdata;
-    newChartInstance.data.labels = Xvalues;
   }
 
-  var Xvalues = [];
-  var Xdata = [];
+  var Xvalues = ["Winter", "Spring", "Summer", "Autum"]
+  var Xdata  = [0,0,0,0]
 
   // debrisData stores the result of a GET call from the data table, setDebrisData sets the value of debrisData
   const [debrisData, setDebrisData] = useState(false);
@@ -70,98 +68,50 @@ function LineChart() {
 
   // GET call to display updated version of data table
   function getDebrisDataByBeach(beach) {
-    fetch(`http://localhost:3001/beach/${beach}`)
+    fetch(`/beach/${beach}`)
       .then(response => response.json())
       .then(data => { setDebrisData(data);});
   }
 
   function setBeach(newBeach) {
-    // console.log(newBeach.label);
+    console.log(newBeach.label);
     getDebrisDataByBeach(newBeach.label);
     updateChart();
     newChartInstance.update();
   }
 
-  function formatDate(date) {
-    // console.log("in format date:");
-    console.log("date: " + date);
-    const dateNums = date.split("-");
-    console.log("DateNums: " + dateNums[0]);
-    const dayNum = dateNums[0].split('T');
-    console.log("dayNum: " + dayNum);
-    let month;
-    let day = dayNum[0];
-    if(day && day.charAt(0) === '0'){
-        day = day.substring(1);
-    }
-    switch (dateNums[1]){
-        case '01':
-            month = "January ";
-            break;
-        case '02':
-            month = "February ";
-            break;
-        case '03':
-            month = "March ";
-            break;
-        case '04':
-            month = "April ";
-            break;
-        case '05':
-            month = "May ";
-            break;
-        case '06':
-            month = "June ";
-            break;
-        case '07':
-            month = "July ";
-            break;
-        case '08':
-            month = "August ";
-            break;
-        case '09':
-            month = "September ";
-            break;
-        case '10':
-            month = "October ";
-            break;
-        case '11':
-            month = "November ";
-            break;
-        case '12':
-            month = "December ";
-            break;
-        default:
-            month = "";
-            // console.log("month unspecified");
-    }
-    return month.concat(' ', day, ', ', dateNums[0]);
-  }
-
   if(debrisData){
     let i = 0;
     while(debrisData[i]){
-      Xdata[i] = debrisData[i].total_debris;
-      Xvalues[i] = formatDate(debrisData[i].date);
-      //Xvalues[i] = debrisData[i].date;
+      switch(debrisData[i].season){
+        case "Winter":
+          Xdata[0] += debrisData[i].total_debris;
+          break;
+        case "Spring":
+          Xdata[1] += debrisData[i].total_debris;
+          break;
+        case "Summer":
+          Xdata[2] += debrisData[i].total_debris;
+          break;
+        case "Fall":
+          Xdata[3] += debrisData[i].total_debris;
+          break;
+      }
       i++;
     }
-    // console.log(Xdata)
+    console.log(Xdata)
     updateChart();
     newChartInstance.update();
   }
   
   const chartConfig = {
-      type: 'line',
+      type: 'bar',
       data: {
           labels: Xvalues,
           datasets: [{ 
-            backgroundColor: 'rgba(255, 99, 132, 1)', 
-            borderColor: 'rgba(255, 99, 132, 1)',
-            data: Xdata ,
-            //lineAtIndex: 2
-          }],
-          
+            backgroundColor: ['rgba(100, 240, 255, 1)', 'rgba(100, 255, 0, 1)', 'rgba(255, 230, 100, 1)', 'rgba(255, 100, 100, 1)'], 
+            data: Xdata 
+          }]
       },
       options: {
         plugins: {
@@ -169,23 +119,14 @@ function LineChart() {
             display: false
           },
           tooltips: {
-            mode: 'index',
-            intersect: false,
             enabled: false
-        },
-        hover: {
-            mode: 'index',
-            intersect: false
+          }
         }
-        }
-    },
-      
-      
-    
+      },
       height: 400,
       width: 600
   };
-  // console.log("after config " + Xdata);
+  console.log("after config " + Xdata)
 
 
   return (
@@ -200,10 +141,15 @@ function LineChart() {
           </div>
         <div class="bar-chart">
           <canvas ref={chartContainer} />
+           {/* {!debrisData ? 'There is no debrisData available' : 
+            <ol>
+              {dataToArray()}
+            </ol>
+          }  */}
         </div>
     </div>
 
   );
 }
 
-export default LineChart;
+export default BarChart;

@@ -176,7 +176,7 @@ async function saveFileInfo(filename, uploader) {
 
     let respStatus;
     //console.log("loop in func "+ i);
-    await fetch('http://localhost:3001/lml_debris_data', {
+    await fetch('/lml_debris_data', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
