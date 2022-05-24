@@ -18,6 +18,7 @@ function UploadCSV() {
 
   const [uploadLoading, setUploadLoading] = useState(false)
   const [fetchLoading, setFetchLoading] = useState(false)
+  const [canSubmit, setCanSubmit] = useState(false)
   const [canUpload, setCanUpload] = useState(false)
 
   const [uploadError, updateUploadError] = useState(false)
@@ -50,6 +51,7 @@ function UploadCSV() {
       };
       fileReader.readAsText(f);
     }
+    setCanSubmit(true)
   };
 
   // reads throuh the file submission and changes state setdataToDB to raw csv text
@@ -107,13 +109,15 @@ function UploadCSV() {
       getDebrisData();
 
     } 
-    setFetchLoading(false)
     setCanUpload(false)
+    setCanSubmit(false)
     
     // Save file upload information
     const uploader = unlockUserID(localStorage.getItem('newuserID'));
     console.log(uploader);
     saveFileInfo(filename, uploader)
+    
+    setFetchLoading(false)
   }
 
   function unlockUserID(userid){
@@ -124,40 +128,40 @@ function UploadCSV() {
     return(unlockedUserID)
   }
 
-// Update upload file 
-async function saveFileInfo(filename, uploader) {
-  // Try to insert the file info if no files exist in database
-  await fetch(`http://localhost:3001/lml_uploads/insertUpload/${filename}/${uploader}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-  .then(response => {
-    if (!response.ok) {
-      response.text().then(function (text) {
-        console.log(text);
-        alert("Failed to save file info");
-      });
-    }
-  })
-  //Try to update the file info if a file exists in database
-  await fetch(`http://localhost:3001/lml_uploads/updateUpload/${filename}/${uploader}`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-  .then(response => {
-    if (!response.ok) {
-      response.text().then(function (text) {
-        console.log(text);
-        alert("Failed to save file info");
-      });
-    }
-  })
-    getDataUpload()
-}
+  // Update upload file 
+  async function saveFileInfo(filename, uploader) {
+    // Try to insert the file info if no files exist in database
+    await fetch(`http://localhost:3001/lml_uploads/insertUpload/${filename}/${uploader}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(response => {
+      if (!response.ok) {
+        response.text().then(function (text) {
+          console.log(text);
+          alert("Failed to save file info");
+        });
+      }
+    })
+    //Try to update the file info if a file exists in database
+    await fetch(`http://localhost:3001/lml_uploads/updateUpload/${filename}/${uploader}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    .then(response => {
+      if (!response.ok) {
+        response.text().then(function (text) {
+          console.log(text);
+          alert("Failed to save file info");
+        });
+      }
+    })
+      getDataUpload()
+  }
 
   // Reads through the array created via CSV file, and POSTS specified row to the data table
   async function createDesbrisRow(i) {
@@ -324,7 +328,7 @@ async function saveFileInfo(filename, uploader) {
               <h5>Please select a .csv file to upload data from</h5><br/>
               <form>
                 <input type={"file"} id={"csvFileInput"} accept={".csv"} onChange={handleOnChange} />
-                <button onClick={(e) => { handleOnSubmit(e); }} >SUBMIT</button>
+                { canSubmit ? <button onClick={(e) => { handleOnSubmit(e); }} >SUBMIT</button> : null }
                 {/* {uploadLoading === true ? <p>LOADING</p> : <p> NOT LOADING</p>} */}
               </form>
             </div>
