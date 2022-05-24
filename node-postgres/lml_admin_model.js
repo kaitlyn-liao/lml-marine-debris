@@ -63,31 +63,11 @@ const checkAdmin = (username, attempt) => {
         reject(error)
       }
       else if(results){
-        console.log(results)
-        console.log("atempt: " + attempt)
-        console.log("actual: " + results.rows)
         resolve(results.rows);
       }
     })
   }) 
 }
-
-// // Query the existence of a specific admin 
-// const checkAdmin = (userid, password) => {
-//   return new Promise(function(resolve, reject) {
-//     const text = "SELECT EXISTS( SELECT * FROM lml_admins WHERE userid = $1 AND password = $2)"
-//     const values = [userid, password]
-//     pool.query(text, values, (error, results) => {
-//       if (error) {
-//         console.log(error);
-//         reject(error)
-//       }
-//       if(results){
-//         resolve(results.rows[0]);
-//       }
-//     })
-//   }) 
-// }
 
 // Query the existence of a specific admin 
 const checkUserID = (userid) => {
