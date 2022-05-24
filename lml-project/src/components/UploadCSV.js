@@ -9,6 +9,7 @@ import DropdownButton from 'react-bootstrap/DropdownButton'
 import moment from "moment";
 import loadIcon from './loading.gif';
 import '../css/LoginStyle.css'
+import adminPic from "../images/banana-slug.jpeg"
 
 // Completes the process of accepting a user's CSV file, parsing through
 // the file, and beginning the process of handing off the information to the postgreSQL
@@ -337,7 +338,7 @@ async function saveFileInfo(filename, uploader) {
                   <div className='col-md-2 bg-gray'>
                     <div className='file-image'>
                       <img className="class-img-top rounded-circle border border-dark"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfkGq1f7x3EPaXHdH75vQXY-Co3z-hyD5F3XeZQaELfc6HzB5rRBrs5IkIUk0zSFcFgfI&usqp=CAU"
+                        src={adminPic}
                         alt="" width="30" height="30"></img>
                     </div>
                   </div>

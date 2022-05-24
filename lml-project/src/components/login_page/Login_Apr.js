@@ -23,6 +23,9 @@ import { useEffect } from 'react';
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
+import adminPic from "../../images/banana-slug.jpeg"
+import { Upload, PersonLinesFill, PersonCircle } from "react-bootstrap-icons";
+
 
 var CryptoJS = require("crypto-js");
 const nodes = [];
@@ -355,61 +358,62 @@ function Login_Apr({ userID }) {
         <label htmlFor="search">
           <input id="search" type="text" onChange={handleSearch} placeholder='Search for Names'></input>
         </label>
+        <div className='table-containter'>
+          <Table data={filteredData} theme={tableTheme} layout={{ custom: true, horizontalScroll: true }}>
+            {(tableList) => (
+              <>
 
-        <Table data={filteredData} theme={tableTheme} layout={{ custom: true, horizontalScroll: true }}>
-          {(tableList) => (
-            <>
+                <Header>
+                  <HeaderRow>
+                    <HeaderCell>Name</HeaderCell>
+                    <HeaderCell>User-ID</HeaderCell>
+                    <HeaderCell>Super?</HeaderCell>
+                    <HeaderCell>Delete</HeaderCell>
+                  </HeaderRow>
+                </Header>
 
-              <Header>
-                <HeaderRow>
-                  <HeaderCell>Name</HeaderCell>
-                  <HeaderCell>User-ID</HeaderCell>
-                  <HeaderCell>Super?</HeaderCell>
-                  <HeaderCell>Delete</HeaderCell>
-                </HeaderRow>
-              </Header>
+                <Body>
+                  {/* Display row values by iterating through tableList */}
+                  {tableList.map((item) => (
+                    <Row key={item.id} item={item}>
+                      <Cell >{item.name}</Cell>
+                      <Cell >{item.userID}</Cell>
+                      {/* Button to display Superadmin status */}
+                      {/* Make an if statement for filled star vs empty star and add color to star when full*/}
+                      {/* Hopefully make an onhover for star too */}
+                      <Cell>
+                        {item.issuper ?
+                          <button type="button" className="btn" onClick={() => handleStar(item.id)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-star-fill" viewBox="0 0 16 16">
+                              <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                            </svg>
+                          </button>
+                          :
+                          <button type="button" className="btn" onClick={() => handleStar(item.id)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-star" viewBox="0 0 16 16">
+                              <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
+                            </svg>
+                          </button>
+                        }
 
-              <Body>
-                {/* Display row values by iterating through tableList */}
-                {tableList.map((item) => (
-                  <Row key={item.id} item={item}>
-                    <Cell >{item.name}</Cell>
-                    <Cell >{item.userID}</Cell>
-                    {/* Button to display Superadmin status */}
-                    {/* Make an if statement for filled star vs empty star and add color to star when full*/}
-                    {/* Hopefully make an onhover for star too */}
-                    <Cell>
-                      {item.issuper ?
-                        <button type="button" className="btn" onClick={() => handleStar(item.id)}>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-star-fill" viewBox="0 0 16 16">
-                            <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z" />
+                      </Cell>
+                      {/* Button to Delete users from Table */}
+                      {/* Make an onhover for tras can */}
+                      <Cell>
+                        <button type="button" className="btn" onClick={() => handleRemove(item.id)} >
+                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3-fill" viewBox="0 0 16 16">
+                            <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
                           </svg>
                         </button>
-                        :
-                        <button type="button" className="btn" onClick={() => handleStar(item.id)}>
-                          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-star" viewBox="0 0 16 16">
-                            <path d="M2.866 14.85c-.078.444.36.791.746.593l4.39-2.256 4.389 2.256c.386.198.824-.149.746-.592l-.83-4.73 3.522-3.356c.33-.314.16-.888-.282-.95l-4.898-.696L8.465.792a.513.513 0 0 0-.927 0L5.354 5.12l-4.898.696c-.441.062-.612.636-.283.95l3.523 3.356-.83 4.73zm4.905-2.767-3.686 1.894.694-3.957a.565.565 0 0 0-.163-.505L1.71 6.745l4.052-.576a.525.525 0 0 0 .393-.288L8 2.223l1.847 3.658a.525.525 0 0 0 .393.288l4.052.575-2.906 2.77a.565.565 0 0 0-.163.506l.694 3.957-3.686-1.894a.503.503 0 0 0-.461 0z" />
-                          </svg>
-                        </button>
-                      }
-
-                    </Cell>
-                    {/* Button to Delete users from Table */}
-                    {/* Make an onhover for tras can */}
-                    <Cell>
-                      <button type="button" className="btn" onClick={() => handleRemove(item.id)} >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-trash3-fill" viewBox="0 0 16 16">
-                          <path d="M11 1.5v1h3.5a.5.5 0 0 1 0 1h-.538l-.853 10.66A2 2 0 0 1 11.115 16h-6.23a2 2 0 0 1-1.994-1.84L2.038 3.5H1.5a.5.5 0 0 1 0-1H5v-1A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5Zm-5 0v1h4v-1a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5ZM4.5 5.029l.5 8.5a.5.5 0 1 0 .998-.06l-.5-8.5a.5.5 0 1 0-.998.06Zm6.53-.528a.5.5 0 0 0-.528.47l-.5 8.5a.5.5 0 0 0 .998.058l.5-8.5a.5.5 0 0 0-.47-.528ZM8 4.5a.5.5 0 0 0-.5.5v8.5a.5.5 0 0 0 1 0V5a.5.5 0 0 0-.5-.5Z" />
-                        </svg>
-                      </button>
-                    </Cell>
-                  </Row>
-                ))}
-              </Body>
-            </>
-          )}
-        </Table>
-
+                      </Cell>
+                    </Row>
+                  ))}
+                </Body>
+              </>
+            )}
+          </Table>
+        </div>
+        <br></br>
         <button type="button" className="btn btn-blue" onClick={handleSubmit}>Add User</button>
       </div>
     )
@@ -419,9 +423,7 @@ function Login_Apr({ userID }) {
     return (
       <li className="nav-item active">
         <a href="#" className="nav-link" aria-current="page" onClick={onTableClick}>
-          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-table" viewBox="0 0 16 16">
-            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z" />
-          </svg>
+          <PersonLinesFill size={20}/> &nbsp;
           Manage Users
         </a>
       </li>
@@ -432,14 +434,14 @@ function Login_Apr({ userID }) {
 
     <div className='Login_Apr row'>
       {/* Create a sidebar to display user profile and settings */}
-      <div className="col-md-3 user-side-panel bg-gray">
+      <div className="col-md-4 user-side-panel bg-gray">
         <br></br>
         {/* Card displaying user picture and name */}
         <div className="card card-image bg-gray border-0">
           <div className='pb-2'>
             <img className="class-img-top rounded-circle border border-dark"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfkGq1f7x3EPaXHdH75vQXY-Co3z-hyD5F3XeZQaELfc6HzB5rRBrs5IkIUk0zSFcFgfI&usqp=CAU"
-              alt="" width="100" height="100"></img>
+              src={adminPic}
+              alt="" width="150" height="150"></img>
           </div>
           <h3>{profileName}</h3>
         </div>
@@ -447,9 +449,7 @@ function Login_Apr({ userID }) {
           <ul className="nav nav-pills flex-column mb-auto">
             <li className="nav-item active" >
               <a href="#" className="nav-link" aria-current="page" onClick={onUploadClick}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-file-earmark-spreadsheet" viewBox="0 0 16 16">
-                  <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V9H3V2a1 1 0 0 1 1-1h5.5v2zM3 12v-2h2v2H3zm0 1h2v2H4a1 1 0 0 1-1-1v-1zm3 2v-2h3v2H6zm4 0v-2h3v1a1 1 0 0 1-1 1h-2zm3-3h-3v-2h3v2zm-7 0v-2h3v2H6z" />
-                </svg>
+                <Upload size={20}/> &nbsp;
                 Upload CSV File
               </a>
             </li>
@@ -459,10 +459,7 @@ function Login_Apr({ userID }) {
 
             <li className="nav-item active dropdown">
               <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16">
-                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                  <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                </svg>
+                <PersonCircle size={20}/> &nbsp;
                 Manage Account
               </a>
               <div className="dropdown-menu">
@@ -477,7 +474,7 @@ function Login_Apr({ userID }) {
         <hr></hr>
       </div>
       {/* <div className='b-example-divider'></div> */}
-      <div className='col-6 login-content'>
+      <div className='col-7 login-content'>
         <div className='custom-table '>
           {profileSuper && showMemberTable ? getTable() : null}
           {showUploadCSV ? <UploadCSV /> : null}

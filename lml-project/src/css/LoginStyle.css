@@ -23,7 +23,7 @@
 
 /* User Profile side panel */
 .user-side-panel {
-    min-height: 100vh;
+    height: 80vh;
 }
 
 /* Padding to the right */
@@ -44,6 +44,12 @@
     width: 700px;
     height: 200px;
     /* height: 50% */
+}
+
+.table-containter {
+    max-height: 55vh;
+    max-width: 75vw;
+    overflow-y: scroll;
 }
 
 
