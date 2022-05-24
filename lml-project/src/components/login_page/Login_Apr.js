@@ -18,16 +18,14 @@ import {
 import { useTheme } from '@table-library/react-table-library/theme';
 import '../../css/LoginStyle.css'
 import UploadCSV from '../UploadCSV';
-import Login_UnApr from './Login_UnApr';
 import { useEffect } from 'react';
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
-import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
+
 
 var CryptoJS = require("crypto-js");
 const nodes = [];
 
-function Login_Apr({ userID }) {
+function Login_Apr(props) {
+  let userID = props.userID
   let profileuserID;
   const [profileName, setProfileName] = React.useState("");
   const [profileSuper, setProfileSuper] = React.useState("");
@@ -457,18 +455,14 @@ function Login_Apr({ userID }) {
             {/* {profileSuper ? <Route path="/debris-data" element={getManageUsers()}> </Route> : null} */}
             {profileSuper ? getManageUsers() : null}
 
-            <li className="nav-item active dropdown">
-              <a className="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            <li className="nav-item active">
+              <a href="#" className="nav-link" aria-current="page" onClick={() => props.authenticate(false)}>
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16">
                   <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
                   <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
                 </svg>
-                Manage Account
+                Logout
               </a>
-              <div className="dropdown-menu">
-                <a className="dropdown-item" href="#">Change Password</a>
-                <a className="dropdown-item" href="#">Logout</a>
-              </div>
             </li>
 
           </ul>

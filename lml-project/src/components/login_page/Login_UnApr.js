@@ -5,13 +5,13 @@
 
 // Login_UnApr.js is rendered by Login.js, and renders no children.
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../css/LoginStyle.css';
 
 var CryptoJS = require("crypto-js");
 
-function Login_UnApr({ setUserID }) {
+function Login_UnApr(props) {
   const [username, setUserName] = useState();
   const [password, setPassword] = useState();
 
@@ -32,8 +32,11 @@ function Login_UnApr({ setUserID }) {
           
           if (data.length !== 0 && (unlockPassword(data[0].password) === password.value)) {
             console.log("Logged in", data);
-            // setUserID sets the value of userID in the parent Login component
-            setUserID(userID.value);
+            // setUserID sets the value of userID in the parent Controller component
+            props.setUserID(userID.value);
+            // authenticate sets the value of isAuthenticated in the parent Controller component
+            props.authenticate(true)
+
             let path = `postSlug`;
             navigate(path);
           }
