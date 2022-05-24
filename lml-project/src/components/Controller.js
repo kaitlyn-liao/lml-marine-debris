@@ -18,7 +18,7 @@ import DataVis from './data_page/DataVis.js';
 var CryptoJS = require("crypto-js");
 
 
-function Controller () {
+function Controller ({showAuth}) {
   // User ID must be stored in the parent component to be passed
   // to its child components
   const [userID, setUserID] = useState();
@@ -48,7 +48,10 @@ function Controller () {
       isAuth = true;
     }
   }
-  console.log("isAuth", isAuth)
+  console.log("auth in Controller", isAuth)
+  useEffect(() => {
+    showAuth(isAuth);
+  }, []);
   
 
   return (
