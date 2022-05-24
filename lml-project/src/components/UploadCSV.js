@@ -2,14 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { usePapaParse } from 'react-papaparse';
-import Button from 'react-bootstrap/Button'
 import Modal from 'react-bootstrap/Modal'
-import Dropdown from 'react-bootstrap/Dropdown'
-import DropdownButton from 'react-bootstrap/DropdownButton'
 import moment from "moment";
 import loadIcon from './loading.gif';
 import '../css/LoginStyle.css'
 import adminPic from "../images/banana-slug.jpeg"
+var CryptoJS = require("crypto-js");
 
 // Completes the process of accepting a user's CSV file, parsing through
 // the file, and beginning the process of handing off the information to the postgreSQL
@@ -113,8 +111,17 @@ function UploadCSV() {
     setCanUpload(false)
     
     // Save file upload information
-    const uploader = localStorage.getItem('newuserID');
+    const uploader = unlockUserID(localStorage.getItem('newuserID'));
+    console.log(uploader);
     saveFileInfo(filename, uploader)
+  }
+
+  function unlockUserID(userid){
+    // Decrypt
+    var bytes = CryptoJS.AES.decrypt(userid, 'protected key');
+    var unlockedUserID = bytes.toString(CryptoJS.enc.Utf8);
+    console.log("unlocked " + unlockedUserID)
+    return(unlockedUserID)
   }
 
 // Update upload file 

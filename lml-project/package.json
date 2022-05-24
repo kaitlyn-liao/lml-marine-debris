@@ -15,11 +15,19 @@
     "chart.js": "^3.7.1",
     "components": "^0.1.0",
     "crypto-js": "^4.1.1",
+<<<<<<< HEAD
     "dotenv": "^16.0.1",
     "express": "^4.17.2",
     "mapbox-gl": "^2.8.2",
     "moment": "^2.29.3",
     "papaparse": "^5.3.2",
+=======
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "mapbox-gl": "^2.8.1",
+    "moment": "^2.29.3",
+    "papaparse": "^5.3.1",
+>>>>>>> 7f0bb911ec3635257ede5ecfd40556a87dfb62df
     "pg": "^8.7.3",
     "react": "^17.0.2",
     "react-bootstrap": "^2.4.0",
