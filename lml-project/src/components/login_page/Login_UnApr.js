@@ -28,14 +28,23 @@ function Login_UnApr(props) {
       fetch(`http://localhost:3001/lml_admins/checkAdmins/${userID.value}/${password.value}`)
         .then(response => response.json())
         .then(data => {
-          // console.log(data)
-          
           if (data.length !== 0 && (unlockPassword(data[0].password) === password.value)) {
             console.log("Logged in", data);
             // setUserID sets the value of userID in the parent Controller component
             props.setUserID(userID.value);
+
+            // Create JSON object for authtoken
+            var authObj = new Object();
+            authObj.userid = userID.value;
+            authObj.authenticator = true;
+            var authJsonString = JSON.stringify(authObj);
+
+            const authtoken = lockAuthToken(authJsonString)
+            localStorage.setItem('authtoken', authtoken)
+
             // authenticate sets the value of isAuthenticated in the parent Controller component
-            props.authenticate(true)
+            // This is for the initial login
+            props.authenticate()
 
             let path = `postSlug`;
             navigate(path);
@@ -47,6 +56,14 @@ function Login_UnApr(props) {
           }
         });
     }
+  }
+
+  function lockAuthToken(authtoken){
+    // Encrypt
+    console.log("raw " + authtoken)
+    var lockedtoken = CryptoJS.AES.encrypt(authtoken, 'protected key').toString();
+    console.log("locked " + lockedtoken);
+    return(lockedtoken)
   }
 
   function unlockPassword(pw){
