@@ -18,6 +18,7 @@ import Graph from './Graph.js';
 import "../../css/Map.css";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import { closeComplete } from 'pg-protocol/dist/messages';
+import Select from 'react-select';
 
 const beachJSON = BEACHES;
 const latLongList = getLatLongList(beachJSON);
@@ -30,8 +31,25 @@ const defaultBeach = {
   "type": "neither",
   "bottom": [0, 0]
 };
+
+const beachList = [
+  { label: "Waddell", value: 0 },
+  { label: "Natural Bridges", value: 1 },
+  { label: "Main Beach", value: 2 },
+  { label: "Seabright", value: 3 },
+  { label: "Live Oak", value: 4 },
+  { label: "Capitola", value: 5 },
+  { label: "Sunset", value: 6 },
+  { label: "N. Zmudowski", value: 7 },
+  { label: "S. Zmudowski", value: 8 },
+  { label: "Marina", value: 9 },
+  { label: "Seaside", value: 10 },
+  { label: "Del Monte", value: 11 },
+];
+
 let selectedBeach;
 let hoveredBeach = defaultBeach;
+let dropdownBeach = defaultBeach;
 let popup;
 //let onPopup = false;
 let p;
@@ -72,7 +90,7 @@ function Map(props) {
 
   const bounds = [
     [-124, 36.2], // Southwest coordinates
-    [-120, 37.5] // Northeast coordinates
+    [-119.5, 37.5] // Northeast coordinates
     ];
   const mapRef = useRef();
   // Resize the map to the current webpage size
@@ -99,7 +117,7 @@ function delay(time) {
   return new Promise(resolve => setTimeout(resolve, time));
 }
 
-function updateDiv()
+/*function updateDiv()
 { 
   if(!document.getElementById("pop")){return};
   document.getElementById("pop").innerHTML = document.getElementById("pop").innerHTML;
@@ -117,7 +135,9 @@ function updateDiv()
       }
     }
   }
-}
+}*/
+
+
 
 function setHoveredBeach(b){
   hoveredBeach = b;
@@ -146,6 +166,9 @@ function setSelectedBeach(b){
     maxZoom: 18,
     minZoom: 8
   }
+  /*if(document.getElementById("pie-drop")){
+    document.getElementById("pie-drop").innerHTML = b.name;
+  }*/
 
   
   setViewport(NEW_MAP_VIEW);
@@ -184,6 +207,55 @@ function setSelectedBeach(b){
   /*function setSelectedBeach (b){
     selectedBeach = b;
   }*/
+
+  function resetSelect(b){
+    dropdownBeach = b;
+    for(var i = 0; i < BEACHES.length; i++){
+      if(BEACHES[i].name === b){
+        setSelectedBeach(BEACHES[i]);
+      }
+      
+    }
+    //setSelectedBeach(defaultBeach);
+    //setSelectedBeach(b);
+  }
+
+  function delaySwitch(){
+    let b = selectedBeach;
+    if(document.getElementById('pie-drop').innerHTML){
+      b = document.getElementById('pie-drop').innerHTML;
+    }
+    /*else if(document.getElementById('bar-drop').innerHTML){
+      b = document.getElementById('bar-drop').innerHTML;
+    }*/
+    switch(b){
+      case "Sunset":
+        b = "Sunset State Beach";
+        break;
+      case "S. Zmudowski":
+        b = "South Zmudowski";
+        break;
+      case "N. Zmudowski":
+        b = "North Zmudowski";
+        break;
+      default:
+        break;
+
+    }
+
+
+    for(var i = 0; i < BEACHES.length; i++){
+      if(BEACHES[i].name === b){
+        setSelectedBeach(BEACHES[i]);
+      }
+      
+    }
+  }
+
+  //function switchBeach(){
+    //setTimeout(delaySwitch, 1000);
+  //}
+
   useEffect(() => {
     const listener = e => {
       if (e.key === "Escape") {
@@ -197,10 +269,29 @@ function setSelectedBeach(b){
     };
   }, []);
 
+  useEffect(() => {
+    const listener = e => {
+      setTimeout(delaySwitch, 100);
+    };
+    //window.addEventListener("click", listener);
+
+    /*return () => {
+      window.removeEventListener("click", listener);
+    };*/
+  }, []);
+  
+
+  //window.addEventListener("click", switchBeach);
+
   
 
   return (
+    
     <div>
+      <div class="col-md-6">
+      {/*<Select placeholder={"Select a Beach"} value={dropdownBeach} options={ beachList } onChange={resetSelect}
+              />*/}
+  </div>
       <SizeAware onSize={resizeMap}>
         <MapGL
         id='mainMap'
@@ -284,15 +375,18 @@ function setSelectedBeach(b){
             }}
           >
             <div>
-              <div className="text-center"><XCircleFill
+              <div className="text-center">
+                {/*<XCircleFill
               onClick={e => {
                 e.preventDefault();
                 setSelectedBeach(defaultBeach);
                 //onPopup = false;
                 }}
                 size={20}
-              />
-              <h4 className="text-center">{selectedBeach.name}</h4></div>
+              />*/}
+              <h4 className="text-center">{selectedBeach.name}</h4>
+              </div>
+              <div class="text-center"><Graph /><br></br><i className="text-secondary">Press "esc" to close</i></div>
             </div>
               </Popup></div>
           ) : null}

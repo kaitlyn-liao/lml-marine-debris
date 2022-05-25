@@ -26,7 +26,12 @@ Chart.register(
 );
 
 let newChartInstance;
-const placeholderBeach = "Waddell";
+let placeholderBeach = "Waddell";
+let placeholderLong = "Waddell";
+let holderTemp = "Waddell";
+let holderLong = "Waddell";
+let discardPlaceholder = false;
+let pinBeach;
 
 const beachList = [
   { label: "Waddell", value: 0 },
@@ -46,7 +51,70 @@ const beachList = [
 
 function BarChart() {
   let newBeach;
+  let mouseOverMenu = false;
   console.log(newBeach);
+  if(document.getElementById("pop").innerHTML){
+    var p = document.getElementById("pop").innerHTML;
+    console.log("discard: " + discardPlaceholder);
+    if(!discardPlaceholder){placeholderLong = p;}
+    switch(p){
+      case "Sunset State Beach":
+        p = "Sunset";
+        break;
+      case "South Zmudowski":
+        p = "S. Zmudowski";
+        break;
+      case "North Zmudowski":
+        p = "N. Zmudowski";
+        break;
+      default:
+        break;
+
+    }
+    placeholderBeach = p;
+  }
+
+  useEffect(() => {
+    const listener = e => {
+      console.log("TEST");
+      if(document.getElementById("pie-drop") && document.getElementById("pop")){
+        if(!mouseOverMenu){
+        console.log("TEST2");
+        var p = document.getElementById("pop").innerHTML;
+        switch(p){
+          case "Sunset State Beach":
+            p = "Sunset";
+            break;
+          case "South Zmudowski":
+            p = "S. Zmudowski";
+            break;
+          case "North Zmudowski":
+            p = "N. Zmudowski";
+            break;
+          default:
+            break;
+    
+        }
+        console.log("TEST3");
+        console.log(p);
+        for(var i = 0; i < beachList.length; i++){
+          if(p === beachList[i].label){
+            setBeach(beachList[i]);
+            console.log("HMMM");
+          }
+        }
+      }
+        
+      }
+    };
+    window.addEventListener("click", listener);
+    
+
+    /*return () => {
+      window.removeEventListener("click", listener);
+    };*/
+  }, []);
+
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
   useEffect(() => {
@@ -75,11 +143,46 @@ function BarChart() {
       .then(data => { setDebrisData(data);});
   }
 
+ /*function setDiv(){
+    document.getElementById("pie-drop").innerHTML = document.getElementById("pie-drop").innerHTML;
+  }*/
+
   function setBeach(newBeach) {
-    console.log(newBeach.label);
     getDebrisDataByBeach(newBeach.label);
-    updateChart();
-    newChartInstance.update();
+    if(document.getElementById("pie-drop") && document.getElementById("pop")
+    && document.getElementById("pie-drop").innerHTML != document.getElementById("pop").innerHTML){
+      console.log("NOPE");
+      updateChart();
+      newChartInstance.update();
+    }
+    //discardPlaceholder = true;
+    console.log(newBeach.label);
+    
+    if(document.getElementById("pie-drop").innerHTML){
+      console.log("inside1: " + newBeach.label);
+      console.log("inside2: " + placeholderLong);
+      var p = newBeach.label;
+      switch(p){
+        case "Sunset":
+          p = "Sunset State Beach";
+          break;
+        case "S. Zmudowski":
+          p = "South Zmudowski";
+          break;
+        case "N. Zmudowski":
+          p = "North Zmudowski";
+          break;
+        default:
+          break;
+  
+      }
+      document.getElementById("pie-drop").innerHTML = p;
+      discardPlaceholder = true;
+    }
+  }
+
+  function setMouseOver(bool){
+    //mouseOverMenu = bool;
   }
 
   function dataToArray(){
@@ -170,8 +273,11 @@ function BarChart() {
             <div className="col-md-2">
                 <h4>Beach: </h4>
             </div>
-            <div className="col-md-4">
-              <Select placeholder={ "Waddell" } value={ newBeach } options={ beachList } onChange={setBeach}/>
+            
+            <div className="col-md-6">
+            <h4 id="pie-drop" className="text-secondary">{placeholderLong}</h4>
+              {/*<Select id="pie-menu" placeholder={placeholderBeach} value={newBeach} options={ beachList } onChange={setBeach}
+              onMenuOpen={setMouseOver(true)} onMenuClose={setMouseOver(false)}>*/}
             </div>
           </div>
         <div class="bar-chart">
