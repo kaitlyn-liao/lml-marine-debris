@@ -95,6 +95,7 @@ function UploadCSV() {
     // only update and upload if the file is without error
     if (error === -1) {
       updateUploadError(false)
+      setErrorRow(-1)
       clearDebrisDataTable();
       // loop for future use of adding in every row into the database, do be filtered by checking for new entries
       let i = 1;
@@ -113,10 +114,10 @@ function UploadCSV() {
       updateUploadError(true)
       // There is an error with the upload, display error msg
       if(error > 0){
-        console.log("error on row " + error+1)
+        setErrorRow(error)
       }
       else if(error === 0){
-        console.log("Too many columns, check template")
+        setErrorRow(0)
       }
       // document.getElementById("csvError").style.visibility = "invisible";
     }
@@ -319,6 +320,8 @@ function UploadCSV() {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
+  const [errorRow, setErrorRow] = useState(-1);
+
 
   return (
     <div className='UploadCSV'>
@@ -336,7 +339,7 @@ function UploadCSV() {
 
               {uploadError ?
               <div className="mx-auto alert alert-danger" role="alert">
-                There was an issue with your file upload. This can refer to the .csv setup, the values, or a typo. Check the Admin FAQ for help.
+                There was an issue with your file upload on row {errorRow}. This can refer to the .csv setup, the values, or a typo. Check the Admin FAQ for help.
               </div>
               : null
               }
