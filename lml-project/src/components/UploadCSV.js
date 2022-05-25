@@ -94,11 +94,12 @@ function UploadCSV() {
     setFetchLoading(true)
     
     // console.log(uploadError)
-    updateUploadError(await errorChecking(fileContentJSON))
-    console.log(uploadError)
+    const error = await errorChecking(fileContentJSON)
+    updateUploadError(error)
+    console.log(error)
 
     // only update and upload if the file is without error
-    if (uploadError === false) {
+    if (error === false) {
       clearDebrisDataTable();
       // loop for future use of adding in every row into the database, do be filtered by checking for new entries
       let i = 1;
@@ -114,9 +115,9 @@ function UploadCSV() {
     
     // Save file upload information
     const uploader = unlockUserID(localStorage.getItem('newuserID'));
-    console.log(uploader);
+    // console.log(uploader);
     saveFileInfo(filename, uploader)
-    
+
     setFetchLoading(false)
   }
 
@@ -231,11 +232,16 @@ function UploadCSV() {
       // urban vs rural
       if (row[1] !== 'U' && row[1] !== 'R') { return true; }
       // date
-      if (row[2] === undefined) { return true; }
+      if (row[2] === undefined || row[2] === "") { return true; }
       // season
-      if (row[3] === undefined) { return true; }
+      if (row[3] === undefined || row[3] === "" ) { return true; }
+      if (row[3] !== "Winter" && row[3] !== "Summer" && row[3] !== "Fall" && row[3] !== "Spring"){
+        return true;
+      }
       // assure types of debris is not negative
-      for (let d = 4; d <= 16; d++) { if (row[d] < 0) { return true; } }
+      for (let d = 4; d <= 16; d++){ 
+        if (row[d] < 0) { return true; }
+      }
       i++;
     }
     return false;
