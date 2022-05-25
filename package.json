@@ -4,7 +4,7 @@
   "description": "Learn how node and Expresscan interact with PostgreSQL",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node node-postgres/index.js",
     "build": "cd lml-project && npm install && npm run build"
   },
