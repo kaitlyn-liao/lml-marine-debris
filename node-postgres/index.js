@@ -285,6 +285,11 @@ app.delete('/lml_debris_data', (req, res) => {
   })
 })
 
+// All other GET requests not handled before will return our React app
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../lml-project/build', 'index.html'));
+});
+
 app.listen(port, () => {
   console.log(`App running on port ${port}.`)
 })
