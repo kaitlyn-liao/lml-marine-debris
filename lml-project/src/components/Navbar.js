@@ -18,7 +18,6 @@ function NavBar() {
 
   const [newAuth, setAuth] = useState(false)
   const showAuth = (auth) => {
-    console.log("auth in NavBar", auth)
     setAuth(auth)
   }
 

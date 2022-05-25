@@ -23,7 +23,7 @@ import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import adminPic from "../../images/banana-slug.jpeg"
-import { Upload, PersonLinesFill, PersonCircle } from "react-bootstrap-icons";
+import { Upload, PersonLinesFill, PersonCircle, QuestionSquare } from "react-bootstrap-icons";
 
 
 var CryptoJS = require("crypto-js");
@@ -464,13 +464,16 @@ function Login_Apr(props) {
             {/* Check if superadmin */}
             {/* {profileSuper ? <Route path="/debris-data" element={getManageUsers()}> </Route> : null} */}
             {profileSuper ? getManageUsers() : null}
-
+            <li className="nav-item active" >
+              <a href="https://docs.google.com/document/d/1bmRHuF89H1kN9ds6Sba5FuO_H-ejrU1eA5OCouQDXqM/edit?usp=sharing"
+                className="nav-link" aria-current="page" target="_blank" >
+                <QuestionSquare size={20}/> &nbsp;
+                Admin FAQ
+              </a>
+            </li>
             <li className="nav-item active">
               <a href="#" className="nav-link" aria-current="page" onClick={onLogout}>
-                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" className="bi bi-person-circle" viewBox="0 0 16 16">
-                  <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
-                  <path fillRule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z" />
-                </svg>
+                <PersonCircle size={20}/> &nbsp;
                 Logout
               </a>
             </li>

@@ -27,7 +27,6 @@ function Controller ({showAuth}) {
 
   // Function is called by child component Login_UnApr to rerender Controller
   const authenticate = () => {
-    console.log("authenticating...")
     setAuthentication(true)
   }
 
@@ -44,11 +43,9 @@ function Controller ({showAuth}) {
     const auth = unlockAuthToken(localStorage.getItem('authtoken'))
     const authObj = JSON.parse(auth)
     if((authObj.authenticator === true)){
-      console.log("Setting isAuth")
       isAuth = true;
     }
   }
-  console.log("auth in Controller", isAuth)
   useEffect(() => {
     showAuth(isAuth);
   }, []);
