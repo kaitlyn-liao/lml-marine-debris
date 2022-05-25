@@ -334,19 +334,18 @@ function UploadCSV() {
               <h1>Update Marine Debris Data</h1>
               <h5>Please select a .csv file to upload data from</h5><br/>
 
-              {/* BRIDGET TODO HELP PLZ */}
-              {uploadError 
-              ?
+              {uploadError ?
               <div className="mx-auto alert alert-danger" role="alert">
                 There was an issue with your file upload. This can refer to the .csv setup, the values, or a typo. Check the Admin FAQ for help.
               </div>
-              :
-              null
+              : null
               }
+
               <form>
                 <input type={"file"} id={"csvFileInput"} accept={".csv"} onChange={handleOnChange} />
-                { canSubmit ? <button onClick={(e) => { handleOnSubmit(e); }} >SUBMIT</button> : null }
+                { canSubmit ? <button onClick={(e) => { handleOnSubmit(e); }}>SUBMIT</button> : null }
               </form>
+
             </div>
             <br />
             { canUpload ? <button type="button" className="btn btn-outline-primary" onClick={postDebrisData}>Add Debris Data Entry</button> : null}
