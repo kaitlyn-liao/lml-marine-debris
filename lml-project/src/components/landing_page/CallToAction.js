@@ -6,29 +6,35 @@
 // CallToAction.js is rendered by Controller.js, and currently renders no children.
 
 import React from 'react';
-import Container from 'react-bootstrap/Container';
 import Carousel from 'react-bootstrap/Carousel';
-import Col from 'react-bootstrap/Col';
-import Nav from 'react-bootstrap/Nav'
-import placeholder from '../../images/placeholder.png';
-import photogenicPlaceholder from '../../images/MainBeachPlaceholder.png';
 import teamphoto1 from '../../images/TeamPhoto1.jpg';
 import teamphoto2 from '../../images/TeamPhoto2.jpeg';
+import MainBeachPlaceholder from '../../images/MainBeachPlaceholder.png';
+import slideshow_img1 from '../../images/slideshow_img1.png';
+import slideshow_img2 from '../../images/slideshow_img2.jpg';
+import slideshow_img3 from '../../images/slideshow_img3.jpg';
+
 import '../../css/CallToAction.css';
 import CardItem from './CardItem';
 
 const slides = [
     {
-        src: photogenicPlaceholder,
-        alt: "Beach 1 Name",
+        src: MainBeachPlaceholder,
+        alt: "Debris Data",
         targetURL: "/debris-data",
-        caption: "What type of trash is most common on Main Beach?"
+        caption: "What type of debris are we finding on our beaches?"
     },
     {
-        src: placeholder,
-        alt: "Beach 2 Name",
-        targetURL: "/debris-data",
-        caption: "Sample Question"
+        src: slideshow_img2,
+        alt: "Data Collection",
+        targetURL: "/methodology",
+        caption: "How do we collect our data?"
+    },
+    {
+        src: slideshow_img3,
+        alt: "About Us",
+        targetURL: "/team",
+        caption: "About Us"
     }
     // etc
 ]
@@ -44,10 +50,12 @@ class CallToAction extends React.Component {
                             // uncomment nav link when targetURL is determined
                             // <Nav.Link href={item.targetURL}>
                                 <Carousel.Item>
-                                    <img className="slides d-flex w-100"
-                                            src={item.src} 
-                                            alt={item.alt}
-                                            />
+                                    <a href={item.targetURL}>
+                                        <img className="slides d-flex w-100"
+                                        src={item.src} 
+                                        alt={item.alt}
+                                        />
+                                    </a>
                                      <Carousel.Caption>
                                         <h3 className='caption-background'>{item.caption}</h3>
                                     </Carousel.Caption>
@@ -71,7 +79,8 @@ class CallToAction extends React.Component {
                         />
                         <CardItem
                         src={teamphoto1}
-                        text='**Temp**'
+                        text='Our Long Marine Lab Stranding volunteers each mentor a team of undergraduate students and teach them our 
+                        unique data collection process.'
                         label='Our Work'
                         path='/services'
                         />

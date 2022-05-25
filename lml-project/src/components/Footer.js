@@ -1,5 +1,6 @@
 import React from "react";
 import './Footer.css';
+import { Link } from 'react-router-dom';
 
 function Footer() {
   return (
@@ -24,7 +25,16 @@ function Footer() {
               <li>Instagram</li>
             </ui>
           </div>
-          {/* Column3 */}        
+          {/* Column3 */}
+          <div className="col">
+          <h4>Subscribe to our newsletter!</h4>
+          <ui className="list-unstyled">
+            <form>
+              <input type="text" name="name" />
+              <input type="submit" value="Submit" />
+            </form>
+          </ui>
+        </div>        
         </div>
         <hr />
         <div className="row">
