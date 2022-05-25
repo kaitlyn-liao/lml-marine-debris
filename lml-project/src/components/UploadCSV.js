@@ -91,10 +91,10 @@ function UploadCSV() {
     setFetchLoading(true)
     
     const error = await errorChecking(fileContentJSON)
-    updateUploadError(error)
 
     // only update and upload if the file is without error
     if (error === -1) {
+      updateUploadError(false)
       clearDebrisDataTable();
       // loop for future use of adding in every row into the database, do be filtered by checking for new entries
       let i = 1;
@@ -110,6 +110,7 @@ function UploadCSV() {
     } 
     else{
       console.log(error)
+      updateUploadError(true)
       // There is an error with the upload, display error msg
       if(error > 0){
         console.log("error on row " + error+1)
@@ -117,7 +118,7 @@ function UploadCSV() {
       else if(error === 0){
         console.log("Too many columns, check template")
       }
-      document.getElementById("csvError").Style.visibility = "invisible";
+      // document.getElementById("csvError").style.visibility = "invisible";
     }
 
     setCanUpload(false)
@@ -334,10 +335,14 @@ function UploadCSV() {
               <h5>Please select a .csv file to upload data from</h5><br/>
 
               {/* BRIDGET TODO HELP PLZ */}
-              <div id="csvError" className="mx-auto alert alert-danger" role="alert">
+              {uploadError 
+              ?
+              <div className="mx-auto alert alert-danger" role="alert">
                 There was an issue with your file upload. This can refer to the .csv setup, the values, or a typo. Check the Admin FAQ for help.
               </div>
-
+              :
+              null
+              }
               <form>
                 <input type={"file"} id={"csvFileInput"} accept={".csv"} onChange={handleOnChange} />
                 { canSubmit ? <button onClick={(e) => { handleOnSubmit(e); }} >SUBMIT</button> : null }
