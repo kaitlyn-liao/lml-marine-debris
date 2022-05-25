@@ -49,7 +49,7 @@ function Login_Apr(props) {
 
   // Retrieve logged-in user info 
   function getAdminInfo(profileuserID) {
-    fetch(`http://localhost:3001/lml_admins/getAdminInfo/${profileuserID}`)
+    fetch(`/lml_admins/getAdminInfo/${profileuserID}`)
       .then(response => response.json())
       .then(data => {
         setProfileName(data.name);
@@ -62,7 +62,7 @@ function Login_Apr(props) {
 
   const getAdminData = () => {
     // get all users with a userid that isnt the current logged in user
-    fetch(`http://localhost:3001/lml_admins/getAdmins/${profileuserID}`)
+    fetch(`/lml_admins/getAdmins/${profileuserID}`)
       .then(response => response.json())
       .then(json => {
         if (json) {
@@ -131,7 +131,7 @@ function Login_Apr(props) {
 
     if ((person !== null && person !== "") && (newUserid !== null && newUserid !== "") && (pword !== null && pword !== "")) {
       // Check if userid and password combo exists already
-      fetch(`http://localhost:3001/lml_admins/checkUserID/${newUserid}`)
+      fetch(`/lml_admins/checkUserID/${newUserid}`)
       .then(response => response.json())
       .then(data => {
         if (data.exists) {
@@ -218,7 +218,7 @@ function Login_Apr(props) {
 
   // posts a new admin to DB
   async function postAdmin(name, userid, pword) {
-    await fetch('http://localhost:3001/lml_admins/newAdmin', {
+    await fetch('/lml_admins/newAdmin', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -242,7 +242,7 @@ function Login_Apr(props) {
   async function removeAdmin(userID) {
     alert("delete " + userID);
 
-    await fetch(`http://localhost:3001/lml_admins/${userID}`, {
+    await fetch(`/lml_admins/${userID}`, {
       method: 'DELETE',
     })
       .then(response => {
@@ -255,7 +255,7 @@ function Login_Apr(props) {
   async function toggleAdminSuperStatus(userid, superStatus) {
     // Set usserid's super status to true
     if (superStatus == true) {
-      await fetch(`http://localhost:3001/lml_admins/giveSuper/${userid}`, {
+      await fetch(`/lml_admins/giveSuper/${userid}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -271,7 +271,7 @@ function Login_Apr(props) {
     }
     // Set usserid's super status to true
     else {
-      await fetch(`http://localhost:3001/lml_admins/loseSuper/${userid}`, {
+      await fetch(`/lml_admins/loseSuper/${userid}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

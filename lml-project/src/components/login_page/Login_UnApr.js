@@ -25,7 +25,7 @@ function Login_UnApr(props) {
     }
     else{
       // Check if userID and password combination is valid
-      fetch(`http://localhost:3001/lml_admins/checkAdmins/${userID.value}/${password.value}`)
+      fetch(`/lml_admins/checkAdmins/${userID.value}/${password.value}`)
         .then(response => response.json())
         .then(data => {
           if (data.length !== 0 && (unlockPassword(data[0].password) === password.value)) {

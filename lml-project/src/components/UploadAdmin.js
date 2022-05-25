@@ -18,7 +18,7 @@ function UploadAdmin() {
   
   // GET call to display updated version of data table
   function getAdminData() {
-    fetch(`http://localhost:3001/`)
+    fetch(`/`)
       .then(response => response.json())
       .then(data => { setAdminData(data);});
   }
@@ -26,7 +26,7 @@ function UploadAdmin() {
   // Calls createDesbrisData() until every row of the CSV file is POSTed
   async function postAdminData() {
     // loop for future use of adding in every row into the database, do be filtered by checking for new entries
-    await fetch('http://localhost:3001/lml_admins', {
+    await fetch('/lml_admins', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ function UploadAdmin() {
   // DELETE call and remove the row specified by id via user input
   function deleteAdminData() {
     let admin_id = prompt('Enter debris entry_id');
-    fetch(`http://localhost:3001/lml_admins/${admin_id}`, {
+    fetch(`/lml_admins/${admin_id}`, {
       method: 'DELETE',
     })
       .then(response => {
@@ -60,7 +60,7 @@ function UploadAdmin() {
 
   // DELETE call with no parameters, removing every row from the datatable
   function ClearAdminDataTable() {
-    fetch(`http://localhost:3001/lml_admins`, {
+    fetch(`/lml_admins`, {
       method: 'DELETE'
     })
     .then(response => {

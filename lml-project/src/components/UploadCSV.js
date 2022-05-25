@@ -79,7 +79,7 @@ function UploadCSV() {
   // GET call to display updated version of data table
   function getDebrisData() {
     setFetchLoading(true)
-    fetch(`http://localhost:3001/data`)
+    fetch(`/data`)
       .then(response => response.json())
       .then(data => { setDebrisData(data); 
     });
@@ -138,7 +138,7 @@ function UploadCSV() {
   // Update upload file 
   async function saveFileInfo(filename, uploader) {
     // Try to insert the file info if no files exist in database
-    await fetch(`http://localhost:3001/lml_uploads/insertUpload/${filename}/${uploader}`, {
+    await fetch(`/lml_uploads/insertUpload/${filename}/${uploader}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ function UploadCSV() {
       }
     })
     //Try to update the file info if a file exists in database
-    await fetch(`http://localhost:3001/lml_uploads/updateUpload/${filename}/${uploader}`, {
+    await fetch(`/lml_uploads/updateUpload/${filename}/${uploader}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -192,7 +192,7 @@ function UploadCSV() {
     let notes = fileContentJSON.data[i][17];                  // Notes
 
     let respStatus;
-    await fetch('http://localhost:3001/lml_debris_data', {
+    await fetch('/lml_debris_data', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -251,7 +251,7 @@ function UploadCSV() {
 
   // DELETE call with no parameters, removing every row from the datatable
   function clearDebrisDataTable() {
-    fetch(`http://localhost:3001/lml_debris_data`, {
+    fetch(`/lml_debris_data`, {
       method: 'DELETE'
     })
       .then(response => {
@@ -307,7 +307,7 @@ function UploadCSV() {
   }, [])
 
   const getDataUpload = () => {
-    fetch(`http://localhost:3001/lml_uploads/getUploads`)
+    fetch(`/lml_uploads/getUploads`)
       .then(response => response.json())
       .then(data => {
         setDataUploads(data);

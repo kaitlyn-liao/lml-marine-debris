@@ -97,7 +97,7 @@ document.body.addEventListener('click', setPlaceholder, true);
 
   // GET call to display updated version of data table
   function getDebrisDataByBeach(beach) {
-    fetch(`http://localhost:3001/beach/${beach}`)
+    fetch(`/beach/${beach}`)
       .then(response => response.json())
       .then(data => { setDebrisData(data);});
   }
