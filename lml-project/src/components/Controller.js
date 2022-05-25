@@ -32,8 +32,10 @@ function Controller ({showAuth}) {
 
   function unlockAuthToken(authtoken){
     // Decrypt
-    var bytes = CryptoJS.AES.decrypt(authtoken, 'protected key');
+    console.log(process.env.REACT_APP_ENCRYPT_KEY)
+    var bytes = CryptoJS.AES.decrypt(authtoken, process.env.REACT_APP_ENCRYPT_KEY);
     var unlockedtoken = bytes.toString(CryptoJS.enc.Utf8);
+    console.log(unlockedtoken)
     return(unlockedtoken)
   }
 

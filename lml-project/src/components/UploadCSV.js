@@ -130,7 +130,7 @@ function UploadCSV() {
 
   function unlockUserID(userid){
     // Decrypt
-    var bytes = CryptoJS.AES.decrypt(userid, 'protected key');
+    var bytes = CryptoJS.AES.decrypt(userid, process.env.REACT_APP_ENCRYPT_KEY);
     var unlockedUserID = bytes.toString(CryptoJS.enc.Utf8);
     return(unlockedUserID)
   }

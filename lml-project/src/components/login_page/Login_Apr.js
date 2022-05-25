@@ -290,19 +290,19 @@ function Login_Apr(props) {
 
   function lockPassword(pw){
     // Encrypt
-    var lockedpw = CryptoJS.AES.encrypt(pw, 'protected key').toString();
+    var lockedpw = CryptoJS.AES.encrypt(pw, process.env.REACT_APP_ENCRYPT_KEY).toString();
     return(lockedpw)
   }
 
   function lockUserID(userid){
     // Encrypt
-    var lockedUserID = CryptoJS.AES.encrypt(userid, 'protected key').toString();
+    var lockedUserID = CryptoJS.AES.encrypt(userid, process.env.REACT_APP_ENCRYPT_KEY).toString();
     return(lockedUserID)
   }
 
   function unlockUserID(userid){
     // Decrypt
-    var bytes = CryptoJS.AES.decrypt(userid, 'protected key');
+    var bytes = CryptoJS.AES.decrypt(userid, process.env.REACT_APP_ENCRYPT_KEY);
     var unlockedUserID = bytes.toString(CryptoJS.enc.Utf8);
     return(unlockedUserID)
   }

@@ -58,14 +58,14 @@ function Login_UnApr(props) {
   function lockAuthToken(authtoken){
     // Encrypt
     console.log("raw " + authtoken)
-    var lockedtoken = CryptoJS.AES.encrypt(authtoken, 'protected key').toString();
+    var lockedtoken = CryptoJS.AES.encrypt(authtoken, process.env.REACT_APP_ENCRYPT_KEY).toString();
     console.log("locked " + lockedtoken);
     return(lockedtoken)
   }
 
   function unlockPassword(pw){
     // Decrypt
-    var bytes = CryptoJS.AES.decrypt(pw, 'protected key');
+    var bytes = CryptoJS.AES.decrypt(pw, process.env.REACT_APP_ENCRYPT_KEY);
     var unlockedpw = bytes.toString(CryptoJS.enc.Utf8);
     return(unlockedpw)
   }
