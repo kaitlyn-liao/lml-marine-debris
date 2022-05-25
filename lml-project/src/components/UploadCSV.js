@@ -109,8 +109,14 @@ function UploadCSV() {
       saveFileInfo(filename, uploader)
     } 
     else{
+      console.log(error)
       // There is an error with the upload, display error msg
-      console.log("error on row " + error)
+      if(error > 0){
+        console.log("error on row " + error+1)
+      }
+      else if(error === 0){
+        console.log("Too many columns, check template")
+      }
       document.getElementById("csvError").Style.visibility = "invisible";
     }
 
@@ -220,7 +226,7 @@ function UploadCSV() {
     while (data.data[i] !== undefined) {
       let row = data.data[i]
       // correct colm amount
-      if (row.length !== 18) { return true, i; }
+      if (row.length !== 18) { return true, 0; }
       // beach
       if (row[0] === undefined) { return true, i; }
       // urban vs rural
