@@ -29,7 +29,6 @@ function Login_UnApr(props) {
         .then(response => response.json())
         .then(data => {
           if (data.length !== 0 && (unlockPassword(data[0].password) === password.value)) {
-            console.log("Logged in", data);
             // setUserID sets the value of userID in the parent Controller component
             props.setUserID(userID.value);
 
@@ -45,12 +44,10 @@ function Login_UnApr(props) {
             // authenticate sets the value of isAuthenticated in the parent Controller component
             // This is for the initial login
             props.authenticate()
-
             let path = `postSlug`;
             navigate(path);
           }
           else {
-            console.log("failed attempt", data);
             document.getElementById("loginForm").reset()
             document.getElementById("login-error").style.visibility = "visible";
           }

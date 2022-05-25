@@ -44,7 +44,6 @@ function Login_Apr(props) {
     }
     // Get userID value from local storage
     profileuserID = unlockUserID(localStorage.getItem('newuserID'));
-    console.log(profileuserID);
     getAdminInfo(profileuserID);
   }, []);
 
@@ -215,8 +214,6 @@ function Login_Apr(props) {
       nodes: updateNodes
     }),
     );
-
-    console.log("finish super toggle", data.nodes)
   };
 
   // posts a new admin to DB
@@ -235,7 +232,6 @@ function Login_Apr(props) {
       .then(response => {
         if (!response.ok) {
           response.text().then(function (text) {
-            console.log(text);
             alert("Failed to add admin");
           });
         }
@@ -251,8 +247,6 @@ function Login_Apr(props) {
     })
       .then(response => {
         return response.text();
-      }).then(response => {
-        console.log(response)
       })
 
     //getAdminData()
@@ -270,7 +264,6 @@ function Login_Apr(props) {
         .then(response => {
           if (!response.ok) {
             response.text().then(function (text) {
-              console.log(text);
               alert("Failed to toggle admin");
             });
           }
@@ -297,17 +290,13 @@ function Login_Apr(props) {
 
   function lockPassword(pw){
     // Encrypt
-    console.log("raw " + pw)
     var lockedpw = CryptoJS.AES.encrypt(pw, 'protected key').toString();
-    console.log("locked " + lockedpw);
     return(lockedpw)
   }
 
   function lockUserID(userid){
     // Encrypt
-    console.log("raw " + userid)
     var lockedUserID = CryptoJS.AES.encrypt(userid, 'protected key').toString();
-    console.log("locked " + lockedUserID);
     return(lockedUserID)
   }
 
@@ -315,7 +304,6 @@ function Login_Apr(props) {
     // Decrypt
     var bytes = CryptoJS.AES.decrypt(userid, 'protected key');
     var unlockedUserID = bytes.toString(CryptoJS.enc.Utf8);
-    console.log("unlocked " + unlockedUserID)
     return(unlockedUserID)
   }
 
@@ -491,6 +479,7 @@ function Login_Apr(props) {
         </div>
 
       </div>
+      
     </div>
   );
 }

@@ -34,11 +34,8 @@ function UploadCSV() {
   },[]);
   const [filename, setFileName] = useState(false)
 
-  // console.log(uploadErrorRows)
-
   // handles the display name next to the "seclect file" button
   const handleOnChange = (e) => {
-    // console.log(file)
     setFile(e.target.files[0]);
     setFileName(e.target.files[0].name)
 
@@ -71,9 +68,9 @@ function UploadCSV() {
     readString(content, {
       worker: true,
       complete: (results) => {
-        console.log('---------------------------');
-        console.log(results);
-        console.log('---------------------------');
+        // console.log('---------------------------');
+        // console.log(results);
+        // console.log('---------------------------');
         setFileContent(results);
       },
     });
@@ -93,13 +90,11 @@ function UploadCSV() {
   async function postDebrisData() {
     setFetchLoading(true)
     
-    // console.log(uploadError)
     const error = await errorChecking(fileContentJSON)
     updateUploadError(error)
-    console.log(error)
 
     // only update and upload if the file is without error
-    if (error === false) {
+    if (error === -1) {
       clearDebrisDataTable();
       // loop for future use of adding in every row into the database, do be filtered by checking for new entries
       let i = 1;
@@ -109,14 +104,18 @@ function UploadCSV() {
       }
       getDebrisData();
 
+      // Save file upload information
+      const uploader = unlockUserID(localStorage.getItem('newuserID'));
+      saveFileInfo(filename, uploader)
     } 
+    else{
+      // There is an error with the upload, display error msg
+      console.log("error on row " + error)
+      document.getElementById("csvError").Style.visibility = "invisible";
+    }
+
     setCanUpload(false)
     setCanSubmit(false)
-    
-    // Save file upload information
-    const uploader = unlockUserID(localStorage.getItem('newuserID'));
-    // console.log(uploader);
-    saveFileInfo(filename, uploader)
 
     setFetchLoading(false)
   }
@@ -125,7 +124,6 @@ function UploadCSV() {
     // Decrypt
     var bytes = CryptoJS.AES.decrypt(userid, 'protected key');
     var unlockedUserID = bytes.toString(CryptoJS.enc.Utf8);
-    console.log("unlocked " + unlockedUserID)
     return(unlockedUserID)
   }
 
@@ -141,7 +139,6 @@ function UploadCSV() {
     .then(response => {
       if (!response.ok) {
         response.text().then(function (text) {
-          console.log(text);
           alert("Failed to save file info");
         });
       }
@@ -156,7 +153,6 @@ function UploadCSV() {
     .then(response => {
       if (!response.ok) {
         response.text().then(function (text) {
-          console.log(text);
           alert("Failed to save file info");
         });
       }
@@ -188,7 +184,6 @@ function UploadCSV() {
     let notes = fileContentJSON.data[i][17];                  // Notes
 
     let respStatus;
-    //console.log("loop in func "+ i);
     await fetch('http://localhost:3001/lml_debris_data', {
       method: 'POST',
       headers: {
@@ -215,7 +210,6 @@ function UploadCSV() {
       .then(response => {
         if (!response.ok) {
           response.text().then(function (text) {
-            console.log(text);
           });
         }
       })
@@ -226,25 +220,25 @@ function UploadCSV() {
     while (data.data[i] !== undefined) {
       let row = data.data[i]
       // correct colm amount
-      if (row.length !== 18) { return true; }
+      if (row.length !== 18) { return true, i; }
       // beach
-      if (row[0] === undefined) { return true; }
+      if (row[0] === undefined) { return true, i; }
       // urban vs rural
-      if (row[1] !== 'U' && row[1] !== 'R') { return true; }
+      if (row[1] !== 'U' && row[1] !== 'R') { return true, i; }
       // date
-      if (row[2] === undefined || row[2] === "") { return true; }
+      if (row[2] === undefined || row[2] === "") { return true, i; }
       // season
       if (row[3] === undefined || row[3] === "" ) { return true; }
       if (row[3] !== "Winter" && row[3] !== "Summer" && row[3] !== "Fall" && row[3] !== "Spring"){
-        return true;
+        return true, i;
       }
       // assure types of debris is not negative
       for (let d = 4; d <= 16; d++){ 
-        if (row[d] < 0) { return true; }
+        if (row[d] < 0) { return true, i; }
       }
       i++;
     }
-    return false;
+    return -1;
   }
 
   // DELETE call with no parameters, removing every row from the datatable
@@ -332,10 +326,15 @@ function UploadCSV() {
             <div className="uploadCSVtoCache">
               <h1>Update Marine Debris Data</h1>
               <h5>Please select a .csv file to upload data from</h5><br/>
+
+              {/* BRIDGET TODO HELP PLZ */}
+              <div id="csvError" className="mx-auto alert alert-danger" role="alert">
+                There was an issue with your file upload. This can refer to the .csv setup, the values, or a typo. Check the Admin FAQ for help.
+              </div>
+
               <form>
                 <input type={"file"} id={"csvFileInput"} accept={".csv"} onChange={handleOnChange} />
                 { canSubmit ? <button onClick={(e) => { handleOnSubmit(e); }} >SUBMIT</button> : null }
-                {/* {uploadLoading === true ? <p>LOADING</p> : <p> NOT LOADING</p>} */}
               </form>
             </div>
             <br />
