@@ -5,33 +5,91 @@
 
 // Login_UnApr.js is rendered by Login.js, and renders no children.
 
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../../css/LoginStyle.css';
 
-function Login_UnApr() {
+var CryptoJS = require("crypto-js");
+
+function Login_UnApr(props) {
+  const [username, setUserName] = useState();
+  const [password, setPassword] = useState();
 
   let navigate = useNavigate();
-  const handleLogin = (event) =>{
-    console.log(event.target.value)
-    let path = `postSlug`;
-    navigate(path);
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const { userID, password } = event.target.elements;
+    if (userID.value === "" || password.value === "") {
+      document.getElementById("loginForm").reset()
+      document.getElementById("login-error").style.visibility = "visible";
+    }
+    else{
+      // Check if userID and password combination is valid
+      fetch(`/lml_admins/checkAdmins/${userID.value}/${password.value}`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.length !== 0 && (unlockPassword(data[0].password) === password.value)) {
+            // setUserID sets the value of userID in the parent Controller component
+            props.setUserID(userID.value);
+
+            // Create JSON object for authtoken
+            var authObj = new Object();
+            authObj.userid = userID.value;
+            authObj.authenticator = true;
+            var authJsonString = JSON.stringify(authObj);
+
+            const authtoken = lockAuthToken(authJsonString)
+            localStorage.setItem('authtoken', authtoken)
+
+            // authenticate sets the value of isAuthenticated in the parent Controller component
+            // This is for the initial login
+            props.authenticate()
+            let path = `postSlug`;
+            navigate(path);
+          }
+          else {
+            document.getElementById("loginForm").reset()
+            document.getElementById("login-error").style.visibility = "visible";
+          }
+        });
+    }
   }
-      
+
+  function lockAuthToken(authtoken){
+    // Encrypt
+    console.log("raw " + authtoken)
+    var lockedtoken = CryptoJS.AES.encrypt(authtoken, process.env.REACT_APP_ENCRYPT_KEY).toString();
+    console.log("locked " + lockedtoken);
+    return(lockedtoken)
+  }
+
+  function unlockPassword(pw){
+    // Decrypt
+    var bytes = CryptoJS.AES.decrypt(pw, process.env.REACT_APP_ENCRYPT_KEY);
+    var unlockedpw = bytes.toString(CryptoJS.enc.Utf8);
+    return(unlockedpw)
+  }
+
   return (
-    <div className="Login_UnApr">
+    <div>
+      <div className="Login_UnApr">
         <h1>Login</h1>
-        <form onSubmit={handleLogin}>
-            <input type="email" className="bg-gray email-input-size" name="email" type="email" placeholder=" Email" />
-            <br></br>
-            <br></br>
+        <div id="login-error" className="login-error-msg mx-auto alert alert-danger" role="alert">
+          Incorrect username or password
+        </div>
+        <form id="loginForm" onSubmit={handleLogin}>
+          <input type="text" className="bg-gray email-input-size" name="userID" placeholder=" User ID" onChange={event => setUserName(event.target.value)} />
+          <br></br>
+          <br></br>
 
-            <input type="password" className="bg-gray email-input-size" name="password" type="password" placeholder=" Password" />
-            <br></br>
+          <input type="password" className="bg-gray email-input-size" name="password" placeholder=" Password" onChange={event => setPassword(event.target.value)} />
+          <br></br>
 
-            <br></br>
-            <button type="submit" className="btn-blue btn" onClick={handleLogin}>Login</button>
+          <br></br>
+          <button type="submit" className="btn-blue btn">Login</button>
         </form>
+      </div>
+      <br></br>
     </div>
   );
 
