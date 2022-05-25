@@ -90,7 +90,6 @@ function Login_UnApr(props) {
         </form>
       </div>
       <br></br>
-      {/* <UploadAdmin/> */}
     </div>
   );
 

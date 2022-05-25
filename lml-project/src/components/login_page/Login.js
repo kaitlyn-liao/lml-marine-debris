@@ -15,7 +15,6 @@ function Login () {
   return(
       <div className="Login">
         <Outlet/>
-          
       </div>
   );
 }
