@@ -76,10 +76,10 @@ function ComparisonChart() {
 
   // GET call to display updated version of data table
   function getDebrisDataByBeach() {
-    fetch(`http://localhost:3001/urban`)
+    fetch(`/urban`)
       .then(response => response.json())
       .then(data => { setUrbanData(data);});
-    fetch(`http://localhost:3001/rural`)
+    fetch(`/rural`)
       .then(response => response.json())
       .then(data => { setRuralData(data);});
   }
@@ -188,11 +188,6 @@ function ComparisonChart() {
         <div class="bar-chart">
           <canvas ref={chartContainer} />
         </div>
-        {/*!urbanData ? 'There is no debrisData available' : 
-            <ol>
-              {dataToArray()}
-            </ol>
-        */} 
     </div>
 
   );

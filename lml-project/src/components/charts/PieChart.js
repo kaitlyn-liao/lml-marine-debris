@@ -138,7 +138,7 @@ function BarChart() {
 
   // GET call to display updated version of data table
   function getDebrisDataByBeach(beach) {
-    fetch(`http://localhost:3001/beach/${beach}`)
+    fetch(`/beach/${beach}`)
       .then(response => response.json())
       .then(data => { setDebrisData(data);});
   }
@@ -237,7 +237,7 @@ function BarChart() {
       Xdata[10] += debrisData[i].total_other;
       i++;
     }
-    console.log(Xdata)
+    // console.log(Xdata)
     updateChart();
     newChartInstance.update();
   }
@@ -264,7 +264,7 @@ function BarChart() {
       height: 200,
       width: 300
   };
-  console.log("after config " + Xdata)
+  // console.log("after config " + Xdata)
 
 
   return (

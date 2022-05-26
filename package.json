@@ -1,0 +1,32 @@
+{
+  "name": "lml-marine-debris",
+  "version": "1.0.0",
+  "description": "Learn how node and Expresscan interact with PostgreSQL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node node-postgres/index.js",
+    "build": "cd lml-project && npm install && npm run build"
+  },
+  "engines": {
+    "node": "v16.13.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kaitlyn-liao/lml-marine-debris.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kaitlyn-liao/lml-marine-debris/issues"
+  },
+  "homepage": "https://github.com/kaitlyn-liao/lml-marine-debris#readme",
+  "dependencies": {
+    "chart.js": "^3.7.1",
+    "dotenv": "^16.0.1",
+    "express": "^4.17.3",
+    "pg": "^8.7.3",
+    "react-chartjs-2": "^4.0.1",
+    "react-select": "^5.2.2"
+  }
+}

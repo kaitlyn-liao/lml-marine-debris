@@ -1,5 +1,5 @@
 /**
- * @popperjs/core v2.11.2 - MIT License
+ * @popperjs/core v2.11.5 - MIT License
  */
 
 'use strict';
