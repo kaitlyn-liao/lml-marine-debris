@@ -146,10 +146,10 @@ function OneColumn() {
 
   // GET call to display updated version of data table
   function getDebrisDataByBeach() {
-    fetch(`/urban`)
+    fetch(`http://localhost:3001/urban`)
       .then(response => response.json())
       .then(data => { setUrbanData(data);});
-    fetch(`/rural`)
+    fetch(`http://localhost:3001/rural`)
       .then(response => response.json())
       .then(data => { setRuralData(data);});
   }

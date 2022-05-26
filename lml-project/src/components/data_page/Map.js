@@ -298,8 +298,8 @@ function setSelectedBeach(b){
         {...viewport}
         ref={mapRef}
         style={ mapContainer } 
-        //accessToken={ process.env.REACT_APP_MAPBOX_TOKEN }
-        accessToken={ mapAPItoken }
+        accessToken={ process.env.REACT_APP_MAPBOX_TOKEN }
+        //accessToken={ mapAPItoken }
         mapStyle="mapbox://styles/hfox999/ck6crjgkn0bfs1imqs16f84wz"
         maxBounds={bounds}
         onViewportChange={(viewport) => {
