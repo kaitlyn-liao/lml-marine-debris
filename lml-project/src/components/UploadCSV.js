@@ -78,12 +78,10 @@ function UploadCSV() {
 
   // GET call to display updated version of data table
   function getDebrisData() {
-    setFetchLoading(true)
     fetch(`/data`)
       .then(response => response.json())
       .then(data => { setDebrisData(data); 
     });
-    setFetchLoading(false)
   }
 
   // Calls createDesbrisData() until every row of the CSV file is POSTed
