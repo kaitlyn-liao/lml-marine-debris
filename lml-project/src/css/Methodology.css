@@ -1,5 +1,5 @@
 img {
-    max-width: 1200px; 
+    max-width: 1000px; 
     max-height: 600px; 
     object-fit: cover;
 }
@@ -10,7 +10,7 @@ p h1 h2 h3 {
 
 @media (max-width: 900px) {
     .carousel {
-        max-width: 600px; 
+        max-width: 300px; 
         max-height: 300px; 
         overflow: hidden;
     }

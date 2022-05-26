@@ -254,6 +254,7 @@ function OneColumn() {
   return (
     <div>
         <h4>Urban vs Rural Beaches: </h4>
+        <i class="text-secondary">This data is collected from all twelve beaches.</i>
         <div class="bar-chart">
         <div class="row">
             <div class="col-md-1">
@@ -276,13 +277,13 @@ function OneColumn() {
             </Button>
             </div>
         </div>
-        <div class="row">
+        {/*<div class="row">
             <center>
             <ol>
                 {dotVar}
             </ol>
             </center>
-        </div>
+  </div>*/}
         </div>
         {/*!urbanData ? 'There is no debrisData available' : 
             <ol>

@@ -35,7 +35,7 @@ class CallToAction extends React.Component {
         return (
             // html goes here
             <div>        
-                <Container>
+                <Container class='row-container'>
                     <center>
                         <h1>UCSC Long Marine Lab: Marine Debris</h1>
                         <br></br>

@@ -13,7 +13,7 @@ import Button from 'react-bootstrap/Button'
 import Tabs from 'react-bootstrap/Tabs'
 import Tab from 'react-bootstrap/Tab'
 import { DistributeHorizontal, BarChartFill, PieChartFill, Snow, Flower3, SunFill, CloudRainFill, CalendarWeekFill } from "react-bootstrap-icons";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // import graphOffcanvas from '../../css/GraphCanvas.css';
 
 import PieChart from '../charts/PieChart.js';
@@ -27,6 +27,7 @@ import '../../css/GraphTabs.css';
 
 let selectBeach = "Waddell"; 
 let inProgress = false;
+let sel = document.getElementById("pop");
 
 // function checkPopup() {
 //   inProgress = true;
@@ -38,7 +39,6 @@ let inProgress = false;
 // }
 // document.body.addEventListener('click', checkPopup, true);
 class Graph extends React.Component {
-  
 
   render() {
 
@@ -56,6 +56,17 @@ function ControlledTabs() {
   const [key2, setKey2] = useState('All');
   const [key3, setKey3] = useState('BarChart');
   const [key4, setKey4] = useState('Seasons');
+  useEffect(() => {
+    const listener = e => {
+      //setTimeout(delaySwitch, 100);
+      sel = document.getElementById("pop");
+    };
+    window.addEventListener("click", listener);
+
+    /*return () => {
+      window.removeEventListener("click", listener);
+    };*/
+  }, []);
   return (
     <Tabs
       id="controlled-tab-example"
@@ -72,10 +83,10 @@ function ControlledTabs() {
       className="mb-3"
     >
       <Tab eventKey="BarChart" title={<BarChartFill size={20}></BarChartFill>}>
-        {!inProgress ? <BarChart selectBeach={selectBeach}/> : null}
+        <BarChart id="barGraph" selectBeach={selectBeach}/>
       </Tab>
       <Tab eventKey="PieChart" title={<PieChartFill size={20}></PieChartFill>}>
-        <PieChart />
+        {sel !== null ? <PieChart /> : null}
       </Tab>
       </Tabs>
       </Tab>
@@ -118,6 +129,12 @@ function OffCanvasExample({ ...props }) {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  let holder;
+  function setDiv(){
+    if(document.getElementById("pie-drop")){
+      document.getElementById("pie-drop").innerHTML = holder;
+    }
+  }
 
   const graphOffcanvas = {
     width: "50%",
@@ -126,7 +143,14 @@ function OffCanvasExample({ ...props }) {
 
   return (
     <>
-      <Button variant="primary" onClick={handleShow} className="me-2">
+      <Button variant="primary" onClick={e => {
+                                e.preventDefault();
+                                handleShow();
+                                if(document.getElementById("pop").innerHTML){
+                                  holder = document.getElementById("pop").innerHTML
+                                  setTimeout(setDiv, 100);
+                                }
+      }} className="me-2">
         Graph
       </Button>
       <Offcanvas show={show} onHide={handleClose} {...props} style={graphOffcanvas} >
