@@ -1,21 +1,31 @@
-img {
-    max-width: 1200px; 
-    max-height: 600px; 
-    object-fit: cover;
+body, html {
+  margin: 0;
 }
 
 p h1 h2 {
-  color: black;
+  color: #000000;
 }
 
 h3.caption-background {
-    color: black;
-    background-color: #aaa8a8;
+  color: black;
+  background-color: #aaa8a8;
+}
+
+.slides {
+  height: 90vh;
+  object-fit: cover;
 }
 
 @media (max-width: 900px) {
-    .carousel {
-        max-width: 1200px; 
-        max-height: 600px; 
-    }
+  .carousel {
+      max-width: 1200px; 
+      max-height: 600px; 
+  }
+}
+
+@media (max-height: 650px) {
+  .carousel {
+      max-width: 1200px; 
+      max-height: 600px; 
+  }
 }

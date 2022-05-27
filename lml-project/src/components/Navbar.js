@@ -4,15 +4,13 @@
 
 // Navbar.js is rendered by App.js, and renders the child Controller.js
 
-import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import Nav from 'react-bootstrap/Nav'
 import Navbar from 'react-bootstrap/Navbar'
 
 import brandImg from '../images/lmlsn-logo.png';
 import Controller from './Controller';
-
-var CryptoJS = require("crypto-js");
 
 function NavBar() {
 

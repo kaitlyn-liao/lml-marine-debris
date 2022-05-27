@@ -1,8 +1,9 @@
-img {
-    max-width: 1000px; 
+/* img {
+    max-width: 1200px; 
+    max-width: 1000px;
     max-height: 600px; 
     object-fit: cover;
-}
+} */ 
 
 p h1 h2 h3 {
     color: black;
@@ -16,6 +17,6 @@ p h1 h2 h3 {
     }
 }
 
-p.indent{
+p.indent {
     text-indent:30px;
 }

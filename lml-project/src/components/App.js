@@ -3,15 +3,16 @@
 
 // import TicTac from './react_tutorial_ref/Tictactoe.js'
 
-import React, { useState } from 'react';
+import React from 'react';
 import NavBar from "./Navbar.js";
+import Footer from "./Footer.js";
 
 function App() {
 
   return (
     <div>
       <NavBar/>
-      
+      <Footer/>
     </div>
   );
 }

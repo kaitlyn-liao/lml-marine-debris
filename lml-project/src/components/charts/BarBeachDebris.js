@@ -26,6 +26,7 @@ Chart.register(
 );
 
 let newChartInstance;
+
 let placeholderBeach = "Waddell";
 let placeholderLong = "Waddell";
 let holderTemp = "Waddell";
@@ -138,7 +139,7 @@ function BarChart() {
 
   // GET call to display updated version of data table
   function getDebrisDataByBeach(beach) {
-    fetch(`http://localhost:3001/beach/${beach}`)
+    fetch(`/beach/${beach}`)
       .then(response => response.json())
       .then(data => { setDebrisData(data);});
   }
@@ -269,7 +270,7 @@ function BarChart() {
 
   return (
     <div>
-        <div className="row">
+      <div className="row">
             <div className="col-md-2">
                 <h4>Beach: </h4>
             </div>
@@ -288,6 +289,7 @@ function BarChart() {
             </ol>
           }  */}
         </div>
+
     </div>
 
   );
