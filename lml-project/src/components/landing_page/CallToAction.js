@@ -75,14 +75,14 @@ class CallToAction extends React.Component {
                         text='The Long Marine Lab Survey Slug program connects passionate student volunteers with the resources and knowledge 
                         to collect crucial information about one of the most pressing environmental issues we face today.'
                         label='About Us'
-                        path='/services'
+                        path='/team'
                         />
                         <CardItem
                         src={teamphoto1}
                         text='Our Long Marine Lab Stranding volunteers each mentor a team of undergraduate students and teach them our 
                         unique data collection process.'
                         label='Our Work'
-                        path='/services'
+                        path='/methodology'
                         />
                     </ul>
                     </div>
