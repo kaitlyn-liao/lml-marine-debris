@@ -1,4 +1,3 @@
-
    
 // Map.js renders the restricted interactive map via API
 // Renders a map restricted to the Santa Cruz area, noted with markers
@@ -23,6 +22,8 @@ import Select from 'react-select';
 const beachJSON = BEACHES;
 const latLongList = getLatLongList(beachJSON);
 const mapViewCenter = getMapCenter(latLongList);
+const mapAPItoken = "pk.eyJ1Ijoia2F5bGlhbyIsImEiOiJjbDFuOW96cTQwNmw1M2tudmJidnpia3pzIn0.Yui35e5YWeAit229l_ThRQ"
+
 const defaultBeach = {
   "beach_id": -1,
   "name": "",
@@ -306,132 +307,94 @@ function setSelectedBeach(b){
           viewport.zoom=9.5
           viewport.maxZoom=18
           viewport.minZoom=8
-          //setSelectedBeach(selectedBeach);
-          //if(document.getElementById('pop')){document.getElementById('pop').reload(true);}
-          //setViewport(viewport);
         }}
         >
-          {BEACHES.map(beach => (
-                <Marker
+        {BEACHES.map(beach => (
+          <Marker
             key={beach.beach_id}
             longitude={beach.long}
             latitude={beach.lat}
-            >
-              <GeoAltFill id="fly" class="pin" onMouseOver={e => {
-                e.preventDefault();
-                console.log(beach);
-                //updateBeach(beach);
-                console.log('setting');
-                setHoveredBeach(defaultBeach);
-                setHoveredBeach(beach);
-                console.log(hoveredBeach);
-                //if(!onPopup)
-                //{setSelectedBeach(beach);}
-                //setViewport(INITIAL_MAP_VIEW);
-                console.log(selectedBeach);
-                //updateDiv();
-                if(document.getElementById("pop")){console.log("found");}
-                }}  
-                onMouseLeave={e => {
-                  e.preventDefault();
-                  //if(!onPopup)
-                  //{setSelectedBeach(defaultBeach);}
-                  setHoveredBeach(defaultBeach);
-                  console.log(hoveredBeach);
-                  //updateDiv();
-                  }}
-                  onClick={e => {
-                    e.preventDefault();
-                    
-                    setSelectedBeach(defaultBeach);
-                    setSelectedBeach(beach);
-                    //onPopup = true;
-                    //updateDiv();
-                    }}
-              id={beach.type}
-              size={50} />
-            </Marker>
-          ))}
-          
-          
-          {/*selectedBeach ? <div id='pop'><ol>{popups}</ol></div> : null*/}
-          {selectedBeach && selectedBeach != defaultBeach? (
-            <div>
-              
-            <Popup id='notpop'
-            value="Capitola"
-            latitude={selectedBeach.lat}
-            longitude={selectedBeach.long}
-            offsetTop={-30}
-            anchor="bottom"
-            offset = {50}
-            closeOnClick={false}
-            closeButton={false}
-            onClose={() => {
-              if(!settingBeach){
-                console.log('trying to set');}
-              //setSelectedBeach(defaultBeach);
-              setSelectedBeach(defaultBeach);
-              //onPopup = false;
-            }}
           >
-            <div>
-              <div className="text-center">
-                {/*<XCircleFill
-              onClick={e => {
+            <GeoAltFill id="fly" class="pin" onMouseOver={e => {
+              e.preventDefault();
+              setHoveredBeach(defaultBeach);
+              setHoveredBeach(beach);
+              if(document.getElementById("pop")){console.log("found");}
+              }}  
+              onMouseLeave={e => {
                 e.preventDefault();
+                setHoveredBeach(defaultBeach);
+                }}
+                onClick={e => {
+                  e.preventDefault();
+                  setSelectedBeach(defaultBeach);
+                  setSelectedBeach(beach);
+                  }}
+            id={beach.type}
+            size={50} />
+          </Marker>
+        ))}
+        
+        {/*selectedBeach ? <div id='pop'><ol>{popups}</ol></div> : null*/}
+        {selectedBeach && selectedBeach != defaultBeach? (
+          <div> 
+            <Popup id='notpop'
+              value="Capitola"
+              latitude={selectedBeach.lat}
+              longitude={selectedBeach.long}
+              offsetTop={-30}
+              anchor="bottom"
+              offset = {50}
+              closeOnClick={false}
+              closeButton={false}
+              onClose={() => {
+                if(!settingBeach){
+                  console.log('trying to set');}
+                //setSelectedBeach(defaultBeach);
                 setSelectedBeach(defaultBeach);
                 //onPopup = false;
-                }}
-                size={20}
-              />*/}
+              }}
+            >
+            <div>
+              <div className="text-center">
               <h4 className="text-center">{selectedBeach.name}</h4>
               </div>
               <div class="text-center"><Graph /><br></br><i className="text-secondary">Press "esc" to close</i></div>
             </div>
-              </Popup></div>
-          ) : null}
-        {hoveredBeach != defaultBeach && hoveredBeach != selectedBeach ? 
-          <div class="small-popup">
-              <Popup
-              
-              value="Capitola"
-              latitude={hoveredBeach.lat}
-              longitude={hoveredBeach.long}
-              anchor="left"
-              offset = {5}
-              closeOnClick={false}
-              closeButton={false}
-              onClose={() => {
-                //setHoveredBeach(defaultBeach);
-                //onPopup = false;
-              }}
-            >
-              <div>
-                <b className="text-center text-secondary">{hoveredBeach? hoveredBeach.name : ""}</b>
-              </div>
-                </Popup></div> : null}
-        </MapGL>
-      </SizeAware>
-      <b id='pop'>{selectedBeach && selectedBeach != defaultBeach ? selectedBeach.name : null}</b>
-    </div>
-  );
+            </Popup>
+          </div>
+        ) : null}
+
+      {hoveredBeach != defaultBeach && hoveredBeach != selectedBeach ? 
+        <div class="small-popup">
+          <Popup
+            
+            value="Capitola"
+            latitude={hoveredBeach.lat}
+            longitude={hoveredBeach.long}
+            anchor="left"
+            offset = {5}
+            closeOnClick={false}
+            closeButton={false}
+            onClose={() => {
+              //setHoveredBeach(defaultBeach);
+              //onPopup = false;
+            }}
+          >
+          <div>
+            <b className="text-center text-secondary">{hoveredBeach? hoveredBeach.name : ""}</b>
+          </div>
+          </Popup>
+        </div> 
+        : null}
+      </MapGL>
+    </SizeAware>
+    <b id='pop'>{selectedBeach && selectedBeach != defaultBeach ? selectedBeach.name : null}</b>
+  </div>
+);
 }
 
-
-/**
- * @param beachJSON a json file of all marine debris beaches in form of
- * {
- *  "name": "Del Monte",
- *  "lat": 36.601531,
- *  "long": -121.889650,
- *  "type": "urban"
- * }
- *
- * @return array of all the beach lat long coordinates. 
- * e.g. [[latitude1, longtitude1], [latitude2, longtitude2] ...]
- */
- function getLatLongList (beachJSON) { 
+function getLatLongList (beachJSON) { 
   let lat = 36.961518;
   let long = -122.002881;
   let latLongList = [];
@@ -442,7 +405,6 @@ function setSelectedBeach(b){
   }
   return(latLongList);
 }
-
 
 // Helper functions for mapViewCenter
 function rad2degr(rad) { return rad * 180 / Math.PI; }  
@@ -456,31 +418,31 @@ function degr2rad(degr) { return degr * Math.PI / 180; }
  *   degrees.
  */
 function getMapCenter( latLongList ) {
-    var LATIDX = 0;
-    var LNGIDX = 1;
-    var sumX = 0;
-    var sumY = 0;
-    var sumZ = 0;
+  var LATIDX = 0;
+  var LNGIDX = 1;
+  var sumX = 0;
+  var sumY = 0;
+  var sumZ = 0;
 
-    for (var i=0; i< latLongList.length; i++) {
-        var lat = degr2rad( latLongList[i][LATIDX]);
-        var lng = degr2rad( latLongList[i][LNGIDX]);
-        // sum of cartesian coordinates
-        sumX += Math.cos(lat) * Math.cos(lng);
-        sumY += Math.cos(lat) * Math.sin(lng);
-        sumZ += Math.sin(lat);
-    }
+  for (var i=0; i< latLongList.length; i++) {
+    var lat = degr2rad( latLongList[i][LATIDX]);
+    var lng = degr2rad( latLongList[i][LNGIDX]);
+    // sum of cartesian coordinates
+    sumX += Math.cos(lat) * Math.cos(lng);
+    sumY += Math.cos(lat) * Math.sin(lng);
+    sumZ += Math.sin(lat);
+  }
 
-    var avgX = sumX /  latLongList.length;
-    var avgY = sumY /  latLongList.length;
-    var avgZ = sumZ /  latLongList.length;
+  var avgX = sumX /  latLongList.length;
+  var avgY = sumY /  latLongList.length;
+  var avgZ = sumZ /  latLongList.length;
 
-    // convert average x, y, z coordinate to latitude and longtitude
-    var lng = Math.atan2(avgY, avgX);
-    var hyp = Math.sqrt(avgX * avgX + avgY * avgY);
-    var lat = Math.atan2(avgZ, hyp);
+  // convert average x, y, z coordinate to latitude and longtitude
+  var lng = Math.atan2(avgY, avgX);
+  var hyp = Math.sqrt(avgX * avgX + avgY * avgY);
+  var lat = Math.atan2(avgZ, hyp);
 
-    return ([rad2degr(lat), rad2degr(lng)]);
+  return ([rad2degr(lat), rad2degr(lng)]);
 }
 
 
