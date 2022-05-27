@@ -78,12 +78,10 @@ function UploadCSV() {
 
   // GET call to display updated version of data table
   function getDebrisData() {
-    setFetchLoading(true)
     fetch(`/data`)
       .then(response => response.json())
       .then(data => { setDebrisData(data); 
     });
-    setFetchLoading(false)
   }
 
   // Calls createDesbrisData() until every row of the CSV file is POSTed
@@ -191,7 +189,6 @@ function UploadCSV() {
     let totalDebrisDivMsq = fileContentJSON.data[i][16];      // Total Debris per M2
     let notes = fileContentJSON.data[i][17];                  // Notes
 
-    let respStatus;
     await fetch('/lml_debris_data', {
       method: 'POST',
       headers: {
@@ -328,7 +325,8 @@ function UploadCSV() {
       <div className='pb-3 '>
         {fetchLoading === true ?
           <div>
-            Uploading your file! <br />
+            Uploading your file! <br/>
+            This may take a moment, please do not leave or refresh the page.<br />
             <img className='upload-icon' src={loadIcon} alt="loading..." />
           </div>
           :

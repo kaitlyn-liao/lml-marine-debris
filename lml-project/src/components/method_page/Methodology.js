@@ -7,10 +7,33 @@
 
 import React from 'react';
 import placeholder from '../../images/placeholder.png';
+import beach1 from '../../images/beach1.png';
+import beach2 from '../../images/beach2.png';
+import beach3 from '../../images/beach3.png';
+import method1 from '../../images/method1.jpeg';
+import method2 from '../../images/method2.jpeg';
 import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import '../../css/Methodology.css';
+import Carousel from 'react-bootstrap/Carousel';
+
+const slides = [
+    {
+        src: beach1,
+        alt: "Beach 1 Name",
+        targetURL: "/sample1"
+    },
+    {
+        src: beach2,
+        alt: "Beach 2 Name"
+    },
+    {
+        src: beach3,
+        alt: "Beach 3 Name"
+    },
+    // etc
+]
 
 class Methodology extends React.Component {
     render() {
@@ -43,7 +66,7 @@ class Methodology extends React.Component {
                             <Col className="pt-5">
                                 <img
                                     className="d-block w-100 rounded"
-                                    src={placeholder}
+                                    src={method1}
                                     alt="First picture"
                                 />
                             </Col>
@@ -62,11 +85,25 @@ class Methodology extends React.Component {
                                 </Col>
                             </Col>
                             <Col className="pt-5">
-                                <img
+                            <Carousel variant="dark" fluid-interval={8000} pause='hover'>
+                            
+                            {/* new solution to slides: modular and easy to extend with list above */}
+                            {slides.map((item) => (
+                                    // uncomment nav link when targetURL is determined
+                                    // <Nav.Link href={item.targetURL}>
+                                        <Carousel.Item>
+                                            <img    src={item.src} 
+                                                    alt={item.alt}
+                                                    style={{width: 300 + 'px', height: 200 + 'px'}}/>
+                                        </Carousel.Item>
+                                    // </Nav.Link>
+                            ))}
+                        </Carousel>
+                                {/*<img
                                     className="d-block w-100 rounded"
                                     src={placeholder}
                                     alt="Second picture"
-                                />
+                                />*/}
                             </Col>
                         </Row>
                         <Row>
@@ -83,7 +120,7 @@ class Methodology extends React.Component {
                             <Col className="pt-5">
                                 <img
                                     className="d-block w-100 rounded"
-                                    src={placeholder}
+                                    src={method2}
                                     alt="Third picture"
                                 />
                             </Col>

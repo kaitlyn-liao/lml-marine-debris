@@ -12,8 +12,6 @@ import '../../css/LoginStyle.css';
 var CryptoJS = require("crypto-js");
 
 function Login_UnApr(props) {
-  const [username, setUserName] = useState();
-  const [password, setPassword] = useState();
 
   let navigate = useNavigate();
   const handleLogin = async (event) => {
@@ -78,11 +76,11 @@ function Login_UnApr(props) {
           Incorrect username or password
         </div>
         <form id="loginForm" onSubmit={handleLogin}>
-          <input type="text" className="bg-gray email-input-size" name="userID" placeholder=" User ID" onChange={event => setUserName(event.target.value)} />
+          <input type="text" className="bg-gray email-input-size" name="userID" placeholder=" User ID" />
           <br></br>
           <br></br>
 
-          <input type="password" className="bg-gray email-input-size" name="password" placeholder=" Password" onChange={event => setPassword(event.target.value)} />
+          <input type="password" className="bg-gray email-input-size" name="password" placeholder=" Password" />
           <br></br>
 
           <br></br>

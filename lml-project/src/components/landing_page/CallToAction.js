@@ -88,7 +88,6 @@ class CallToAction extends React.Component {
                     </div>
                 </div>
                 </div>
-
                     {/* <Col sm={8} className="pgs">
                         <p className="indent1">
                         The Long Marine Lab Survey Slug program connects passionate student volunteers with the resources and knowledge 

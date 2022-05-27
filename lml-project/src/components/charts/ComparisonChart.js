@@ -184,9 +184,15 @@ function ComparisonChart() {
   return (
     <div>
         <h4>Urban vs Rural Beaches: </h4>
+        <i class="text-secondary">This data is collected from all twelve beaches.</i>
         <div class="bar-chart">
           <canvas ref={chartContainer} />
         </div>
+        {/*!urbanData ? 'There is no debrisData available' : 
+            <ol>
+              {dataToArray()}
+            </ol>
+        */} 
     </div>
 
   );

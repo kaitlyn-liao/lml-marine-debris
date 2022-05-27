@@ -19,9 +19,6 @@ import { useTheme } from '@table-library/react-table-library/theme';
 import '../../css/LoginStyle.css'
 import UploadCSV from '../UploadCSV';
 import { useEffect } from 'react';
-import Nav from 'react-bootstrap/Nav'
-import Navbar from 'react-bootstrap/Navbar'
-import {BrowserRouter as Router, Routes, Route, Link} from 'react-router-dom';
 import adminPic from "../../images/banana-slug.jpeg"
 import { Upload, PersonLinesFill, PersonCircle, QuestionSquare } from "react-bootstrap-icons";
 
@@ -67,7 +64,7 @@ function Login_Apr(props) {
       .then(json => {
         if (json) {
           let i = 0;
-          while (json[i] != undefined) {
+          while (json[i] !== undefined) {
             // if i dont use this const, i++ will update all node's i's 
             const m = i;
 
@@ -254,7 +251,7 @@ function Login_Apr(props) {
 
   async function toggleAdminSuperStatus(userid, superStatus) {
     // Set usserid's super status to true
-    if (superStatus == true) {
+    if (superStatus === true) {
       await fetch(`/lml_admins/giveSuper/${userid}`, {
         method: 'POST',
         headers: {
@@ -454,7 +451,7 @@ function Login_Apr(props) {
             {profileSuper ? getManageUsers() : null}
             <li className="nav-item active" >
               <a href="https://docs.google.com/document/d/1bmRHuF89H1kN9ds6Sba5FuO_H-ejrU1eA5OCouQDXqM/edit?usp=sharing"
-                className="nav-link" aria-current="page" target="_blank" >
+                className="nav-link" aria-current="page" target="_blank" rel='noopener'>
                 <QuestionSquare size={20}/> &nbsp;
                 Admin FAQ
               </a>
