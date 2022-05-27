@@ -6,7 +6,7 @@
 // the children DataVis.js, About.js, Login.js, and Team.js
 
 import React, { useState, useEffect } from 'react';
-import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Methodology from './method_page/Methodology.js';
 import Team from './team_page/Team.js';
 import CallToAction from './landing_page/CallToAction.js';
@@ -18,11 +18,11 @@ import DataVis from './data_page/DataVis.js';
 var CryptoJS = require("crypto-js");
 
 
-function Controller ({showAuth}) {
+function Controller({ showAuth }) {
   // User ID must be stored in the parent component to be passed
   // to its child components
   const [userID, setUserID] = useState();
-  
+
   const [isAuthenticated, setAuthentication] = useState(false);
 
   // Function is called by child component Login_UnApr to rerender Controller
@@ -32,11 +32,9 @@ function Controller ({showAuth}) {
 
   function unlockAuthToken(authtoken){
     // Decrypt
-    console.log(process.env.REACT_APP_ENCRYPT_KEY)
     var bytes = CryptoJS.AES.decrypt(authtoken, process.env.REACT_APP_ENCRYPT_KEY);
     var unlockedtoken = bytes.toString(CryptoJS.enc.Utf8);
-    console.log(unlockedtoken)
-    return(unlockedtoken)
+    return (unlockedtoken)
   }
 
   // Retrieve authtoken from local storage and confirming authentication
@@ -50,22 +48,22 @@ function Controller ({showAuth}) {
   }
   useEffect(() => {
     showAuth(isAuth);
-  }, []);
-  
+  });
+
 
   return (
     // A <Switch> looks through its children <Route>s and renders the 
     // first one that matches the current URL.
     <div>
       <Routes>
-        <Route path="/debris-data" element={<DataVis/>}> </Route>
-        <Route path="/methodology" element={<Methodology/>}> </Route>
-        <Route path="/team" element={<Team/>}> </Route>
-        <Route path="/login/" element={<Login />}> 
-            <Route path="" element={<Login_UnApr setUserID={setUserID} authenticate={authenticate}/>}/>
-            <Route path=":postSlug/" element={isAuth ? <Login_Apr userID={userID} /> : <Navigate to="/"/>} />
+        <Route path="/debris-data" element={<DataVis />}> </Route>
+        <Route path="/methodology" element={<Methodology />}> </Route>
+        <Route path="/team" element={<Team />}> </Route>
+        <Route path="/login/" element={<Login />}>
+          <Route path="" element={<Login_UnApr setUserID={setUserID} authenticate={authenticate} />} />
+          <Route path=":postSlug/" element={isAuth ? <Login_Apr userID={userID} /> : <Navigate to="/" />} />
         </Route>
-        <Route path="/" element={<CallToAction/>}> </Route>
+        <Route path="/" element={<CallToAction />}> </Route>
       </Routes>
     </div>
   );
