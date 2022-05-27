@@ -18,29 +18,20 @@ function Footer() {
           </div>
           {/* Column2 */}
           <div className="col">
-            <h4>Social Media</h4>
+            <h4>Visit Us!</h4>
             <ui className="list-unstyled">
-              <li>Twitter</li>
-              <li>Facebook</li>
-              <li>Instagram</li>
+              <a href="https://lmlstrandingnetwork.ucsc.edu/" target="_blank">Visit the offical LML website!</a>
+            </ui>
+            <br></br>
+            <ui className="list-unstyled">
+              <a href="https://lmlstrandingmap.herokuapp.com/" target="_blank">Visit our sister Marine Stranding website!</a>
             </ui>
           </div>
-          {/* Column3 */}
-          <div className="col">
-          <h4>Subscribe to our newsletter!</h4>
-          <ui className="list-unstyled">
-            <form>
-              <input type="text" name="name" />
-              <input type="submit" value="Submit" />
-            </form>
-          </ui>
-        </div>        
         </div>
         <hr />
         <div className="row">
           <p className="col-sm">
-            &copy;{new Date().getFullYear()} UCSC LML Marine Debris | All rights reserved |
-            Terms Of Service | Privacy
+            &copy;{new Date().getFullYear()} UCSC LML Marine Debris | All rights reserved 
           </p>
         </div>
       </div>
