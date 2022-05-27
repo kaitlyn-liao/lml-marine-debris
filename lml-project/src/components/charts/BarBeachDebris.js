@@ -26,6 +26,7 @@ Chart.register(
 );
 
 let newChartInstance;
+
 let placeholderBeach = "Waddell";
 let placeholderLong = "Waddell";
 let holderTemp = "Waddell";
@@ -269,7 +270,7 @@ function BarChart() {
 
   return (
     <div>
-        <div className="row">
+      <div className="row">
             <div className="col-md-2">
                 <h4>Beach: </h4>
             </div>
@@ -288,6 +289,7 @@ function BarChart() {
             </ol>
           }  */}
         </div>
+
     </div>
 
   );
