@@ -10,6 +10,7 @@ import placeholder from '../../images/placeholder.png';
 import beach1 from '../../images/beach1.png';
 import beach2 from '../../images/beach2.png';
 import beach3 from '../../images/beach3.png';
+import beach4 from '../../images/beach4.png';
 import method1 from '../../images/method1.jpeg';
 import method2 from '../../images/method2.jpeg';
 import Container from 'react-bootstrap/Container';
@@ -92,9 +93,12 @@ class Methodology extends React.Component {
                                     // uncomment nav link when targetURL is determined
                                     // <Nav.Link href={item.targetURL}>
                                         <Carousel.Item>
-                                            <img    src={item.src} 
+                                            <center>
+                                            <img    
+                                                    src={item.src} 
                                                     alt={item.alt}
-                                                    style={{width: 300 + 'px', height: 200 + 'px'}}/>
+                                                    style={{width: 345 + 'px', height: 200 + 'px'}}/>
+                                                    </center>
                                         </Carousel.Item>
                                     // </Nav.Link>
                             ))}
@@ -140,7 +144,7 @@ class Methodology extends React.Component {
                             <Col className="pt-5">
                                 <img
                                     className="d-block w-100 rounded"
-                                    src={placeholder}
+                                    src={beach4}
                                     alt="Fourth picture"
                                 />
                             </Col>

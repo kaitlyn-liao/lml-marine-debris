@@ -19,6 +19,19 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import { closeComplete } from 'pg-protocol/dist/messages';
 import Select from 'react-select';
 
+import WaddellIMG from '../../images/pins/waddell.png';
+import NaturalBridgesIMG from '../../images/pins/natural-bridges.png';
+import MainIMG from '../../images/pins/main-beach.png';
+import SeabrightIMG from '../../images/pins/seabright.png';
+import LiveOakIMG from '../../images/pins/live-oak.png';
+import CapitolaIMG from '../../images/pins/capitola.png';
+import SunsetIMG from '../../images/pins/sunset-state-beach.png';
+import NZmudowskiIMG from '../../images/pins/north-zmudowski.png';
+import SZmudowskiIMG from '../../images/pins/south-zmudowski.png';
+import MarinaIMG from '../../images/pins/marina.png';
+import SeasideIMG from '../../images/pins/seaside.png';
+import DelMonteIMG from '../../images/pins/del-monte.png';
+
 const beachJSON = BEACHES;
 const latLongList = getLatLongList(beachJSON);
 const mapViewCenter = getMapCenter(latLongList);
@@ -34,24 +47,26 @@ const defaultBeach = {
 };
 
 const beachList = [
-  { label: "Waddell", value: 0 },
-  { label: "Natural Bridges", value: 1 },
-  { label: "Main Beach", value: 2 },
-  { label: "Seabright", value: 3 },
-  { label: "Live Oak", value: 4 },
-  { label: "Capitola", value: 5 },
-  { label: "Sunset", value: 6 },
-  { label: "N. Zmudowski", value: 7 },
-  { label: "S. Zmudowski", value: 8 },
-  { label: "Marina", value: 9 },
-  { label: "Seaside", value: 10 },
-  { label: "Del Monte", value: 11 },
+  { label: "Waddell", src: WaddellIMG },
+  { label: "Natural Bridges", src: NaturalBridgesIMG },
+  { label: "Main Beach", src: MainIMG },
+  { label: "Seabright", src: SeabrightIMG },
+  { label: "Live Oak", src: LiveOakIMG },
+  { label: "Capitola", src: CapitolaIMG },
+  { label: "Sunset State Beach", src: SunsetIMG },
+  { label: "North Zmudowski", src: NZmudowskiIMG },
+  { label: "South Zmudowski", src: SZmudowskiIMG },
+  { label: "Marina", src: MarinaIMG },
+  { label: "Seaside", src: SeasideIMG },
+  { label: "Del Monte", src: DelMonteIMG },
 ];
 
 let selectedBeach;
+let beachString;
 let hoveredBeach = defaultBeach;
 let dropdownBeach = defaultBeach;
 let popup;
+let counter = true;
 //let onPopup = false;
 let p;
 let popups = [];
@@ -90,8 +105,8 @@ function Map(props) {
   }
 
   const bounds = [
-    [-124, 36.2], // Southwest coordinates
-    [-119.5, 37.5] // Northeast coordinates
+    [-124, 36], // Southwest coordinates
+    [-119.5, 38] // Northeast coordinates
     ];
   const mapRef = useRef();
   // Resize the map to the current webpage size
@@ -155,17 +170,86 @@ function setHoveredBeach(b){
   setViewport(NEW_MAP_VIEW);
 }
 
+function setPhoto(){
+  /*if(!document.getElementById("photo")){
+    return;
+  }*/
+  for(var i; i < beachList.length; i++){
+    console.log(beachList[i].label);
+    if(selectedBeach.name === beachList[i].label){
+      document.getElementById("photo").src = beachList[i].src;
+      console.log("LOCATED");
+      return;
+    }
+  }
+}
+
 function setSelectedBeach(b){
   selectedBeach = b;
+  if(selectedBeach !== defaultBeach){
+  switch(selectedBeach.name){
+    case "Waddell":
+      beachString = WaddellIMG;
+      break;
+    case "Natural Bridges":
+      beachString = NaturalBridgesIMG;
+      break;
+    case "Main Beach":
+      beachString = MainIMG;
+      break;
+    case "Seabright":
+      beachString = SeabrightIMG;
+      break;
+    case "Live Oak":
+      beachString = LiveOakIMG;
+      break;
+    case "Capitola":
+      beachString = CapitolaIMG;
+      break;
+    case "Sunset State Beach":
+      beachString = SunsetIMG;
+      break;
+    case "North Zmudowski":
+      beachString = NZmudowskiIMG;
+      break;
+    case "South Zmudowski":
+      beachString = SZmudowskiIMG;
+      break;
+    case "Marina":
+      beachString = MarinaIMG;
+      break;
+    case "Seaside":
+      beachString = SeasideIMG;
+      break;
+    case "Del Monte":
+      beachString = DelMonteIMG;
+      break;
+    default:
+      beachString = "";
+      break;
+  }
+
+  
+  console.log(beachString);
   currentZoom = viewport.zoom;
   currentLat = viewport.latitude;
   currentLong = viewport.longitude;
   NEW_MAP_VIEW = {
-    latitude: currentLat,
-    longitude: currentLong,
-    zoom: currentZoom,
+    latitude: selectedBeach.lat + 0.1,
+    longitude: selectedBeach.long + 0.1,
+    zoom: 10,
     maxZoom: 18,
     minZoom: 8
+  }
+  }
+  else{
+    NEW_MAP_VIEW = {
+      latitude: currentLat,
+      longitude: currentLong,
+      zoom: currentZoom,
+      maxZoom: 18,
+      minZoom: 8
+    }
   }
   /*if(document.getElementById("pie-drop")){
     document.getElementById("pie-drop").innerHTML = b.name;
@@ -260,7 +344,7 @@ function setSelectedBeach(b){
   useEffect(() => {
     const listener = e => {
       if (e.key === "Escape") {
-        setSelectedBeach(null);
+        setSelectedBeach(defaultBeach);
       }
     };
     window.addEventListener("keydown", listener);
@@ -327,6 +411,7 @@ function setSelectedBeach(b){
                 }}
                 onClick={e => {
                   e.preventDefault();
+                  beachString = "";
                   setSelectedBeach(defaultBeach);
                   setSelectedBeach(beach);
                   }}
@@ -359,6 +444,10 @@ function setSelectedBeach(b){
               <div className="text-center">
               <h4 className="text-center">{selectedBeach.name}</h4>
               </div>
+              <center>
+                <img id="photo" src={beachString} style={{width: 200 + "px"}}></img>
+              </center>
+              <br></br>
               <div class="text-center"><Graph /><br></br><i className="text-secondary">Press "esc" to close</i></div>
             </div>
             </Popup>
@@ -389,7 +478,7 @@ function setSelectedBeach(b){
         : null}
       </MapGL>
     </SizeAware>
-    <b id='pop'>{selectedBeach && selectedBeach != defaultBeach ? selectedBeach.name : null}</b>
+    <b id='pop'>{selectedBeach && selectedBeach != defaultBeach ? selectedBeach.name : <br></br>}</b>
   </div>
 );
 }
