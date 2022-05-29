@@ -11,6 +11,7 @@ import Navbar from 'react-bootstrap/Navbar'
 
 import brandImg from '../images/lmlsn-logo.png';
 import Controller from './Controller';
+import Footer from "./Footer.js";
 
 function NavBar() {
 
