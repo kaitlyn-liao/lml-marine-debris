@@ -53,10 +53,8 @@ const beachList = [
 function BarChart() {
   let newBeach;
   let mouseOverMenu = false;
-  console.log(newBeach);
   if(document.getElementById("pop").innerHTML){
     var p = document.getElementById("pop").innerHTML;
-    console.log("discard: " + discardPlaceholder);
     if(!discardPlaceholder){placeholderLong = p;}
     switch(p){
       case "Sunset State Beach":
@@ -77,10 +75,8 @@ function BarChart() {
 
   useEffect(() => {
     const listener = e => {
-      console.log("TEST");
       if(document.getElementById("bar-drop") && document.getElementById("pop")){
         if(!mouseOverMenu){
-        console.log("TEST2");
         var p = document.getElementById("pop").innerHTML;
         switch(p){
           case "Sunset State Beach":
@@ -96,12 +92,9 @@ function BarChart() {
             break;
     
         }
-        console.log("TEST3");
-        console.log(p);
         for(var i = 0; i < beachList.length; i++){
           if(p === beachList[i].label){
             setBeach(beachList[i]);
-            console.log("HMMM");
           }
         }
       }
@@ -152,16 +145,11 @@ function BarChart() {
     getDebrisDataByBeach(newBeach.label);
     if(document.getElementById("bar-drop") && document.getElementById("pop")
     && document.getElementById("bar-drop").innerHTML != document.getElementById("pop").innerHTML){
-      console.log("NOPE");
       updateChart();
       newChartInstance.update();
     }
-    //discardPlaceholder = true;
-    console.log(newBeach.label);
     
     if(document.getElementById("bar-drop").innerHTML){
-      console.log("inside1: " + newBeach.label);
-      console.log("inside2: " + placeholderLong);
       var p = newBeach.label;
       switch(p){
         case "Sunset":
@@ -238,7 +226,6 @@ function BarChart() {
       Xdata[10] += debrisData[i].total_other;
       i++;
     }
-    console.log(Xdata)
     updateChart();
     newChartInstance.update();
   }
@@ -265,7 +252,6 @@ function BarChart() {
       height: 200,
       width: 300
   };
-  console.log("after config " + Xdata)
 
 
   return (

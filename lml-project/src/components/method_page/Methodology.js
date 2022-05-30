@@ -36,6 +36,8 @@ const slides = [
     // etc
 ]
 
+// Each row contains a title, paragraph, and image/carousel
+
 class Methodology extends React.Component {
     render() {
         return (
@@ -86,28 +88,23 @@ class Methodology extends React.Component {
                                 </Col>
                             </Col>
                             <Col className="pt-5">
-                            <Carousel variant="dark" fluid-interval={8000} pause='hover'>
-                            
-                            {/* new solution to slides: modular and easy to extend with list above */}
-                            {slides.map((item) => (
-                                    // uncomment nav link when targetURL is determined
-                                    // <Nav.Link href={item.targetURL}>
+                                <Carousel variant="dark" fluid-interval={8000} pause='hover'>
+
+                                    {/* new solution to slides: modular and easy to extend with list above */}
+                                    {slides.map((item) => (
+                                        // uncomment nav link when targetURL is determined
+                                        // <Nav.Link href={item.targetURL}>
                                         <Carousel.Item>
                                             <center>
-                                            <img    
-                                                    src={item.src} 
+                                                <img
+                                                    src={item.src}
                                                     alt={item.alt}
-                                                    style={{width: 345 + 'px', height: 200 + 'px'}}/>
-                                                    </center>
+                                                    style={{ width: 345 + 'px', height: 200 + 'px' }} />
+                                            </center>
                                         </Carousel.Item>
-                                    // </Nav.Link>
-                            ))}
-                        </Carousel>
-                                {/*<img
-                                    className="d-block w-100 rounded"
-                                    src={placeholder}
-                                    alt="Second picture"
-                                />*/}
+                                        // </Nav.Link>
+                                    ))}
+                                </Carousel>
                             </Col>
                         </Row>
                         <Row>

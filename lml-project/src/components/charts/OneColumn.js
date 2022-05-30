@@ -93,11 +93,9 @@ function OneColumn() {
     newChartInstance.data.labels = Xselect;
     newChartInstance.update();
     dotVar = dots();
-    console.log("updating");
   }
 
   function scrollChartR(){
-    console.log("scrollR");
     
         if(typeof newChartInstance === 'undefined'){
             return;
@@ -114,11 +112,9 @@ function OneColumn() {
       Uselect = [Udata[idx]];
       Rselect = [Rdata[idx]];
       Xselect = [Xvalues[idx]];
-      console.log(idx);
       updateChart();
   }
   function scrollChartL(){
-    console.log("scrollL");
     
     if(typeof newChartInstance === 'undefined'){
         return;
@@ -135,7 +131,6 @@ function OneColumn() {
     Uselect = [Udata[idx]];
     Rselect = [Rdata[idx]];
     Xselect = [Xvalues[idx]];
-    console.log(idx);
     updateChart();
 }
 
@@ -220,7 +215,6 @@ function OneColumn() {
       height: 400,
       width: 600
   };
-  console.log("after config " + Udata);
 
   function dataToArray(){
     let debrisDataArray = []
