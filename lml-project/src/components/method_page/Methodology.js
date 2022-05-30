@@ -149,7 +149,7 @@ class Methodology extends React.Component {
                     </Row>
 
                 </Container>
-
+                <Footer/>
             </div>
         );
     }

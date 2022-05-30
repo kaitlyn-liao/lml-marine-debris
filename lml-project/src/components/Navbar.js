@@ -58,7 +58,7 @@ function NavBar() {
         <Controller showAuth={showAuth} />
       </div>
       <br></br>
-      <Footer/>
+      {/* <Footer/> */}
     </Router>
   );
 }
