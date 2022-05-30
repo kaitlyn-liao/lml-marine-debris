@@ -18,6 +18,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import '../../css/Methodology.css';
 import Carousel from 'react-bootstrap/Carousel';
+import Footer from "./Footer.js";
 
 const slides = [
     {

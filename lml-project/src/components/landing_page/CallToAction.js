@@ -16,6 +16,7 @@ import slideshow_img3 from '../../images/slideshow_img3.jpg';
 
 import '../../css/CallToAction.css';
 import CardItem from './CardItem';
+import Footer from "./Footer.js";
 
 const slides = [
     {

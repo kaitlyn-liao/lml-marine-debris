@@ -21,6 +21,7 @@ import spencerImg from '../team_page/images/spencer-fulgham.png'
 import bridgetImg from '../team_page/images/bridget.jpg'
 import vinhImg from '../team_page/images/vinh-le.jpg'
 import { useEffect, useRef, useState } from 'react'
+import Footer from "./Footer.js";
 
 /* When adding this file to the topology, make sure to transfer all images
     and the CSS properties from Team.css */
