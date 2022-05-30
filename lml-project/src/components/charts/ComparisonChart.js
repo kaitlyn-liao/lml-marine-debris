@@ -150,7 +150,6 @@ function ComparisonChart() {
       height: 400,
       width: 600
   };
-  console.log("after config " + Udata);
 
   function dataToArray(){
     let debrisDataArray = []
