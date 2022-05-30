@@ -199,6 +199,7 @@ class Team extends React.Component {
                 </div>
             </center>
         </ Container>
+        <div class="clearfix"></div>
         </div>
     );
   }
