@@ -199,8 +199,8 @@ class Team extends React.Component {
                     </div>
                 </div>
             </center>
+            <Footer/>
         </ Container>
-        <Footer/>
         </div>
     );
   }
