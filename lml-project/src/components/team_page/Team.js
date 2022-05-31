@@ -156,7 +156,7 @@ class Team extends React.Component {
                 </div>
                 <p><br></br></p>
                 <h1>Meet the Software Team</h1>
-                <p>We are a team of five computer science students at UCSC.</p>
+                <p>We are a team of six computer science students at UCSC.</p>
                 
                 <div class="text-start">
                 <div class="row">

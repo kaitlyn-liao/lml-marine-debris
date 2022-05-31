@@ -1,6 +1,7 @@
 /*
- * This is a demo of filtering charts with dropdown menus (Select).
- * Run "npm install react-select"
+ * This chart displays urban vs rural data for one type of debris t a time.
+ * It provides the SAME DATA AS FULL URBAN VS RURAL CHART and is only for better
+ * visibility and user engagement with data.
  * 
  * SOURCES
  * react-select: https://appdividend.com/2018/10/19/react-dropdown-select-example-tutorial/
@@ -8,35 +9,34 @@
  * update chart tutorial: https://www.youtube.com/watch?v=_wnaQ-oR9YE
  * 
  */
+
+// Rendered in Graph.js and renders no children
+
 import React, { useEffect, useRef, useState } from 'react'
 import Button from 'react-bootstrap/Button'
-import ReactDOM from 'react-dom';
-import { Bar, Pie } from "react-chartjs-2"
-import Select from 'react-select';
-import { usePapaParse } from 'react-papaparse';
 import { ArrowLeft, ArrowRight, Circle, CircleFill } from "react-bootstrap-icons";
 import {
-    Chart,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    ArcElement,
-    registerables
+  Chart,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  ArcElement,
+  registerables
 } from 'chart.js';
 import { doWhileStatement } from '@babel/types';
 
 
 Chart.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    ArcElement,
-    ...registerables
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  ArcElement,
+  ...registerables
 );
 
-let newChartInstance;
+let newChartInstance; // Instance for chart to be updated with every change
 let idx = 0;
 
 const beachList = [
@@ -55,26 +55,34 @@ const beachList = [
 ];
 
 function OneColumn() {
-    function dots() {
-        var dotsRow = [];
-        for (var i=0; i<11; i++){
-            if(i === idx){
-                dotsRow[i] = <CircleFill></CircleFill>;
-            }
-            else{
-                dotsRow[i] = <Circle></Circle>;
-            }
-        }
-        
-        return dotsRow;
-    }
-    var Xvalues = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
-  var Udata = [0,0,0,0,0,0,0,0,0,0,0]
-  var Rdata = [0,0,0,0,0,0,0,0,0,0,0]
+  /*
+   * This function is for an unfinished feature to display which slide
+   * of the chart is currently displayed. TO DO: make dots update without
+   * exiting One-Column chart tab
+   */
+  /*function dots() {
+      var dotsRow = [];
+      for (var i=0; i<11; i++){
+          if(i === idx){
+              dotsRow[i] = <CircleFill></CircleFill>;
+          }
+          else{
+              dotsRow[i] = <Circle></Circle>;
+          }
+      }
+      
+      return dotsRow;
+  }*/
+  var Xvalues = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
+  var Udata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  var Rdata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   var Uselect = [Udata[idx]];
   var Rselect = [Rdata[idx]];
   var Xselect = [Xvalues[idx]];
-  var dotVar = dots();
+
+  // For unfinished dot feature:
+  // var dotVar = dots();
+
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
   useEffect(() => {
@@ -84,7 +92,11 @@ function OneColumn() {
     }
   }, [chartContainer]);
 
-  function updateChart(){
+  // Helper function to set chart data to current settings
+  // Updates settings of newChartInstance
+  function updateChart() {
+    // Additional parameters not present in ComparisonChart.js are
+    // for the user's currently selected slide
     Uselect = [Udata[idx]];
     Rselect = [Rdata[idx]];
     Xselect = [Xvalues[idx]];
@@ -92,47 +104,56 @@ function OneColumn() {
     newChartInstance.data.datasets[1].data = Rselect;
     newChartInstance.data.labels = Xselect;
     newChartInstance.update();
-    dotVar = dots();
+
+    // For unfinished dot feature:
+    // dotVar = dots();
   }
 
-  function scrollChartR(){
-    
-        if(typeof newChartInstance === 'undefined'){
-            return;
-        }
-      if(idx === 10 && newChartInstance.data != null){
-          idx = 0;
-          Uselect = Udata[idx];
-          Rselect = Rdata[idx];
-          Xselect = [Xvalues[idx]];
-          updateChart();
-          return;
-      }
-      idx += 1;
+  // Changes display to next data slide
+  // Calls updateChart()
+  function scrollChartR() {
+    if (typeof newChartInstance === 'undefined') {
+      return;
+    }
+    // Check if max index, handle and return if true
+    if (idx === 10 && newChartInstance.data != null) {
+      idx = 0;
+      Uselect = Udata[idx];
+      Rselect = Rdata[idx];
+      Xselect = [Xvalues[idx]];
+      updateChart();
+      return;
+    }
+    // For all other indices:
+    idx += 1;
+    Uselect = [Udata[idx]];
+    Rselect = [Rdata[idx]];
+    Xselect = [Xvalues[idx]];
+    updateChart();
+  }
+
+  // Changes display to previous data slide
+  // Calls updateChart()
+  function scrollChartL() {
+    if (typeof newChartInstance === 'undefined') {
+      return;
+    }
+    // Check if min index, handle and return if true
+    if (idx === 0 && newChartInstance.data != null) {
+      idx = 10;
       Uselect = [Udata[idx]];
       Rselect = [Rdata[idx]];
       Xselect = [Xvalues[idx]];
       updateChart();
-  }
-  function scrollChartL(){
-    
-    if(typeof newChartInstance === 'undefined'){
-        return;
+      return;
     }
-    if(idx === 0 && newChartInstance.data != null){
-        idx = 10;
-        Uselect = [Udata[idx]];
-        Rselect = [Rdata[idx]];
-        Xselect = [Xvalues[idx]];
-        updateChart();
-        return;
-    }
+    // For all other indices:
     idx -= 1;
     Uselect = [Udata[idx]];
     Rselect = [Rdata[idx]];
     Xselect = [Xvalues[idx]];
     updateChart();
-}
+  }
 
   // debrisData stores the result of a GET call from the data table, setDebrisData sets the value of debrisData
   const [urbanData, setUrbanData] = useState(false);
@@ -143,15 +164,16 @@ function OneColumn() {
   function getDebrisDataByBeach() {
     fetch(`/urban`)
       .then(response => response.json())
-      .then(data => { setUrbanData(data);});
+      .then(data => { setUrbanData(data); });
     fetch(`/rural`)
       .then(response => response.json())
-      .then(data => { setRuralData(data);});
+      .then(data => { setRuralData(data); });
   }
-  
-  if(urbanData){
+
+  // Update values with data from debris categories
+  if (urbanData) {
     let i = 0;
-    while(urbanData[i]){
+    while (urbanData[i]) {
       Udata[0] += urbanData[i].total_fragmented_plastic;
       Udata[1] += urbanData[i].total_plastic_products;
       Udata[2] += urbanData[i].total_food_wrappers;
@@ -164,81 +186,85 @@ function OneColumn() {
       Udata[9] += urbanData[i].total_rubber;
       Udata[10] += urbanData[i].total_other;
       i++;
+    }
+
+    if (ruralData) {
+      let i = 0;
+      while (ruralData[i]) {
+        Rdata[0] += ruralData[i].total_fragmented_plastic;
+        Rdata[1] += ruralData[i].total_plastic_products;
+        Rdata[2] += ruralData[i].total_food_wrappers;
+        Rdata[3] += ruralData[i].total_styrofoam;
+        Rdata[4] += ruralData[i].total_cigarette_butts;
+        Rdata[5] += ruralData[i].total_paper_and_treated_wood;
+        Rdata[6] += ruralData[i].total_metal;
+        Rdata[7] += ruralData[i].total_glass;
+        Rdata[9] += ruralData[i].total_rubber;
+        Rdata[10] += ruralData[i].total_other;
+        i++;
+      }
+    }
+    updateChart();
+    newChartInstance.update();
   }
 
-  if(ruralData){
-    let i = 0;
-    while(ruralData[i]){
-      Rdata[0] += ruralData[i].total_fragmented_plastic;
-      Rdata[1] += ruralData[i].total_plastic_products;
-      Rdata[2] += ruralData[i].total_food_wrappers;
-      Rdata[3] += ruralData[i].total_styrofoam;
-      Rdata[4] += ruralData[i].total_cigarette_butts;
-      Rdata[5] += ruralData[i].total_paper_and_treated_wood;
-      Rdata[6] += ruralData[i].total_metal;
-      Rdata[7] += ruralData[i].total_glass;
-      Rdata[9] += ruralData[i].total_rubber;
-      Rdata[10] += ruralData[i].total_other;
-      i++;
-    }
-  }
-  updateChart();
-  newChartInstance.update();
-  }
-  
+  // Settings for the chart
   const chartConfig = {
-      type: 'bar',
-      data: {
-          labels: Xselect,
-          datasets: [{ 
-            label: 'Urban',
-            backgroundColor: 'orange', 
-            data: Uselect
-          },
-          { 
-            label: 'Rural',
-            backgroundColor: 'royalblue', 
-            data: Rselect
-          }
-        ]
+    type: 'bar',
+    data: {
+      labels: Xselect,
+      datasets: [{
+        label: 'Urban',
+        backgroundColor: 'orange',
+        data: Uselect
       },
-      options: {
-        plugins: {
-          legend: {
-            onClick: null
-          },
-          tooltips: {
-            enabled: false
-          }
+      {
+        label: 'Rural',
+        backgroundColor: 'royalblue',
+        data: Rselect
+      }
+      ]
+    },
+    options: {
+      plugins: {
+        legend: {
+          onClick: null
+        },
+        tooltips: {
+          enabled: false
         }
-      },
-      height: 400,
-      width: 600
+      }
+    },
+    height: 400,
+    width: 600
   };
 
-  function dataToArray(){
+  // Creates an array of the debris data
+  // Returns array, not currently used, useful for verifying data
+  // Add {dataToArray} to rendered HTML to verify data when debugging
+  function dataToArray() {
     let debrisDataArray = []
-    if(urbanData){
-      for(var i=0; i < urbanData.length; i++){
+    if (urbanData) {
+      for (var i = 0; i < urbanData.length; i++) {
         debrisDataArray[i] = [
-          urbanData[i].type, 
-          urbanData[i].total_fragmented_plastic, 
-          urbanData[i].total_plastic_products, 
+          urbanData[i].type,
+          urbanData[i].total_fragmented_plastic,
+          urbanData[i].total_plastic_products,
           urbanData[i].total_food_wrappers,
-          urbanData[i].total_styrofoam, 
-          urbanData[i].total_cigarette_butts, 
-          urbanData[i].total_paper_and_treated_wood, 
+          urbanData[i].total_styrofoam,
+          urbanData[i].total_cigarette_butts,
+          urbanData[i].total_paper_and_treated_wood,
           urbanData[i].total_metal,
-          urbanData[i].total_glass, 
-          urbanData[i].total_fabric, 
-          urbanData[i].total_rubber, 
+          urbanData[i].total_glass,
+          urbanData[i].total_fabric,
+          urbanData[i].total_rubber,
           urbanData[i].total_other,
         ]
-        debrisDataArray[i] = debrisDataArray[i].map((row) => 
+        debrisDataArray[i] = debrisDataArray[i].map((row) =>
           row = row + " "
         );
       }
-      debrisDataArray = debrisDataArray.map((row) => 
+      debrisDataArray = debrisDataArray.map((row) =>
         <li>{row}</li>
       );
       return debrisDataArray;
@@ -247,46 +273,46 @@ function OneColumn() {
 
   return (
     <div>
-        <h4>Urban vs Rural Beaches: </h4>
-        <i class="text-secondary">This data is collected from all twelve beaches.</i>
-        <div class="bar-chart">
+      <h4>Urban vs Rural Beaches: </h4>
+      <i class="text-secondary">This data is collected from all twelve beaches.</i>
+      <div class="bar-chart">
         <div class="row">
-            <div class="col-md-1">
-            <Button
+          <canvas ref={chartContainer} />
+        </div>
+        <div class="row">
+          {/* Buttons to navigate to next slide */}
+          <div class="row">
+            <center>
+              <Button
                 variant="light"
                 onClick={scrollChartL}
-            >
+              >
                 <ArrowLeft size={20}></ArrowLeft>
-            </Button>
-            </div>
-            <div class="col">
-                <canvas ref={chartContainer} />
-            </div>
-          <div class="col-md-1">
-            <Button
+              </Button>
+              <Button
                 variant="light"
                 onClick={scrollChartR}
-            >
+              >
                 <ArrowRight size={20}></ArrowRight>
-            </Button>
-            </div>
+              </Button>
+
+            </center>
+          </div>
+
         </div>
+
+        {/* This code is for an unfinished indicator of which slide is displayed */}
         {/*<div class="row">
             <center>
             <ol>
                 {dotVar}
             </ol>
             </center>
-  </div>*/}
-        </div>
-        {/*!urbanData ? 'There is no debrisData available' : 
-            <ol>
-              {dataToArray()}
-            </ol>
-        */} 
+        </div>*/}
+      </div>
     </div>
 
   );
-        }
+}
 
 export default OneColumn;
