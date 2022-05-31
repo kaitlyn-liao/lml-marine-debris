@@ -84,6 +84,7 @@ const SizeAware = withSize({ noPlaceholder: true, monitorHeight: true })(
   (props) => props.children
 );
 
+// Returns the full map, which user will navigate to access beach data
 function Map(props) {
   // Default map orientation
   const [viewport, setViewport] = useState(INITIAL_MAP_VIEW);
@@ -124,6 +125,9 @@ function Map(props) {
     selectedBeach = b;
     // Set image based on beach name
     if (selectedBeach !== defaultBeach) {
+      // Some beaches have a shortened name in CSV uploads than what is
+      // publicly displayed as their name. This changes them to the correct title.
+      // The reverse of a similar procedure in many of the chart files.
       switch (selectedBeach.name) {
         case "Waddell":
           beachString = WaddellIMG;

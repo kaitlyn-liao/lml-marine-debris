@@ -3,7 +3,24 @@
 // Filters.js via DataVis.js and Display.js to specify the beach considered, 
 // filters applied, and graph type requested.
 
-// Graph.js is rendered by Display.js, and currently renders no children.
+// Graph.js is rendered by Display.js. Renders the following children:
+/*
+ * BarBeachDebris.js
+ *  - Bar chart by debris type
+ * PieChart.js
+ *  - Pie chart by debris type
+ * BarSeasons.js
+ *  - Bar chart by labeled season
+ * LineChart.js
+ *  - Line chart by date
+ * ComparisonChart.js
+ *  - Bar chart by urban/rural label
+ * OneColumn.js
+ *  - Same data as ComparisonChart, but one column at a time (for visibility)
+ */
+
+// Displays a button that reveals tabs containing graphs when clicked.
+// Button is rendered on map popups.
 
 import React from 'react';
 
@@ -36,6 +53,13 @@ class Graph extends React.Component {
   }
 }
 
+/* Defines and returns Tabs for navigating charts
+ * Layout (with high and low level tabs):
+ * 1. Types of Debris  |  2. Change Over Time  |  3. Urban vs Rural (bar chart)
+ * |  -Bar  -Pie       |-Seasons -Line(by date)|  -All debris  -One column at a time
+ * 
+ * (1,2,3 are higher tabs, '-' indicates lower level tabs)
+ */
 
 function ControlledTabs() {
   const [key, setKey] = useState('Bar');

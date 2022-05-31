@@ -155,7 +155,7 @@ class Team extends React.Component {
                     </div>
                     <p><br></br></p>
                     <h1>Meet the Software Team</h1>
-                    <p>We are a team of five computer science students at UCSC.</p>
+                    <p>We are a team of Software Developer (Computer Science) students based in UCSC.</p>
                     
                     <div class="text-start">
                     <div class="row">
@@ -199,8 +199,8 @@ class Team extends React.Component {
                     </div>
                 </div>
             </center>
-            {/* <Footer/> */}
         </ Container>
+        <div class="clearfix">..</div>
         </div>
     );
   }

@@ -1,38 +1,39 @@
+/*
+ * This chart displays totals for each debris type.
+ * 
+ */
+
+// Rendered in Graph.js and renders no children
+
 import React, { useEffect, useRef, useState } from 'react'
-import Select from 'react-select';
-import { Bar, Pie } from "react-chartjs-2"
 import {
-    Chart,
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    ArcElement,
-    registerables,
-    UpdateModeEnum
+  Chart,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  registerables,
+  UpdateModeEnum
 } from 'chart.js';
 
 Chart.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend,
-    ArcElement,
-    ...registerables
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+  ArcElement,
+  ...registerables
 );
 
-let newChartInstance;
-
+let newChartInstance; // Instance for chart to be updated with every change
 let placeholderBeach = "Waddell";
 let placeholderLong = "Waddell";
-let holderTemp = "Waddell";
-let holderLong = "Waddell";
 let discardPlaceholder = false;
-let pinBeach;
 
 const beachList = [
   { label: "Waddell", value: 0 },
@@ -49,14 +50,16 @@ const beachList = [
   { label: "Del Monte", value: 11 },
 ];
 
-
+// Returns configured bar chart with data for each debris type
 function BarChart() {
   let newBeach;
   let mouseOverMenu = false;
-  if(document.getElementById("pop").innerHTML){
+  if (document.getElementById("pop").innerHTML) {
     var p = document.getElementById("pop").innerHTML;
-    if(!discardPlaceholder){placeholderLong = p;}
-    switch(p){
+    if (!discardPlaceholder) { placeholderLong = p; }
+    // Changes a few beach display names from their CSV data names to publicly
+    // available names
+    switch (p) {
       case "Sunset State Beach":
         p = "Sunset";
         break;
@@ -73,42 +76,42 @@ function BarChart() {
     placeholderBeach = p;
   }
 
+  // Update titles on click
+  // get titles with their id
   useEffect(() => {
     const listener = e => {
-      if(document.getElementById("bar-drop") && document.getElementById("pop")){
-        if(!mouseOverMenu){
-        var p = document.getElementById("pop").innerHTML;
-        switch(p){
-          case "Sunset State Beach":
-            p = "Sunset";
-            break;
-          case "South Zmudowski":
-            p = "S. Zmudowski";
-            break;
-          case "North Zmudowski":
-            p = "N. Zmudowski";
-            break;
-          default:
-            break;
-    
-        }
-        for(var i = 0; i < beachList.length; i++){
-          if(p === beachList[i].label){
-            setBeach(beachList[i]);
+      if (document.getElementById("bar-drop") && document.getElementById("pop")) {
+        if (!mouseOverMenu) {
+          var p = document.getElementById("pop").innerHTML;
+          // Changes a few beach display names from their CSV data names to publicly
+          // available names
+          switch (p) {
+            case "Sunset State Beach":
+              p = "Sunset";
+              break;
+            case "South Zmudowski":
+              p = "S. Zmudowski";
+              break;
+            case "North Zmudowski":
+              p = "N. Zmudowski";
+              break;
+            default:
+              break;
+
+          }
+          for (var i = 0; i < beachList.length; i++) {
+            if (p === beachList[i].label) {
+              setBeach(beachList[i]);
+            }
           }
         }
-      }
-        
+
       }
     };
     window.addEventListener("click", listener);
-    
-
-    /*return () => {
-      window.removeEventListener("click", listener);
-    };*/
   }, []);
 
+  // Initialize chart instance
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
   useEffect(() => {
@@ -118,12 +121,14 @@ function BarChart() {
     }
   }, [chartContainer]);
 
-  function updateChart(){
+  // Helper function to update data displayed on chart
+  function updateChart() {
     newChartInstance.data.datasets[0].data = Xdata;
   }
 
+  // Set values for X and Y axis
   var Xvalues = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
-  var Xdata = [0,0,0,0,0,0,0,0,0,0,0]
+  var Xdata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
 
   // debrisData stores the result of a GET call from the data table, setDebrisData sets the value of debrisData
@@ -134,24 +139,23 @@ function BarChart() {
   function getDebrisDataByBeach(beach) {
     fetch(`/beach/${beach}`)
       .then(response => response.json())
-      .then(data => { setDebrisData(data);});
+      .then(data => { setDebrisData(data); });
   }
 
- /*function setDiv(){
-    document.getElementById("pie-drop").innerHTML = document.getElementById("pie-drop").innerHTML;
-  }*/
-
+  // Sets beach displayed by chart and changes title on tab to match popup on map
   function setBeach(newBeach) {
     getDebrisDataByBeach(newBeach.label);
-    if(document.getElementById("bar-drop") && document.getElementById("pop")
-    && document.getElementById("bar-drop").innerHTML != document.getElementById("pop").innerHTML){
+    if (document.getElementById("bar-drop") && document.getElementById("pop")
+      && document.getElementById("bar-drop").innerHTML != document.getElementById("pop").innerHTML) {
       updateChart();
       newChartInstance.update();
     }
-    
-    if(document.getElementById("bar-drop").innerHTML){
+
+    if (document.getElementById("bar-drop").innerHTML) {
       var p = newBeach.label;
-      switch(p){
+      // Changes a few beach display names from their CSV data names to publicly
+      // available names
+      switch (p) {
         case "Sunset":
           p = "Sunset State Beach";
           break;
@@ -163,56 +167,56 @@ function BarChart() {
           break;
         default:
           break;
-  
+
       }
       document.getElementById("bar-drop").innerHTML = p;
       discardPlaceholder = true;
     }
   }
 
-  function setMouseOver(bool){
-    //mouseOverMenu = bool;
-  }
-
-  function dataToArray(){
+  // Creates an array of the debris data
+  // Returns array, not currently used, useful for verifying data
+  // Add {dataToArray} to rendered HTML to verify data when debugging
+  function dataToArray() {
     let debrisDataArray = []
-    if(debrisData){
-      for(var i=0; i < debrisData.length; i++){
+    if (debrisData) {
+      for (var i = 0; i < debrisData.length; i++) {
         debrisDataArray[i] = [
-          debrisData[i].entry_id, 
-          debrisData[i].beach, 
-          debrisData[i].type, 
+          debrisData[i].entry_id,
+          debrisData[i].beach,
+          debrisData[i].type,
           debrisData[i].season,
-          debrisData[i].date, 
-          debrisData[i].total_fragmented_plastic, 
-          debrisData[i].total_plastic_products, 
+          debrisData[i].date,
+          debrisData[i].total_fragmented_plastic,
+          debrisData[i].total_plastic_products,
           debrisData[i].total_food_wrappers,
-          debrisData[i].total_styrofoam, 
-          debrisData[i].total_cigarette_butts, 
-          debrisData[i].total_paper_and_treated_wood, 
+          debrisData[i].total_styrofoam,
+          debrisData[i].total_cigarette_butts,
+          debrisData[i].total_paper_and_treated_wood,
           debrisData[i].total_metal,
-          debrisData[i].total_glass, 
-          debrisData[i].total_fabric, 
-          debrisData[i].total_rubber, 
+          debrisData[i].total_glass,
+          debrisData[i].total_fabric,
+          debrisData[i].total_rubber,
           debrisData[i].total_other,
           debrisData[i].total_debris,
-          debrisData[i].total_debris_divby_m_sq, 
+          debrisData[i].total_debris_divby_m_sq,
           debrisData[i].notes
         ]
-        debrisDataArray[i] = debrisDataArray[i].map((row) => 
+        debrisDataArray[i] = debrisDataArray[i].map((row) =>
           row = row + " "
         );
       }
-      debrisDataArray = debrisDataArray.map((row) => 
+      debrisDataArray = debrisDataArray.map((row) =>
         <li>{row}</li>
       );
       return debrisDataArray;
     }
   }
-  
-  if(debrisData){
+
+  // Set data category to total debris
+  if (debrisData) {
     let i = 0;
-    while(debrisData[i]){
+    while (debrisData[i]) {
       Xdata[0] += debrisData[i].total_fragmented_plastic;
       Xdata[1] += debrisData[i].total_plastic_products;
       Xdata[2] += debrisData[i].total_food_wrappers;
@@ -229,52 +233,46 @@ function BarChart() {
     updateChart();
     newChartInstance.update();
   }
-  
+
+  // Set chart configuration
   const chartConfig = {
-      type: 'bar',
-      data: {
-          labels: Xvalues,
-          datasets: [{ 
-            backgroundColor: ["#91B77B", "#003D03", "#002839", "#005F73", "#0A9396", "#94D2BD" , "#E9d8A6", "#ECBA53", "#EE9B00", "#CA6702", "#9B2226"],
-            data: Xdata 
-          }]
-      },
-      options: {
-        plugins: {
-          legend: {
-            display: false
-          },
-          tooltips: {
-            enabled: false
-          }
+    type: 'bar',
+    data: {
+      labels: Xvalues,
+      datasets: [{
+        backgroundColor: ["#91B77B", "#003D03", "#002839", "#005F73", "#0A9396", "#94D2BD", "#E9d8A6", "#ECBA53", "#EE9B00", "#CA6702", "#9B2226"],
+        data: Xdata
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          display: false
+        },
+        tooltips: {
+          enabled: false
         }
-      },
-      height: 200,
-      width: 300
+      }
+    },
+    height: 200,
+    width: 300
   };
 
 
   return (
     <div>
       <div className="row">
-            <div className="col-md-2">
-                <h4>Beach: </h4>
-            </div>
-            
-            <div className="col-md-6">
-            <h4 id="bar-drop" className="text-secondary">{placeholderLong}</h4>
-              {/*<Select id="pie-menu" placeholder={placeholderBeach} value={newBeach} options={ beachList } onChange={setBeach}
-              onMenuOpen={setMouseOver(true)} onMenuClose={setMouseOver(false)}>*/}
-            </div>
-          </div>
-        <div class="bar-chart">
-          <canvas ref={chartContainer} />
-           {/* {!debrisData ? 'There is no debrisData available' : 
-            <ol>
-              {dataToArray()}
-            </ol>
-          }  */}
+        <div className="col-md-2">
+          <h4>Beach: </h4>
         </div>
+
+        <div className="col-md-6">
+          <h4 id="bar-drop" className="text-secondary">{placeholderLong}</h4>
+        </div>
+      </div>
+      <div class="bar-chart">
+        <canvas ref={chartContainer} />
+      </div>
 
     </div>
 
