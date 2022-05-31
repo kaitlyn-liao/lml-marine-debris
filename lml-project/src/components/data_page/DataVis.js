@@ -25,7 +25,6 @@ class DataVis extends React.Component {
           </div>
           <Map />
           <br></br>
-          <Footer/>
         </div>
       );
       

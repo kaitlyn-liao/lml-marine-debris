@@ -5,12 +5,14 @@
 
 import React from 'react';
 import NavBar from "./Navbar.js";
+import Fsooter from "./Footer"
 
 function App() {
 
   return (
     <div>
       <NavBar/>
+      <Footer></>
     </div>
   );
 }

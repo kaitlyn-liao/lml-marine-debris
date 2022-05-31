@@ -106,7 +106,6 @@ class CallToAction extends React.Component {
                         help us to combat this problem by taking action now!
                         </p>
                     </Col> */}
-            <Footer/>
             </div>
         );
     }
