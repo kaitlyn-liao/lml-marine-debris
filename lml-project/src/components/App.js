@@ -5,7 +5,7 @@
 
 import React from 'react';
 import NavBar from "./Navbar.js";
-import Fsooter from "./Footer"
+import Footer from "./Footer"
 
 function App() {
 
