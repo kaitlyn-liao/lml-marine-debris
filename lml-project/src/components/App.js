@@ -12,7 +12,7 @@ function App() {
   return (
     <div>
       <NavBar/>
-      <Footer></>
+      <Footer/>
     </div>
   );
 }
