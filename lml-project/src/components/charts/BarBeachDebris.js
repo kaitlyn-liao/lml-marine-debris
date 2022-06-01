@@ -261,15 +261,7 @@ function BarChart() {
 
   return (
     <div>
-      <div className="row">
-        <div className="col-md-2">
-          <h4>Beach: </h4>
-        </div>
-
-        <div className="col-md-6">
-          <h4 id="bar-drop" className="text-secondary">{placeholderLong}</h4>
-        </div>
-      </div>
+      <h4 id="bar-drop" className="text-secondary">{placeholderLong}</h4>
       <div class="bar-chart">
         <canvas ref={chartContainer} />
       </div>

@@ -187,13 +187,9 @@ class Team extends React.Component {
                     </div>
                     </div>
                     </div>
-                    {/*<div class="row">
-                        <Researcher name='Samantha Rozal' bio=''
-                            photo={avatar} />
-                    </div>*/}
                     <div class="thanks-box">
                         <h1>Acknowledgements</h1>
-                        <p>We would like to thank our Researchers from the UCSC Long Marine Lab and Professor Jullig.
+                        <p>We would like to thank our Researchers from the UCSC Long Marine Lab, Professor Jullig, and our TA Aiden Smith.
                         In adddition, we would like to thank the team behind the Marine Mammal Stranding Map, which served
                         as inspiration and a starting point for our project.</p>
                     </div>

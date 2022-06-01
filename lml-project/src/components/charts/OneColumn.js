@@ -279,25 +279,23 @@ function OneColumn() {
         <div class="row">
           <canvas ref={chartContainer} />
         </div>
-        <div class="row">
+        <div class="row" style={{ marginLeft:'2%' }}>
           {/* Buttons to navigate to next slide */}
-          <div class="row">
-            <center>
-              <Button
-                variant="light"
-                onClick={scrollChartL}
-              >
-                <ArrowLeft size={20}></ArrowLeft>
-              </Button>
-              <Button
-                variant="light"
-                onClick={scrollChartR}
-              >
-                <ArrowRight size={20}></ArrowRight>
-              </Button>
+          <center>
+            <Button
+              variant="light"
+              onClick={scrollChartL}
+            >
+              <ArrowLeft size={20}></ArrowLeft>
+            </Button>
+            <Button
+              variant="light"
+              onClick={scrollChartR}
+            >
+              <ArrowRight size={20}></ArrowRight>
+            </Button>
 
-            </center>
-          </div>
+          </center>
 
         </div>
 
