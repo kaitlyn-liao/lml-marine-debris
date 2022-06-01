@@ -262,6 +262,7 @@ function BarChart() {
   return (
     <div>
       <h4 id="bar-drop" className="text-secondary">{placeholderLong}</h4>
+      <i class="text-secondary">Recorded debris from {placeholderLong} by debris type.</i>
       <div class="bar-chart">
         <canvas ref={chartContainer} />
       </div>

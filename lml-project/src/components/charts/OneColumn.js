@@ -274,7 +274,7 @@ function OneColumn() {
   return (
     <div>
       <h4>Urban vs Rural Beaches: </h4>
-      <i class="text-secondary">Total amount of each type of debris in urban vs. rural beaches.</i>
+      <i class="text-secondary">Total amount of each type of debris in all urban vs. all rural beaches.</i>
       <div class="bar-chart">
         <div class="row">
           <canvas ref={chartContainer} />
