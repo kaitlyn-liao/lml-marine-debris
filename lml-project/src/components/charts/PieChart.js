@@ -257,7 +257,7 @@ function PieChart() {
     <div>
       <h4 id="pie-drop" className="text-secondary">{placeholderLong}</h4>
       <i class="text-secondary">Recorded debris from {placeholderLong} by debris type.</i>
-      <div class="bar-chart">
+      <div class="pie-chart">
         <canvas ref={chartContainer} />
       </div>
     </div>
