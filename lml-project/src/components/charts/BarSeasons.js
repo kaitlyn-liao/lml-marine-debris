@@ -263,7 +263,7 @@ function BarChart() {
   return (
     <div>
       <h4 id="season-drop" className="text-secondary">{placeholderLong}</h4>
-      <i class="text-secondary">This data includes all debris types.</i>
+      <i class="text-secondary">Total amount of debris accross each season at {placeholderLong}. </i>
       <div class="season-chart">
         <canvas ref={chartContainer} />
       </div>

@@ -15,16 +15,8 @@ class DataVis extends React.Component {
     
     render() {
       return (
-        // html goes here
         <div>
-          {/* <div class="row">
-            <div class="col-md-1">
-              
-            </div>
-            
-          </div> */}
           <Map />
-          <br></br>
         </div>
       );
       

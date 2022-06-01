@@ -57,8 +57,8 @@ class CallToAction extends React.Component {
                                         alt={item.alt}
                                         />
                                     </a>
-                                     <Carousel.Caption>
-                                        <h3 className='caption-background'>{item.caption}</h3>
+                                     <Carousel.Caption className='caption-background'>
+                                        <h3 className=''>{item.caption}</h3>
                                     </Carousel.Caption>
                                 </Carousel.Item>
                             // </Nav.Link>

@@ -190,7 +190,7 @@ function ComparisonChart() {
   return (
     <div>
       <h4>Urban vs Rural Beaches: </h4>
-      <i class="text-secondary">This data is collected from all twelve beaches.</i>
+      <i class="text-secondary">Total amount of debris in urban vs. rural beaches.</i>
       <div class="bar-chart">
         <canvas ref={chartContainer} />
       </div>

@@ -6,9 +6,9 @@ p h1 h2 {
   color: #000000;
 }
 
-h3.caption-background {
+.caption-background {
   color: black;
-  background-color: #aaa8a8;
+  background-color: radial-gradient(circle, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
 }
 
 .slides {

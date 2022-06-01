@@ -283,7 +283,7 @@ function LineChart() {
   return (
     <div>
       <h4 id="line-drop" className="text-secondary">{placeholderLong}</h4>
-      <i class="text-secondary">This data includes all debris types.</i>
+      <i class="text-secondary">Total amount of debris at {placeholderLong} over time.</i>
       <div class="line-chart">
         <canvas ref={chartContainer} />
       </div>
