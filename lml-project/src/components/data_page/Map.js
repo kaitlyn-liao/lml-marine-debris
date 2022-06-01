@@ -322,7 +322,7 @@ function Map(props) {
       {/* IMPORTANT: the element below passes the selected beach name to graphs for data display.
         * Chart components uses getElementById to get innerHTML of this
         */}
-      {/* <b id='pop'>{selectedBeach && selectedBeach != defaultBeach ? selectedBeach.name : <br></br>}</b> */}
+      <b id='pop' style={{ visibility:"hidden" }} >{selectedBeach && selectedBeach != defaultBeach ? selectedBeach.name : <br></br>}</b>
     </div>
   );
 }
