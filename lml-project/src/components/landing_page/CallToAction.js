@@ -80,7 +80,7 @@ class CallToAction extends React.Component {
                         />
                         <CardItem
                         src={teamphoto1}
-                        style={{ align="top" }}
+                        style={{ align:"top" }}
                         text='Our Long Marine Lab Stranding volunteers each mentor a team of undergraduate students and teach them our 
                         unique data collection process.'
                         label='Our Work'
