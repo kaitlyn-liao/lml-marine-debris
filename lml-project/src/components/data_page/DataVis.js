@@ -17,12 +17,12 @@ class DataVis extends React.Component {
       return (
         // html goes here
         <div>
-          <div class="row">
-            {/*<div class="col-md-1">
+          {/* <div class="row">
+            <div class="col-md-1">
               
-            </div>*/}
+            </div>
             
-          </div>
+          </div> */}
           <Map />
           <br></br>
         </div>
