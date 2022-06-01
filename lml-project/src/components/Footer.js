@@ -11,9 +11,9 @@ function Footer() {
           <div className="col">
             <h4>UCSC LML Marine Debris</h4>
             <ui className="list-unstyled">
-              <li>342-420-6969</li>
-              <li>College Nine, UCSC</li>
-              <li>702 College Nine Road</li>
+              <li>(831) 459-2883</li>
+              <li>115 McAllister Way</li>
+              <li>Santa Cruz, CA 95060</li>
             </ui>
           </div>
           {/* Column2 */}
@@ -24,7 +24,7 @@ function Footer() {
             </ui>
             <br></br>
             <ui className="list-unstyled">
-              <a href="https://lmlstrandingmap.herokuapp.com/" target="_blank">Visit our sister Marine Stranding website!</a>
+              <a href="https://lmlstrandingmap.herokuapp.com/" target="_blank">Visit our Marine Stranding website!</a>
             </ui>
           </div>
         </div>
