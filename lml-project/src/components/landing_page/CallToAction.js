@@ -64,9 +64,6 @@ class CallToAction extends React.Component {
                             // </Nav.Link>
                     ))}
                 </Carousel>
-                <center>
-                    {/* <h1>Marine Debris: Understand The Data</h1> */}
-                </center>
                 <div className='cards'>
                 <div className='cards__container'>
                     <div className='cards__wrapper'>
@@ -90,23 +87,6 @@ class CallToAction extends React.Component {
                     </div>
                 </div>
                 </div>
-                    {/* <Col sm={8} className="pgs">
-                        <p className="indent1">
-                        The Long Marine Lab Survey Slug program connects passionate student volunteers with the resources and knowledge 
-                        to collect crucial information about one of the most pressing environmental issues we face today. 
-                        </p>
-                        <p className="indent2">
-                        Our Long Marine Lab Stranding volunteers each mentor a team of undergraduate students and teach them our 
-                        unique data collection process. We survey 8 beaches in Santa Cruz and Monterey County every month and use 
-                        this information to find out what are the types, amounts, and temporal and geographic patterns of marine 
-                        debris on Monterey Bay beaches. These surveys provide opportunities for undergraduate students to experience 
-                        real data collection in the field, learn more about the local community in which they are living, make an 
-                        impactful contribution to cleaning up marine debris, meet and work with other students that are similarly 
-                        interested in marine science, and develop a relationship with a mentor working in a science field. Marine 
-                        debris can entangle and harm marine life, litter our waterways, and pollute our water when it degrades; 
-                        help us to combat this problem by taking action now!
-                        </p>
-                    </Col> */}
             </div>
         );
     }

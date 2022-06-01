@@ -8,7 +8,7 @@ p h1 h2 {
 
 .caption-background {
   color: black;
-  background-color: radial-gradient(circle, rgba(255,255,255,1) 50%, rgba(255,255,255,0) 100%);
+  background-color: #ffffff99;
 }
 
 .slides {

@@ -158,7 +158,7 @@ function OffCanvasExample({ ...props }) {
       </Button>
       <Offcanvas show={show} onHide={handleClose} {...props} style={graphOffcanvas} >
         <Offcanvas.Header closeButton>
-          {/* <Offcanvas.Title></Offcanvas.Title> */}
+          <Offcanvas.Title>&nbsp;</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
           <ControlledTabs />
