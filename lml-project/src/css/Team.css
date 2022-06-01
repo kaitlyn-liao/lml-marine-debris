@@ -45,7 +45,7 @@
 
 .team-container {
   width: 1000px;
-  position: absolute;
+  position: relative;
 }
 
 .thanks-box {
