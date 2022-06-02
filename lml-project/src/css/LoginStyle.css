@@ -40,10 +40,8 @@
 
 /* Table size */
 .custom-table {
-    /* width: 75%; */
     width: 700px;
     height: 200px;
-    /* height: 50% */
 }
 
 .table-containter {
@@ -94,7 +92,6 @@
 
 /* Login Button color */
 .btn-blue {
-    /* color: rgb(255, 255, 255); */
     background-color: #61b1fb;
 }
 
@@ -149,7 +146,3 @@
 .text-date-uploader {
     font-size: 14px;
 }
-/* Padding for button in upload info */
-/* .file-button {
-    padding-left:20px;
-} */

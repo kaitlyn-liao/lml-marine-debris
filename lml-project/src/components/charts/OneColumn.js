@@ -55,33 +55,12 @@ const beachList = [
 ];
 
 function OneColumn() {
-  /*
-   * This function is for an unfinished feature to display which slide
-   * of the chart is currently displayed. TO DO: make dots update without
-   * exiting One-Column chart tab
-   */
-  /*function dots() {
-      var dotsRow = [];
-      for (var i=0; i<11; i++){
-          if(i === idx){
-              dotsRow[i] = <CircleFill></CircleFill>;
-          }
-          else{
-              dotsRow[i] = <Circle></Circle>;
-          }
-      }
-      
-      return dotsRow;
-  }*/
   var Xvalues = ["Fragmented Plastic", 'Plastic Products', 'Food Wrappers', 'Styrofoam', 'Cigarette Butts', 'Paper', 'Metal', 'Glass', 'Fabric', 'Rubber', 'Other']
   var Udata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   var Rdata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
   var Uselect = [Udata[idx]];
   var Rselect = [Rdata[idx]];
   var Xselect = [Xvalues[idx]];
-
-  // For unfinished dot feature:
-  // var dotVar = dots();
 
   const chartContainer = useRef(null);
   const [chartInstance, setChartInstance] = useState(null);
@@ -104,9 +83,6 @@ function OneColumn() {
     newChartInstance.data.datasets[1].data = Rselect;
     newChartInstance.data.labels = Xselect;
     newChartInstance.update();
-
-    // For unfinished dot feature:
-    // dotVar = dots();
   }
 
   // Changes display to next data slide

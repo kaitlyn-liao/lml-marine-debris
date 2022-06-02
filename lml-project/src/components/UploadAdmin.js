@@ -31,7 +31,6 @@ function UploadAdmin() {
       headers: {
         'Content-Type': 'application/json',
       },
-      // body: JSON.stringify({}),
     })
       .then(response => {
         if(!response.ok){
@@ -96,23 +95,13 @@ function UploadAdmin() {
       <div class="uploadCSVtoCache">
         <h1>ADMIN DATABASE</h1>
         <form>
-          {/* <input type="file" id="csvFileInput" accept=".csv" onChange={handleOnChange} /> */}
-          {/* <button onClick={(e) => { handleOnSubmit(e); }} >SUBMIT</button> */}
         </form>
       </div>
       <br/>
-
-      {/* <button onClick={handleReadString}>Upload CSV Data</button> */}
       <button type="button" className="btn btn-outline-primary" onClick={postAdminData}>Add Debris Data Entry</button>
       <button type="button" className="btn btn-outline-warning" onClick={deleteAdminData}>Delete Debris Data Entry</button>
       <button type="button" className="btn btn-outline-warning" onClick={ClearAdminDataTable}>EMPTY Debris Data Entry</button>
       <br/>
-      {/* {!debrisData ? 'There is no debrisData available' : 
-        <ol>
-          {dataToArray()}
-        </ol>
-      } */}
-      {/* {beachRows == [] ? 'beachRows[0].beach' : 'There is no debrisData available'} */}
       <p/>    
     </div>
   );

@@ -7,21 +7,18 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container';
 import "../../css/Team.css";
-import avatar from '../team_page/images/default-avatar.png'
 import githubButton from '../team_page/images/GitHub-Mark.png'
 import linkedInButton from '../team_page/images/linkedin.png'
 import juliImg from '../team_page/images/juli-limon.jpg'
 import maiaImg from '../team_page/images/maia-smith.jpeg'
 import robinImg from '../team_page/images/robin-dunkin.jpg'
 import kaitlynImg from '../team_page/images/kaitlyn-liao.JPG'
-// import bridgetImg from '../team_page/images/bridget-chew.jpg'
 import noahImg from '../team_page/images/noah-cantwell.JPG'
 import zackImg from '../team_page/images/zack-miller.jpeg'
 import spencerImg from '../team_page/images/spencer-fulgham.png'
 import bridgetImg from '../team_page/images/bridget.jpg'
 import vinhImg from '../team_page/images/vinh-le.jpg'
 import { useEffect, useRef, useState } from 'react'
-import Footer from "../Footer";
 
 /* When adding this file to the topology, make sure to transfer all images
     and the CSS properties from Team.css */

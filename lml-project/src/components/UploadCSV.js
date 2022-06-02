@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { usePapaParse } from 'react-papaparse';
 import Modal from 'react-bootstrap/Modal'
 import moment from "moment";
-import loadIcon from './loading.gif';
+import loadIcon from '../images/loading.gif';
 import '../css/LoginStyle.css'
 import adminPic from "../images/banana-slug.jpeg"
 var CryptoJS = require("crypto-js");

@@ -6,10 +6,7 @@
 // the children Map.js, Filters.js, and Display.js
 
 import React from 'react';
-import Graph from './Graph.js';
 import Map from './Map.js';
-import mapImg from '../../images/placeholderMap.png'
-import Footer from "../Footer";
 
 class DataVis extends React.Component {
     

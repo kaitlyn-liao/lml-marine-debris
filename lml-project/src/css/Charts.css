@@ -1,13 +1,5 @@
-.pie-chart {
-    margin-bottom: 20px;
-    max-height:450px;
-    max-width: 450px;
-    /* background:#dddddd; */
-}
-
 .bar-chart {
     margin-bottom: 20px;
     max-height: 400px;
     max-width: 600px;
-    /* background:#dddddd; */
 }

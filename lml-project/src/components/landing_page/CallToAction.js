@@ -10,13 +10,11 @@ import Carousel from 'react-bootstrap/Carousel';
 import teamphoto1 from '../../images/TeamPhoto1.jpg';
 import teamphoto2 from '../../images/TeamPhoto2.jpeg';
 import MainBeachPlaceholder from '../../images/MainBeachPlaceholder.png';
-import slideshow_img1 from '../../images/slideshow_img1.png';
 import slideshow_img2 from '../../images/slideshow_img2.jpg';
 import slideshow_img3 from '../../images/slideshow_img3.jpg';
 
 import '../../css/CallToAction.css';
 import CardItem from './CardItem';
-import Footer from "../Footer";
 
 const slides = [
     {
@@ -48,20 +46,17 @@ class CallToAction extends React.Component {
                 <Carousel variant="dark" fluid-interval={8000} pause='hover'>
                     {/* new solution to slides: modular and easy to extend with list above */}
                     {slides.map((item) => (
-                            // uncomment nav link when targetURL is determined
-                            // <Nav.Link href={item.targetURL}>
-                                <Carousel.Item>
-                                    <a href={item.targetURL}>
-                                        <img className="slides d-flex w-100"
-                                        src={item.src} 
-                                        alt={item.alt}
-                                        />
-                                    </a>
-                                     <Carousel.Caption className='caption-background'>
-                                        <h3 className=''>{item.caption}</h3>
-                                    </Carousel.Caption>
-                                </Carousel.Item>
-                            // </Nav.Link>
+                        <Carousel.Item>
+                            <a href={item.targetURL}>
+                                <img className="slides d-flex w-100"
+                                src={item.src} 
+                                alt={item.alt}
+                                />
+                            </a>
+                                <Carousel.Caption className='caption-background'>
+                                <h3 className=''>{item.caption}</h3>
+                            </Carousel.Caption>
+                        </Carousel.Item>
                     ))}
                 </Carousel>
                 <div className='cards'>

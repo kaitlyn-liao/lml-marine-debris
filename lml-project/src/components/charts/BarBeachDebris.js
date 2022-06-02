@@ -16,7 +16,6 @@ import {
   Legend,
   ArcElement,
   registerables,
-  UpdateModeEnum
 } from 'chart.js';
 
 Chart.register(
@@ -30,7 +29,8 @@ Chart.register(
   ...registerables
 );
 
-let newChartInstance; // Instance for chart to be updated with every change
+// Instance for chart to be updated with every change
+let newChartInstance; 
 let placeholderBeach = "Waddell";
 let placeholderLong = "Waddell";
 let discardPlaceholder = false;

@@ -6,7 +6,6 @@
 // Methodology.js is rendered by Controller.js, and currently renders no children.
 
 import React from 'react';
-import placeholder from '../../images/placeholder.png';
 import beach1 from '../../images/beach1.png';
 import beach2 from '../../images/beach2.png';
 import beach3 from '../../images/beach3.png';
@@ -18,7 +17,6 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import '../../css/Methodology.css';
 import Carousel from 'react-bootstrap/Carousel';
-import Footer from "../Footer";
 
 const slides = [
     {
@@ -93,8 +91,6 @@ class Methodology extends React.Component {
 
                                     {/* new solution to slides: modular and easy to extend with list above */}
                                     {slides.map((item) => (
-                                        // uncomment nav link when targetURL is determined
-                                        // <Nav.Link href={item.targetURL}>
                                         <Carousel.Item>
                                             <center>
                                                 <img
@@ -103,7 +99,6 @@ class Methodology extends React.Component {
                                                     style={{ width: 345 + 'px', height: 200 + 'px' }} />
                                             </center>
                                         </Carousel.Item>
-                                        // </Nav.Link>
                                     ))}
                                 </Carousel>
                             </Col>

@@ -150,7 +150,6 @@ function LineChart() {
       updateChart();
       newChartInstance.update();
     }
-    //discardPlaceholder = true;
 
     // Changes a few beach display names from their CSV data names to publicly
     // available names
@@ -254,7 +253,6 @@ function LineChart() {
         backgroundColor: 'rgba(255, 99, 132, 1)',
         borderColor: 'rgba(255, 99, 132, 1)',
         data: Xdata,
-        //lineAtIndex: 2
       }],
 
     },
