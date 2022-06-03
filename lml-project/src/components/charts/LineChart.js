@@ -172,6 +172,9 @@ function LineChart() {
       // Set title found on tab
       document.getElementById("line-drop").innerHTML = p;
       discardPlaceholder = true;
+      
+      placeholderLong = null;
+      placeholderLong = p;
     }
   }
 
@@ -289,7 +292,9 @@ function LineChart() {
   return (
     <div>
       <h4 id="line-drop" className="text-secondary">{placeholderLong}</h4>
-      <i class="text-secondary">Total amount of debris at {placeholderLong} over time.</i>
+      { placeholderLong !==  null ?
+        <i class="text-secondary">Total amount of debris at {placeholderLong} over time.</i>
+      : null }
       <div class="line-chart">
         <canvas ref={chartContainer} />
       </div>
