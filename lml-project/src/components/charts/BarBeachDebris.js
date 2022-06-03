@@ -245,6 +245,14 @@ function BarChart() {
       }]
     },
     options: {
+      scales: {
+        y: {
+          title: {
+            display: true,
+            text: "Debris Pieces"
+          }
+        }
+      },
       plugins: {
         legend: {
           display: false
