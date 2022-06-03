@@ -169,6 +169,9 @@ function BarChart() {
       }
       document.getElementById("season-drop").innerHTML = p;
       discardPlaceholder = true;
+      
+      placeholderLong = null;
+      placeholderLong = p;
     }
   }
 
@@ -271,7 +274,9 @@ function BarChart() {
   return (
     <div>
       <h4 id="season-drop" className="text-secondary">{placeholderLong}</h4>
-      <i class="text-secondary">Total amount of debris per season at {placeholderLong}. </i>
+      { placeholderLong !==  null ?
+        <i class="text-secondary">Total amount of debris per season at {placeholderLong}. </i>
+      : null }
       <div class="season-chart">
         <canvas ref={chartContainer} />
       </div>
