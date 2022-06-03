@@ -171,6 +171,9 @@ function BarChart() {
       }
       document.getElementById("bar-drop").innerHTML = p;
       discardPlaceholder = true;
+      
+      placeholderLong = null;
+      placeholderLong = p;
     }
   }
 
@@ -270,7 +273,9 @@ function BarChart() {
   return (
     <div>
       <h4 id="bar-drop" className="text-secondary">{placeholderLong}</h4>
-      <i class="text-secondary">Recorded debris from {placeholderLong} by debris type.</i>
+      { placeholderLong !==  null ?
+        <i class="text-secondary">Recorded debris from {placeholderLong} by debris type.</i>
+      : null }
       <div class="bar-chart">
         <canvas ref={chartContainer} />
       </div>
