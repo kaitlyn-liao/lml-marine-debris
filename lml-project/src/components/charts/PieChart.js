@@ -172,6 +172,9 @@ function PieChart() {
       }
       document.getElementById("pie-drop").innerHTML = p;
       discardPlaceholder = true;
+      
+      placeholderLong = null;
+      placeholderLong = p;
     }
   }
 
@@ -256,7 +259,9 @@ function PieChart() {
   return (
     <div>
       <h4 id="pie-drop" className="text-secondary">{placeholderLong}</h4>
-      <i class="text-secondary">Recorded debris from {placeholderLong} by debris type.</i>
+      { placeholderLong !==  null ?
+        <i class="text-secondary">Recorded debris from {placeholderLong} by debris type.</i>
+      : null }
       <canvas style={{ maxHeight:"500px" }} ref={chartContainer} />
     </div>
 

@@ -143,6 +143,14 @@ function ComparisonChart() {
       ]
     },
     options: {
+      scales: {
+        y: {
+          title: {
+            display: true,
+            text: "Debris Pieces"
+          }
+        }
+      },
       plugins: {
         legend: {
           onClick: null
